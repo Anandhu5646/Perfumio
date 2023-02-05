@@ -1,0 +1,90 @@
+<nav class="navbar">
+  <div class="navbar-container container">
+    <input type="checkbox" name="" id="" />
+    <div class="hamburger-lines">
+      <span class="line line1"></span>
+      <span class="line line2"></span>
+      <span class="line line3"></span>
+    </div>
+    <ul class="menu-items">
+      <li><a href="/admin/home">Orders</a></li>
+      <li><a href="/admin/category">Categories</a></li>
+      <li><a href="/admin/product">Products</a></li>
+      <li><a href="/admin/user">Users</a></li>
+      <li><a href="/admin/">Logout</a></li>
+    </ul>
+    <h1 class="logo">Aura Scents</h1>
+  </div>
+</nav>
+
+
+<section style="margin-top: 10px;">
+  <div class="container">
+    <div class="row">
+      <form class="form-inline my-2 my-lg-0" action="/admin/searchuser/{{this.body}}" method="post">
+        <div class="d-flex">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search user">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          {{!-- <button class="btn btn-outline-primary my-2 my-sm-0" style="width: 10rem;margin-left: 1rem;"
+            type="submit">Add
+            item</button> --}}
+        </div>
+      </form>
+
+
+    </div>
+
+    <table class="table" style="margin-top: 20px;">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">status</th>
+          <th scope="col">action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+        <tr>
+
+          <td>{{@index}}</td>
+          <td>{{this.name}}</td>
+          <td>{{this.email}}</td>
+          <td>{{#if this.block}}
+          <p>Blocked</p>
+          {{else}}
+          <p>Active</p>
+          {{/if}}
+          </td>
+          <td>
+            {{#if this.block}}
+            <button onclick="if( confirm(' Are you sure to unblock user?')){window.location.href='/admin/unblock/{{this._id}}' }"
+              class="btn btn-success btn-block mb-4">Unblock</button>
+            {{else}}
+            <button onclick="if( confirm(' Are you sure to block user?')){window.location.href='/admin/block/{{this._id}}' }"
+              class="btn btn-danger btn-block mb-4">Block</button>
+            {{/if}}
+            
+          </td>
+
+          </td>
+
+        </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+
+  </div>
+</section>
+
+
+
+{{!--
+<a href="/admin/block/{{this._id}}" class="btn btn-danger btn-block mb-4"
+  onclick="return confirm ('Are you sure ?')">Block</a>
+<a href="/admin/unblock/{{this._id}}" class="btn btn-success btn-block mb-4"
+  onclick="return confirm('Are you sure ?')">Unblock</a>
+</td> --}}
+{{!-- </td> --}}

@@ -1,0 +1,63 @@
+<section class="vh-100">
+<nav class="navbar navbar-dark bg-black col-12 pb-3" style="height: 7rem;position:fixed;">
+  <div class="container-fluid" style="line-height: 0px;">
+    <a class="navbar-brand" href="#" style="padding-left: 70px;">
+      <div>
+        <div>
+       
+        <h2>Aura Scents</h2>
+        </div>
+        {{!-- <div>      <h6 style="font-size: 10px; padding-left: 15px; margin-top: -8px;position: fixed;" class="tagline" >Experience the essence of luxury</h6></div> --}}
+</div>
+        
+      
+    </a>
+  </div>
+</nav>
+
+  <div class="container-fluid  ">
+    <div class="row  ">
+
+
+      <div  class="col-md-6 ps-5  " >
+        <img src="/images/login.jpg"
+          class="img-fluid  " alt="Phone image" style="margin-top:12rem ;width:25rem; margin-left: 3rem;">
+      </div>
+
+
+
+      <div class="col-md-6 text-black ">
+        <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5" style="height: 45rem;">
+
+          <form style="width: 23rem;" action="/admin/" method="post">
+
+            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 0px; font-weight: bold;" >Admin Login</h3>
+             <div class="invalid">
+                   <p class="text-danger" style="font-size: 15px;">{{Invalid}}</p>
+               </div>
+            <div class="form-outline mb-4">
+              <input type="email" name="email" id="form2Example18" class="form-control form-control-lg" placeholder="Email address" required/>
+             
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password" name="password" id="form2Example28" class="form-control form-control-lg" placeholder="Password" required/>
+              
+            </div>
+
+            <div class="pt-1 mb-4">
+              <button class="btn btn-dark btn-lg btn-block" style="width: 23rem;" type="submit">Login</button>
+            </div>
+
+            
+            
+
+          </form>
+
+        </div>
+
+      </div>
+      
+    </div>
+  </div>
+</section>

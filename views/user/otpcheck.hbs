@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/otpcheck.css">
+    <title>Document</title>
+</head>
+<body>
+    
+
+
+<nav class="navbar navbar-dark bg-black col-12 pb-3" style="height: 7rem;position:fixed;">
+  <div class="container-fluid" style="line-height: 0px;">
+    <a class="navbar-brand" href="#" style="padding-left: 70px;">
+      <div>
+        <div>
+       
+        <h2>Aura Scents</h2>
+        </div>
+        {{!-- <div>      <h6 style="font-size: 10px; padding-left: 15px; margin-top: -8px;position: fixed;" class="tagline" >Experience the essence of luxury</h6></div> --}}
+</div>
+        
+      
+    </a>
+  </div>
+</nav>
+
+<form action="/otpsubmit" method="post">
+    <div class="container height-100 d-flex justify-content-center align-items-center opt-box" >
+    <div class="position-relative">
+        <div class="card p-2 text-center">
+          {{#unless message}}
+            <h6>Please enter the one time password <br> to verify your account</h6>
+            {{else}}
+            <h6>{{message}}</h6>
+            {{/unless}}
+            <div> <span>A code has been sent to</span> <small>email</small> </div>
+            <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2"> 
+                <input class="m-2 text-center form-control rounded w-50" type="text" name="ottp" id="first" maxlength="6" /> 
+                
+             </div>
+            <div class="mt-4"> <button class="btn btn-danger px-4 validate" type="submit">Submit</button> </div>
+        </div>
+    </div>
+</div>
+</form>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+function OTPInput() {
+const inputs = document.querySelectorAll('#otp > *[id]');
+for (let i = 0; i < inputs.length; i++) { inputs[i].addEventListener('keydown', function(event) { if (event.key==="Backspace" )
+ { inputs[i].value='' ; if (i !==0) inputs[i - 1].focus(); } else { if (i===inputs.length - 1 && inputs[i].value !=='' ) { return true; } 
+ else if (event.keyCode> 47 && event.keyCode < 58) { inputs[i].value=event.key; if (i !==inputs.length - 1) inputs[i + 1].focus(); 
+ event.preventDefault(); } else if (event.keyCode> 64 && event.keyCode < 91) { inputs[i].value=String.fromCharCode(event.keyCode); 
+ if (i !==inputs.length - 1) inputs[i + 1].focus(); event.preventDefault(); } } }); } } OTPInput(); });
+</script>
+
+</body>
+</html>

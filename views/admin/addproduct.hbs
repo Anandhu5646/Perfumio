@@ -1,0 +1,59 @@
+
+
+
+
+
+
+
+<section  style="background: rgb(2,0,36);
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843137254902) 0%, rgba(197,213,214,1) 100%); ">
+      <form action="/admin/saveproduct" method="post" enctype="multipart/form-data">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="card text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+
+                  <div class="pb-5">
+                    {{#if error}}
+                    <span class="alert alert-dismissible alert-danger " role="alert"> {{message}}
+                      {{/if}}
+
+
+                    </span>
+                  </div>
+
+                  <h2 class="fw-bold mb-5 text-dark text-uppercase">Add Product</h2>
+                  <div class="form-outline form-white mb-5">
+                    <input type="text" name="name" placeholder="Product Name" class="form-control form-control-lg" required/>
+                  </div>
+                 
+
+                  <div class="form-outline mb-4">
+                    <input type="text" name="category" placeholder="Category" class="form-control form-control-lg" required/>
+                    
+
+                  </div>
+                  <div class="form-outline mb-4">
+                    <input type="text" name="brand" placeholder="Brand" class="form-control form-control-lg" required/>
+                    
+                  </div>
+                  <div class="form-outline form-white mb-4">
+                    <input type="number" name="price" placeholder="Price" class="form-control form-control-lg" required/>
+                  </div>
+                  
+                  <div class="mb-5">
+                    <label for="formFile" class="form-label"></label>
+                    <input class="form-control" type="file" name="image" id="formFile" multiple>
+                  </div>
+                  <button class="btn btn-outline-success btn-lg px-5" type="submit">Submit</button>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </section>
