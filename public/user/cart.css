@@ -1,0 +1,13 @@
+.cart b{
+    font-size: 20px;
+  }
+  
+.cart button{
+    background: white;
+    color: #51624F;
+    border: 2px solid #51624F;
+    border-radius: 2px;
+  
+    font-size: 15px;
+    padding:0px;
+}

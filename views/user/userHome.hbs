@@ -24,8 +24,9 @@
                 <input type="button" value="search">
             </div>
             <div class="cart__header__desktop" style="color: white;">
-                <a href="#" style="text-decoration: none;">Wishlist</a>
-                <i class="fas fa-shopping-cart ms-4"></i>
+                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a href=""><img src="/images/icons8-shopping-cart-64.png"
+                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
                 {{!-- <span>50</span> --}}
 
         </nav>
@@ -46,8 +47,26 @@
                 {{!-- <li class="main__navigations__div__li save__from__left"><a href="" class="anchor__remains__same"
                         style="font-weight: bold;"><i class="fas fa-user"></i> Hello, parimal mahindrakar.</a></li> --}}
                 <li class="main__navigations__div__li">
-                    <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;" >Login <i
+                    {{#unless Login }}
+                    <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
                             class="fas fa-sign-out-alt"></i> </a>
+
+                    {{else}}
+                    
+                <div class="dropdown-center">
+                    <button class="btn btn-black dropdown-toggle" style="color: aliceblue;margin-top: -5px;font-weight: bold; "  type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{Login}}
+                    </button>
+                    <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        
+                    </ul>
+                </div>
+                    
+
+                {{/unless}}
                 </li>
                 <div class="bars save__from__right">
                     <div class="line1"></div>
@@ -93,9 +112,9 @@
                         <div class="carousel-item">
                             <img src="/images/carousel3.webp" class="d-block w-100" alt="third pic">
                         </div>
-                        <div class="carousel-item active">
+                        {{!-- <div class="carousel-item active">
                             <img src="/images/carousel4.webp" class="d-block w-100" alt="fourth pic">
-                        </div>
+                        </div> --}}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
                         data-bs-slide="prev">
@@ -124,358 +143,48 @@
 
 
             <!--Section: Products v.3-->
-            <section class="text-center mb-4">
+            <section class=" text-center mb-4">
 
                 <!--Grid row-->
                 <div class="row">
-
-                    <!--Grid column-->
+                   
+                    {{#each products}}
+                    {{#unless this.block}}
                     <div class="col-lg-3 col-md-6 mb-4">
 
-                        <!--Card-->
-                        <div class="card">
 
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p1.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
+
+                        <div class="col-12" style="cursor: pointer;">
+                            <div class="wsk-cp-product">
+                                <div class="wsk-cp-img"><img src="/pic/{{this.image.filename}}"
+                                        style="border-top-left-radius: 15px; border-top-right-radius: 15px;"
+                                        alt="Product" class="img-responsive" /></div>
+                                <div class="wsk-cp-text">
+                                    <div class="category">
+                                        <span><a href="pdtdetails/{{this._id}}">{{this.sub}}</a></span>
+                                    </div>
+                                    <div class="title-product">
+                                        <h3>{{this.name}}</h3>
+                                    </div>
+                                    <div class="sub-category">
+                                        <h5>{{this.category}}</h5>
+                                        {{!-- <p>Description Product tell me how to change playlist height size like
+                                            600px in
+                                            html5 player. player good work now check this link</p> --}}
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="wcf-left"><span class="price">{{this.price}}&#8377;</span></div>
+                                        <div class="wcf-right"><a href="#" class="buy-btn"><i
+                                                    class="zmdi zmdi-shopping-basket"></i></a></div>
+                                    </div>
+                                </div>
                             </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Calvin Klein</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">Calvin Klein Escape 100ml for
-                                            men
-                                            {{!-- <span class="badge badge-pill danger-color">NEW</span> --}}
-                                        </a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>3599₹</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
                         </div>
-                        <!--Card-->
-
                     </div>
+                    {{/unless}}
+                    {{/each}}
                     <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <!--Card-->
-                        <div class="card">
-
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p2.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Burberry</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">Burberry Brit Edt for Women
-                                            100ml</a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>2799₹</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
-                        </div>
-                        <!--Card-->
-
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <!--Card-->
-                        <div class="card">
-
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p3.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Hugo Boss</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">Hugo Boss Red for Men 150ml
-                                            {{!-- <span class="badge badge-pill primary-color">bestseller</span> --}}
-                                        </a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>2599₹</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
-                        </div>
-                        <!--Card-->
-
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Fourth column-->
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <!--Card-->
-                        <div class="card">
-
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p4.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Givenchy</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">Gentleman Givenchy Edt for Men
-                                            100ml</a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>3999₹</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
-                        </div>
-                        <!--Card-->
-
-                    </div>
-                    <!--Fourth column-->
-
-                </div>
-                <!--Grid row-->
-
-                <!--Grid row-->
-                <div class="row wow fadeIn">
-
-                    <!--Grid column-->
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <!--Card-->
-                        <div class="card">
-
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p1.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Calvin Klein</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">Calvein Klein Euphoria Men
-                                            100ml
-                                            {{!-- <span class="badge badge-pill danger-color">NEW</span> --}}
-                                        </a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>4000₹</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
-                        </div>
-                        <!--Card-->
-
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <!--Card-->
-                        <div class="card">
-
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p1.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Givenchy</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">GivenchyEdp for Women 100ml
-                                        </a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>3599₹</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
-                        </div>
-                        <!--Card-->
-
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <!--Card-->
-                        <div class="card">
-
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p1.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Sport wear</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">Grey blouse
-                                            <span class="badge badge-pill primary-color">bestseller</span>
-                                        </a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>99$</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
-                        </div>
-                        <!--Card-->
-
-                    </div>
-                    <!--Grid column-->
-
-                    <!--Fourth column-->
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <!--Card-->
-                        <div class="card">
-
-                            <!--Card image-->
-                            <div class="view overlay">
-                                <img src="/images/p1.webp" class="card-img-top" alt="">
-                                <a>
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                            <!--Card image-->
-
-                            <!--Card content-->
-                            <div class="card-body text-center">
-                                <!--Category & Title-->
-                                <a href="" class="grey-text" style="text-decoration: none;color: black ;">
-                                    <h5>Outwear</h5>
-                                </a>
-                                <h5>
-                                    <strong>
-                                        <a href="" class="dark-grey-text"
-                                            style="text-decoration: none;color: black ;">Black jacket</a>
-                                    </strong>
-                                </h5>
-
-                                <h4 class="font-weight-bold blue-text">
-                                    <strong>219$</strong>
-                                </h4>
-
-                            </div>
-                            <!--Card content-->
-
-                        </div>
-                        <!--Card-->
-
-                    </div>
-                    <!--Fourth column-->
-
+                    
                 </div>
                 <!--Grid row-->
 
@@ -483,7 +192,7 @@
             <!--Section: Products v.3-->
 
             <!--Pagination-->
-            <nav class="d-flex justify-content-center wow fadeIn">
+            <nav class="d-flex justify-content-center wow fadeIn" style="cursor: pointer;">
                 <ul class="pagination pg-blue">
 
                     <!--Arrow left-->
@@ -505,12 +214,7 @@
                     <li class="page-item">
                         <a class="page-link" href="#">3</a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">5</a>
-                    </li>
+
 
                     <li class="page-item">
                         <a class="page-link" href="#" aria-label="Next">

@@ -1,0 +1,91 @@
+<section class=" "
+  style="height: max-content; background: rgb(2,0,36);
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843137254902) 0%, rgba(197,213,214,1) 100%);">
+  <form action="/admin/updatepdt" method="post" enctype="multipart/form-data" id="floatingTextarea">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+
+              <div class="pb-5">
+                {{#if error}}
+                <span class="alert alert-dismissible alert-danger " role="alert"> {{message}}
+                  {{/if}}
+
+
+                </span>
+              </div>
+
+              <h2 class="fw-bold mb-5 text-dark text-uppercase">Edit Product</h2>
+
+
+              <input type="text" name="_id" placeholder="Product name" value="{{products._id}}"
+                    class="form-control form-control-lg" style="visibility: hidden;"/>
+              <div class="form-outline mb-4">
+                <div class="form-outline form-white mb-5">
+                  <input type="text" name="name" placeholder="Product name" value="{{products.name}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                <div class="mb-4">
+                  <textarea class="form-control" placeholder="Description" name="description"
+                    value="{{products.description}}" form="floatingTextarea">{{products.description}}</textarea>
+                </div>
+                <div class="form-outline mb-4">
+                  <select class="form-select" name="category" aria-label="Default select example">
+                    <option value="{{products.category}}">{{products.category}}</option>
+
+                    {{#each categories}}
+                    <option value="{{this.category}}">{{this.category}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+                <div class="form-outline form-white mb-5">
+                  <input type="text" name="sub" placeholder="brand" value="{{products.sub}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                <div class="form-outline form-white mb-4">
+                  <input type="number" name="price" placeholder="Price" value="{{products.price}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                <div class="form-outline form-white mb-4">
+                  <input type="number" name="mrp" placeholder="MRP" value="{{products.mrp}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                <div class="form-outline form-white mb-3 ">
+                  <input type="number" name="stock" placeholder="Stock" value="{{products.stock}}"
+                    class="form-control form-control-lg" />
+                </div>
+
+                <div class="mb-5">
+                  <div><img src="/pic/{{products.image.filename}}" style="width: 50px;height: 70px;"></div>
+                  <label for="formFile" class="form-label">Main image</label>
+                  <input class="form-control" type="file" name="image" id="formFile" >
+                </div>
+
+                <div class="mb-5">
+                  <div>
+                  {{#each products.subimage}}
+                    <img src="/pic/{{this.filename}}" style="width: 50px;height: 70px;">
+                  {{/each}}
+                    </div>
+                  <label for="formFile" class="form-label">Sub-image</label>
+                  <input class="form-control" type="file" name="subimage" id="formFile" multiple>
+                </div>
+
+
+
+
+                <button class="btn btn-outline-success btn-lg px-5" type="submit">Submit</button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+</section>

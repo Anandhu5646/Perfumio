@@ -48,7 +48,7 @@
         {{#each users}}
         <tr>
 
-          <td>{{@index}}</td>
+          <td>{{inc @index}}</td>
           <td>{{this.name}}</td>
           <td>{{this.email}}</td>
           <td>{{#if this.block}}

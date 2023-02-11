@@ -7,14 +7,14 @@ var userSchema = new mongoose.Schema({
         required:true
         
     },
-    email:{
+    email:{ 
         type:String,
         required:true,
         // unique:true,
         lowercase:true
     },
     mobile:{
-        type:String,
+        type:String, 
         required:true,
         // unique:true
     }, 
@@ -22,10 +22,19 @@ var userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    
     block:{ 
         type:Boolean,
         required:true
-    } 
+    },
+    address:{
+        type:Array,
+        default:[]
+    },
+    cart:{
+        type:Array,
+        default:[]
+    }
 });
 
 

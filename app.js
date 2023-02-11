@@ -3,14 +3,12 @@ const dbConnect = require('./config/dbConnect')
 const app= express();
 const dotenv = require("dotenv").config();
 const userRouter= require('./routes/userRoute')
-const userControl = require('./controller/userControl')
-const adminControl = require('./controller/adminControl')
 const bodyParser= require('body-parser')
 const path= require('path')
 const {engine} = require("express-handlebars") 
 const adminRouter= require('./routes/adminRoute')
 const session=require('express-session')
-const hbs= require('hbs')
+
 
 
 dbConnect();
@@ -28,10 +26,13 @@ app.use(function(req, res, next) {
     next();
 });
 app.use(session({secret:"key",resave:false,saveUninitialized:true}))
-// hbs.registerHelper("inc", function(value, options)
-//     {
-//         return parseInt(value) + 1;
-//    });
+
+let hbs = require('handlebars');
+
+hbs.registerHelper("inc", function(value, options)
+{
+    return parseInt(value) + 1;
+});
 
 app.use('/', userRouter);
 app.use('/admin',adminRouter);

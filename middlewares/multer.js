@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
       const uniqueSuffix = Date.now() 
       cb(null, file.fieldname + '-' + uniqueSuffix+'.jpg')
     }
-  
+   
   })
  
 let upload=multer({
@@ -18,6 +18,8 @@ let upload=multer({
 
 
 
-module.exports=upload
+
+
+module.exports=  upload
 
 

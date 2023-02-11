@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/productDetails.css">
+    <title>Document</title>
+</head>
+<body>
+        <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
+
+    <header>
+        <nav>
+            <div class="logo" style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+                <h1>Aura Scents</h1>
+            </div>
+            <div class="search__bar__header">
+                <input type="text" placeholder="Search">
+                <input type="button" value="search">
+            </div>
+            <div class="cart__header__desktop" style="color: white;">
+                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a href=""><img src="/images/icons8-shopping-cart-64.png"
+                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+                {{!-- <span>50</span> --}}
+
+        </nav>
+    </header>
+    <div class="main__navigations pt-2">
+        <div class="main__navigations__div">
+            <ul class="main__navigations__div__ul">
+                <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a href="/">Home</a>
+                </li>
+                <li class="main__navigations__div__li on__mobile_d_none">
+                    <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                    <div class="div__categories__items">
+                        <p><a href="">Men</a></p>
+                        <p><a href="">Women</a></p>
+
+                    </div>
+                </li>
+                {{!-- <li class="main__navigations__div__li save__from__left"><a href="" class="anchor__remains__same"
+                        style="font-weight: bold;"><i class="fas fa-user"></i> Hello, parimal mahindrakar.</a></li> --}}
+                <li class="main__navigations__div__li">
+                   {{#unless Login }}
+                    <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
+                            class="fas fa-sign-out-alt"></i> </a>
+                            {{else}}
+                            <a href="/login" class="" style="padding-bottom: 0;font-weight: bold; color: aliceblue;">{{ Login }} <i
+                            class=""></i> </a>
+                    {{/unless}}
+                </li>
+                <div class="bars save__from__right">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="mobile__nav__fade__and__show">
+        <div class="mobile__nav__fade__and__show__text">
+            <li><a href="">Home</a></li>
+            <li>
+                <a href="">Categories</a>
+                <div>
+                    <p><a href="">Men</a></p>
+                    <p><a href="">Women</a></p>
+                    
+                </div>
+            </li>
+        </div>
+    </div>
+    <div class="mobile__nav__fade__and__show__circle"></div>
+
+
+
+     <div class="container my-5" style="padding-top: 150px;">
+        
+        <div class="row">
+            <div class="col-md-5">
+                
+                <div  class="wrap-pic-w pos-relative" id="image-zoom"  style="z-index: 10;">
+                    <img  src="/pic/{{products.image.filename}}" alt="IMG-PRODUCT">
+                    </div>
+                    <div class="row my-3 previews">
+                        <div class="col-md-3" >
+                            <img class="w-100" src="/pic/{{products.image.filename}}" alt="Sale">
+                        </div>
+                        <div class="col-md-3" style="margin-left: -8px;">
+                            <img class="w-100" src="/pic/{{products.subimage.[0].filename}}" alt="Sale">
+                        </div>
+                        <div class="col-md-3" style="margin-left: -8px;">
+                            <img class="w-100" src="/pic/{{products.subimage.[1].filename}}" alt="Sale">
+                        </div>
+                        <div class="col-md-3 " style="margin-left: -9px;">
+                            <img class="w-100" src="/pic/{{products.subimage.[2].filename}}" alt="Sale">
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="col-md-6  ms-5" >
+                <div class="main-description px-2">
+                    <div class="category text-bold">
+                        Category: {{products.category}}
+                    </div>
+                    <div class="product-title text-bold my-3">
+                        {{products.name}}
+                    </div>
+
+
+                    <div class="price-area my-4">
+                        <p class="old-price mb-1"><del>{{products.mrp}}</del> <span class="old-price-discount text-danger">(20% off)</span></p>
+                        <p class="new-price text-bold mb-1">{{products.price}}</p>
+                        <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
+
+                    </div>
+
+
+                    <div class="buttons d-flex my-5">
+                        <div class="block">
+                            <a href="#" class="shadow btn custom-btn " style="background-color: black;">Wishlist</a>
+                        </div>
+                        <div class="block">
+                            <a href=""><button class="shadow btn custom-btn" style="background-color: black;">Add to cart</button></a>
+                        </div>
+
+                        <div class="block quantity">
+                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5" placeholder="Enter email" name="cart_quantity">
+                        </div>
+                    </div>
+                    <div class="block" >
+                            <a href=""><button class="shadow btn custom-btn" style="width: 305px;background-color: black;">Buy now</button></a>
+                        </div>
+
+
+
+                </div>
+
+                <div class="product-details my-4">
+                    <p class="details-title text-color mb-1">Product Details</p>
+                    <p class="description">{{products.description}}</p>
+                
+                </div> 
+
+                <div class="delivery my-4">
+                    <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Delivery done in 3 days from date of purchase</b> </p>
+                    <p class="text-secondary">Order now to get this product delivery</p>
+                </div>
+                
+             
+            </div>
+        </div>
+        
+    </div>
+
+
+
+    {{!-- <div class="container similar-products my-4">
+        <hr>
+        <p class="display-5">Similar Products</p>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="similar-product">
+                    <img class="w-100" src="https://source.unsplash.com/gsKdPcIyeGg" alt="Preview">
+                    <p class="title">Lovely black dress</p>
+                    <p class="price">$100</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="similar-product">
+                    <img class="w-100" src="https://source.unsplash.com/sg_gRhbYXhc" alt="Preview">
+                    <p class="title">Lovely Dress with patterns</p>
+                    <p class="price">$85</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="similar-product">
+                    <img class="w-100" src="https://source.unsplash.com/gJZQcirK8aw" alt="Preview">
+                    <p class="title">Lovely fashion dress</p>
+                    <p class="price">$200</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="similar-product">
+                    <img class="w-100" src="https://source.unsplash.com/qbB_Z2pXLEU" alt="Preview">
+                    <p class="title">Lovely red dress</p>
+                    <p class="price">$120</p>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+
+
+
+    
+    </script>
+    <script style="z-index: 10;" src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+    <script>
+        var options = {
+            width: 500,
+            height: 550,
+            zoomwidth: 400,
+            offset: { vertical:0 , horizontal:10 },
+            scale: .6
+        }
+
+        new ImageZoom(document.getElementById("image-zoom"), options)
+    </script>
+</body>
+</html>

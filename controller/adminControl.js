@@ -6,7 +6,12 @@ const userModel = require('../models/userModel')
 
 var adminControl = {
     getAdminLogin: (req, res) => {
-        res.render('adminLogin')
+        if(req.session.admin){
+            res.redirect('/admin/home')
+        }else{
+            res.render('adminLogin')
+        }
+        
     },
 
     postAdminLogin: (req, res) => {
@@ -23,10 +28,12 @@ var adminControl = {
         }
     },
     getAdminHome: (req, res) => {
-        res.render('adminHome')
+       
+            res.render('adminHome')
+        
     },
 
-    
+
     getAdminUser: async (req, res) => {
         let users = await userModel.find({}, { pasword: 0 }).lean()
         console.log(users)
@@ -41,7 +48,7 @@ var adminControl = {
 
     },
     getAdminLogout: (req, res) => {
-        req.session.destroy()
+        req.session.admin = null
         res.redirect('/admin/')
     },
     getAdminUserBlock: (req, res) => {
@@ -72,6 +79,7 @@ var adminControl = {
         const users = await userModel.find({ name: new RegExp(key, 'i') }).lean();
         res.render('adminUser', { users })
     },
+    //category//
     getAdminCategory: async (req, res) => {
         let categories = await categoryModel.find({}).lean();
         if (req.session.admin) {
@@ -80,69 +88,76 @@ var adminControl = {
             res.redirect('/admin/')
         }
     },
+    //add category//
     getAdminAddCategory: (req, res) => {
 
-        res.render('addCategory')
-    },
-    postAdminAddCategory: (req, res) => {
-        const { category, sub ,block } = req.body
-        let categories = new categoryModel({ category, sub, block })
-        categories.save((err, data) => {
-            if (err) {
-                console.log(err)
-                res.render('category', { error: true, message: "Something went wrong" })
-            } else {
-                console.log('category added')
-                red.render('category')
-            }
-        })
-
-    },
-    getAdminUpdateCat: async (req, res) => {
-        const _id = req.params.id;
-        console.log(_id)
-        const categories = await categoryModel.findOne({ _id }).lean()
         if (req.session.admin) {
-            res.render('category', { categories })
-        }
-        else {
+            res.render('addCategory')
+        } else {
             res.redirect('/admin/')
         }
 
 
     },
-    getAdminEditCat: async(req,res)=>{
-        const _id=req.params.id;
-        console.log(_id)
-        const categories=await categoryModel.findOne({_id}).lean()
-        if(req.session.admin){
-           res.render('editCategory',{categories})
-        }
-       else{
-        res.redirect('/category')
-       }
-    
-    
-      },
-      postAdminEditCat: (req,res)=>{
-    
-        const _id=req.body._id;
-        categoryModel.findByIdAndUpdate(_id,{$set:{category:req.body.Category,sub:req.body.Sub}},
-        (err,docs)=>{
-          if(err){
-            console.log(err)
-          }
-          else{
-            console.log('succcessfull')
-            res.redirect('/category')
-          }
-    
+    //save category//
+    postAdminAddCategory: (req, res) => {
+
+        let block = false
+        const { category, sub } = req.body
+        let categories = new categoryModel({ category, sub, block })
+        categories.save((err, data) => {
+            if (err) {
+                console.log(err)
+                res.render('addCategory', { error: true, message: "Something went wrong" })
+            } else {
+                console.log('category added')
+                res.redirect('/admin/category')
+            }
         })
-    
-      },
+
+    }
+    ,
+    //edit category//
+    getAdminEditCat: async (req, res) => {
+        const _id = req.params.id;
+        const categories = await categoryModel.findOne({ _id }).lean()
+        // let existingCategory =await categoryModel.findOne({categoryModel:req.body.category})
+        // if(existingCategory){
+        //     req.session.existingCat ? message = 'Existing Category' : message = null
+        //     res.render('editCategory',{message})
+        //     req.session.existingCat=false
+        // }
+        if (req.session.admin) {
+            res.render('editCategory', { categories })
+        }
+        else {
+            res.redirect('/admin/category')
+        }
 
 
-    
+    },
+    postAdminEditCat: async (req, res) => {
+        let block =false
+        
+        
+        
+        categoryModel.findByIdAndUpdate({_id:req.body._id}, { $set: { category:req.body.category } },
+            (err, docs) => {
+                if (err) {
+                    console.log(err)
+                    res.render('editCategory')
+                }
+                else {
+                    console.log('succcessfull')
+                    res.redirect('/admin/category')
+                }
+
+            })
+
+    },
+
+
+    //category block//
     getAdmincatBlock: (req, res) => {
         const _id = req.params.id
         categoryModel.findByIdAndUpdate(_id, { $set: { block: true } },
@@ -154,9 +169,10 @@ var adminControl = {
                 }
             })
     },
+    //category unblock//
     getAdminCatUnblock: (req, res) => {
-        const cat = req.params.id
-        categoryModel.findByIdAndUpdate(cat, { $set: { block: false } },
+        const _id = req.params.id
+        categoryModel.findByIdAndUpdate(_id, { $set: { block: false } },
             function (err, data) {
                 if (err) {
                     res.redirect('err')
@@ -165,32 +181,41 @@ var adminControl = {
                 }
             })
     },
+    //add product//
+    getAdminAddProduct: async (req, res) => {
 
-    getAdminAddProduct:  (req, res) => {
-       
-       
-            res.render('addproduct')
+        let categories = await categoryModel.find({}).lean();
+        res.render('addproduct', { categories })
     },
+    //products//
     getAdminProduct: async (req, res) => {
+        let categories = await categoryModel.find({}).lean()
+
         let products = await productModel.find({}).lean()
-        console.log(products)
+
+        // console.log(products, categories)
         if (req.session.admin) {
-            res.render('products', { products })
+            res.render('products', { products, categories })
         } else {
             res.redirect('/admin')
-        }},
-    // add product//
-    postAdminSaveProduct: (req,res)=>{
+        }
+    },
+    // save product//
+    postAdminSaveProduct: async (req, res) => {
         console.log(req.body)
         console.log(req.files.image[0])
-        let block= false
-        let {name,category,brand,price} = req.body
-        let products= new productModel({name,category,brand,price,block,image:req.files.image[0]})
-        products.save((err,data)=>{
-            if(err){
+        console.log(req.files.subimag)
+        let block = false
+        let { name, description, category, sub, price, mrp, stock } = req.body
+        let categories = await categoryModel.find({}).lean()
+
+        let products = new productModel({ name, description, category, sub, price, mrp, stock, block,
+             image: req.files.image[0],subimage:req.files.subimage })
+        products.save((err, data) => {
+            if (err) {
                 console.log(err)
-                res.render('addproduct',{error:true},{message:'something went wrong'})
-            }else{
+                res.render('addproduct', { error: true }, { message: 'something went wrong' })
+            } else {
                 console.log('product saved')
                 res.redirect('/admin/product')
             }
@@ -212,7 +237,7 @@ var adminControl = {
     },
     //product unblock//
 
-    getAdminPdtUnblock:(req, res) => {
+    getAdminPdtUnblock: (req, res) => {
         const _id = req.params.id
         productModel.findByIdAndUpdate(_id, { $set: { block: false } },
             function (err, data) {
@@ -222,12 +247,77 @@ var adminControl = {
                     res.redirect('/admin/product')
                 }
             })
-    }
+    },
+    // edit product//
+    getAdminEditProduct: async (req, res) => {
+        const _id = req.params.id;
+        const products = await productModel.findOne({ _id }).lean()
+        const categories = await categoryModel.findOne({ _id }).lean()
+        console.log(_id);
+        if (req.session.admin) {
+
+            res.render('editProduct', { products,categories })
+        }
+        else {
+            res.redirect('/admin/product')
+        }
 
 
+    },
+    //update product//
+    postAdminEditProduct:async (req, res) => {
+        let block = false
         
+        const {name,description,category,sub,price,mrp,stock,_id} = req.body;
+        console.log(req.body);
+        if(req.files?.image && req.files?.subimage){
+            let products= await productModel.updateOne({_id}, {
+            $set: {
+                name,description,category,sub,price, mrp,stock,block,image:req.files.image[0],subimage:req.files.subimage
+
+            },
+        }
+        ).lean()
+        console.log(req.files)
+         return res.redirect('/admin/product')
+
+    }
+    if(!req.files?.image && req.files?.subimage){
+        let products= await productModel.updateOne({_id}, {
+        $set: {
+            name,description,category,sub,price, mrp,stock,block,subimage:req.files.subimage
+
+        },
+    }
+    ).lean()
+     return res.redirect('/admin/product')
+}if(req.files?.image && !req.files?.subimage){
+    let products= await productModel.updateOne({_id}, {
+    $set: {
+        name,description,category,sub,price, mrp,stock,block,image:req.files.image[0]
+
+    },
+}
+).lean()
+ return res.redirect('/admin/product')
+}
+if(!req.files?.image && !req.files?.subimage){
+    let products= await productModel.updateOne({_id}, {
+    $set: {
+        name,description,category,sub,price, mrp,stock,block
+
+    },
+}
+).lean()
+ return res.redirect('/admin/product')
+}
+
+},
+
+
 
 
 
 }
+
 module.exports = adminControl

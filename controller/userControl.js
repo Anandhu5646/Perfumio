@@ -1,11 +1,27 @@
 const userModel = require('../models/userModel')
+const productModel = require('../models/productModel')
+const categoryModel = require('../models/categoryModel')
 const sentOTP = require('../helper/otp')
 
 
 
 let userControl = {
-    getUserHome: (req, res) => {
-        res.render('userHome')
+    getUserHome: async (req, res) => {
+        
+        let products = await productModel.find({}).lean();
+        let users = await userModel.findOne({}).lean()
+        
+
+            if(req.session.user){
+                const Login= req.session.user
+                res.render('userHome',{products,Login})
+                console.log(Login);
+            }else{
+                res.render('userHome',{products})
+            }
+            
+         
+        
     },
     getUserLogin: (req, res) => {
 
@@ -27,14 +43,19 @@ let userControl = {
         console.log('otp sent');
         res.redirect('/otp')
 
-    },
+    },  
     postUserLogin: async (req, res) => {
-
+        
         const { email, password } = req.body
         const userInfo = await userModel.findOne({ email })
-        if (userInfo) {
-            if (password, userInfo.password) {
-                res.redirect('/')
+        
+        if (userInfo) { 
+            if(userInfo.block==false){
+            if (password==userInfo.password) {
+                    req.session.user= userInfo.name
+                    res.redirect('/')
+                
+                
             } else {
                 const InvalidUser = "Invaliduser name or password please try again"
                 res.render('userLogin', { InvalidUser })
@@ -43,6 +64,9 @@ let userControl = {
         else {
             const noUser = "No user found please register to continue"
             res.render('userSignup', { noUser })
+        }}
+        else{
+            res.render('userLogin')
         }
 
     },
@@ -75,6 +99,41 @@ let userControl = {
 
         }
 
+    },
+    getUserProductDetails:async (req,res)=>{
+        
+        const _id = req.params.id
+        let products =await productModel.findOne({_id}).lean()
+        console.log(_id)
+        res.render('productDetails',{products})
+            
+
+            
+           
+        
+    },
+    getUserCart: (req,res)=>{
+        if(req.session.user){
+
+            res.render('cart')
+        }else{
+            res.redirect('/login')
+        }
+    },
+    getUserProfile: async(req,res)=>{
+        if(req.session.user){
+            
+            let users= await userModel.findOne({},{password:0,email:0})
+            res.render('profile',{users})
+            console.log(users)
+        }else{
+            res.redirect('/login')
+        }
+    },
+    
+    getUserLogout:(req,res)=>{
+        req.session.user=null
+        res.render('/')
     }
 
 
