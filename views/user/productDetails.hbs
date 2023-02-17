@@ -42,14 +42,27 @@
                 </li>
                 {{!-- <li class="main__navigations__div__li save__from__left"><a href="" class="anchor__remains__same"
                         style="font-weight: bold;"><i class="fas fa-user"></i> Hello, parimal mahindrakar.</a></li> --}}
-                <li class="main__navigations__div__li">
-                   {{#unless Login }}
+                 <li class="main__navigations__div__li">
+                    {{#unless Login }}
                     <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
                             class="fas fa-sign-out-alt"></i> </a>
-                            {{else}}
-                            <a href="/login" class="" style="padding-bottom: 0;font-weight: bold; color: aliceblue;">{{ Login }} <i
-                            class=""></i> </a>
-                    {{/unless}}
+
+                    {{else}}
+                    
+                <div class="dropdown-center">
+                    <button class="btn btn-black dropdown-toggle" style="color: aliceblue;margin-top: -5px;font-weight: bold; "  type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{Login}}
+                    </button>
+                    <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        
+                    </ul>
+                </div>
+                    
+
+                {{/unless}}
                 </li>
                 <div class="bars save__from__right">
                     <div class="line1"></div>
@@ -122,10 +135,10 @@
 
                     <div class="buttons d-flex my-5">
                         <div class="block">
-                            <a href="#" class="shadow btn custom-btn " style="background-color: black;">Wishlist</a>
+                            <a href="/addwishlist" class="shadow btn custom-btn " style="background-color: black;">Wishlist</a>
                         </div>
                         <div class="block">
-                            <a href=""><button class="shadow btn custom-btn" style="background-color: black;">Add to cart</button></a>
+                            <a href="/cart/{{products._id}}"><button class="shadow btn custom-btn" style="background-color: black;">Add to cart</button></a>
                         </div>
 
                         <div class="block quantity">
@@ -133,7 +146,7 @@
                         </div>
                     </div>
                     <div class="block" >
-                            <a href=""><button class="shadow btn custom-btn" style="width: 305px;background-color: black;">Buy now</button></a>
+                            <a href="/checkout"><button class="shadow btn custom-btn" style="width: 305px;background-color: black;">Buy now</button></a>
                         </div>
 
 

@@ -4,9 +4,9 @@ const { getAdminLogin, postAdminLogin, getAdminHome, getAdminProduct, getAdminUs
     getAdminCategory, getAdminAddCategory, postAdminAddCategory, 
     getAdminEditCat, getAdminAddProduct, getAdmincatBlock, getAdminCatUnblock,
     postAdminEditCat,postAdminSaveProduct, getAdminPdtBlock, getAdminPdtUnblock,
-     getAdminEditProduct, postAdminEditProduct } = require('../controller/adminControl');
+    getAdminEditProduct, postAdminEditProduct } = require('../controller/adminControl');
 const upload = require('../middlewares/multer');
-const router = express.Router();
+const router = express.Router();   
 
 
 

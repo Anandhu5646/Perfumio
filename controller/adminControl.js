@@ -6,12 +6,12 @@ const userModel = require('../models/userModel')
 
 var adminControl = {
     getAdminLogin: (req, res) => {
-        if(req.session.admin){
+        if (req.session.admin) {
             res.redirect('/admin/home')
-        }else{
+        } else {
             res.render('adminLogin')
         }
-        
+
     },
 
     postAdminLogin: (req, res) => {
@@ -28,9 +28,9 @@ var adminControl = {
         }
     },
     getAdminHome: (req, res) => {
-       
-            res.render('adminHome')
-        
+
+        res.render('adminHome')
+
     },
 
 
@@ -137,11 +137,11 @@ var adminControl = {
 
     },
     postAdminEditCat: async (req, res) => {
-        let block =false
-        
-        
-        
-        categoryModel.findByIdAndUpdate({_id:req.body._id}, { $set: { category:req.body.category } },
+        let block = false
+
+
+
+        categoryModel.findByIdAndUpdate({ _id: req.body._id }, { $set: { category: req.body.category } },
             (err, docs) => {
                 if (err) {
                     console.log(err)
@@ -202,15 +202,47 @@ var adminControl = {
     },
     // save product//
     postAdminSaveProduct: async (req, res) => {
-        console.log(req.body)
-        console.log(req.files.image[0])
-        console.log(req.files.subimag)
+       
         let block = false
         let { name, description, category, sub, price, mrp, stock } = req.body
-        let categories = await categoryModel.find({}).lean()
-
-        let products = new productModel({ name, description, category, sub, price, mrp, stock, block,
-             image: req.files.image[0],subimage:req.files.subimage })
+       
+        let mainImage = req.files.image[0], sideImages = req.files.subimage
+        await sharp(mainImage.path)
+            .png()
+            .resize(540, 540, {
+                kernel: sharp.kernel.nearest,
+                fit: 'contain',
+                position: 'center',
+                background: { r: 255, g: 255, b: 255, alpha: 0 }
+            })
+            .toFile(mainImage.path + ".png")
+            .then(async () => {
+                await unlinkAsync(mainImage.path)
+                mainImage.path = mainImage.path + ".png"
+                mainImage.filename = mainImage.filename + ".png"
+            });
+        for (let i in sideImages) {
+            await sharp(sideImages[i].path)
+                .png()
+                .resize(540, 540, {
+                    kernel: sharp.kernel.nearest,
+                    fit: 'contain',
+                    position: 'center',
+                    background: { r: 255, g: 255, b: 255, alpha: 0 }
+                })
+                .toFile(sideImages[i].path + ".png")
+                .then(async () => {
+                    await unlinkAsync(sideImages[i].path)
+                    sideImages[i].filename = sideImages[i].filename + ".png"
+                    sideImages[i].path = sideImages[i].path + ".png"
+                });
+        }
+        console.log(mainImage)
+        console.log(sideImages)
+        let products = new productModel({
+            name, description, category, sub, price, mrp, stock, block,
+            image: req.files.image[0], subimage: req.files.subimage
+        })
         products.save((err, data) => {
             if (err) {
                 console.log(err)
@@ -256,7 +288,7 @@ var adminControl = {
         console.log(_id);
         if (req.session.admin) {
 
-            res.render('editProduct', { products,categories })
+            res.render('editProduct', { products, categories })
         }
         else {
             res.redirect('/admin/product')
@@ -265,54 +297,54 @@ var adminControl = {
 
     },
     //update product//
-    postAdminEditProduct:async (req, res) => {
+    postAdminEditProduct: async (req, res) => {
         let block = false
-        
-        const {name,description,category,sub,price,mrp,stock,_id} = req.body;
+
+        const { name, description, category, sub, price, mrp, stock, _id } = req.body;
         console.log(req.body);
-        if(req.files?.image && req.files?.subimage){
-            let products= await productModel.updateOne({_id}, {
-            $set: {
-                name,description,category,sub,price, mrp,stock,block,image:req.files.image[0],subimage:req.files.subimage
+        if (req.files?.image && req.files?.subimage) {
+            let products = await productModel.updateOne({ _id }, {
+                $set: {
+                    name, description, category, sub, price, mrp, stock, block, image: req.files.image[0], subimage: req.files.subimage
 
-            },
+                },
+            }
+            ).lean()
+            console.log(req.files)
+            return res.redirect('/admin/product')
+
         }
-        ).lean()
-        console.log(req.files)
-         return res.redirect('/admin/product')
+        if (!req.files?.image && req.files?.subimage) {
+            let products = await productModel.updateOne({ _id }, {
+                $set: {
+                    name, description, category, sub, price, mrp, stock, block, subimage: req.files.subimage
 
-    }
-    if(!req.files?.image && req.files?.subimage){
-        let products= await productModel.updateOne({_id}, {
-        $set: {
-            name,description,category,sub,price, mrp,stock,block,subimage:req.files.subimage
+                },
+            }
+            ).lean()
+            return res.redirect('/admin/product')
+        } if (req.files?.image && !req.files?.subimage) {
+            let products = await productModel.updateOne({ _id }, {
+                $set: {
+                    name, description, category, sub, price, mrp, stock, block, image: req.files.image[0]
 
-        },
-    }
-    ).lean()
-     return res.redirect('/admin/product')
-}if(req.files?.image && !req.files?.subimage){
-    let products= await productModel.updateOne({_id}, {
-    $set: {
-        name,description,category,sub,price, mrp,stock,block,image:req.files.image[0]
+                },
+            }
+            ).lean()
+            return res.redirect('/admin/product')
+        }
+        if (!req.files?.image && !req.files?.subimage) {
+            let products = await productModel.updateOne({ _id }, {
+                $set: {
+                    name, description, category, sub, price, mrp, stock, block
+
+                },
+            }
+            ).lean()
+            return res.redirect('/admin/product')
+        }
 
     },
-}
-).lean()
- return res.redirect('/admin/product')
-}
-if(!req.files?.image && !req.files?.subimage){
-    let products= await productModel.updateOne({_id}, {
-    $set: {
-        name,description,category,sub,price, mrp,stock,block
-
-    },
-}
-).lean()
- return res.redirect('/admin/product')
-}
-
-},
 
 
 

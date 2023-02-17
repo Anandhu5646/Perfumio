@@ -58,19 +58,19 @@
                 </div>
 
                 <div class="mb-5">
-                  <div><img src="/pic/{{products.image.filename}}" style="width: 50px;height: 70px;"></div>
+                  <div><img src="/pic/{{products.image.filename}}" id="imgView" style="width: 50px;height: 70px;"></div>
                   <label for="formFile" class="form-label">Main image</label>
-                  <input class="form-control" type="file" name="image" id="formFile" >
+                  <input class="form-control" type="file" name="image" onchange="viewImage(event)" id="formFile" >
                 </div>
 
                 <div class="mb-5">
                   <div>
                   {{#each products.subimage}}
-                    <img src="/pic/{{this.filename}}" style="width: 50px;height: 70px;">
+                    <img src="/pic/{{this.filename}}" style="width: 50px;height: 70px;" id="imgView">
                   {{/each}}
                     </div>
                   <label for="formFile" class="form-label">Sub-image</label>
-                  <input class="form-control" type="file" name="subimage" id="formFile" multiple>
+                  <input class="form-control" type="file" name="subimage" id="formFile" onchange="viewImage(event)" multiple>
                 </div>
 
 
@@ -89,3 +89,9 @@
 
 
 </section>
+
+<script>
+  function viewImage(event){
+    document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+  }
+</script>

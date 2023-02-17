@@ -21,7 +21,7 @@
     <div class="row logo">
       <div class="col-md-3 adminlogo"> <a href="/wishlist"><i class="ri-heart-3-line"></i></a></div>
       <div class="col-md-3 adminlogo"> <a href="/cart"><i class="ri-shopping-cart-2-line"></a></i></div>
-      <div class="col-md-3 adminlogo"> <a href="/userProfile"><i class="ri-user-line"></i></a></div>
+      <div class="col-md-3 adminlogo"> <a href="/profile"><i class="ri-user-line"></i></a></div>
       <div class="col-md-3 logout"><a href="/logout"><i class="ri-logout-box-r-line"></i></a></div>
     </div>
   </div>
@@ -32,13 +32,17 @@
    {{#each products}}
     <div class=" mt-5 container-fluid row ms-2">
       <div class="col-md-4 cartCard">
-        <img src="/images/{{this.product.filename}}" class="img-fluid" alt="" srcset="">
+        <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
       </div>
       <div class="col-md-8 cart">
         <h3>{{this.name}}</h3>
         <h5 style="color: rgba(0, 0, 0, 0.526);">{{this.category}}</h5>
         <div class="qauntitySection">
-         Quantity: <a href="/addquantity/{{this._id}}"><div class="addquantitybtn">+</div></a><b>{{this.stock}}</b><a href="/minusquantity/{{this._id}}"><div class="addquantitybtn">-</div></a>
+         Quantity: <a href="/addquantity/{{this._id}}"><div class="addquantitybtn">+</div>
+          
+         </a><b>{{this.quantity}}</b>
+          
+         <a href="/minusquantity/{{this._id}}"><div class="addquantitybtn">-</div></a>
         </div>
         <h4>{{this.price}}</h4>
         <a href="/removeFromCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a>
@@ -50,7 +54,7 @@
 </div>
 </div>
   <div class="col-md-6 col-sm-4 mt-1 container-fluid"> 
-    <h3 class="text-center">Order Summary</h3>
+    <h3 class="text-center">Cart Total</h3>
   <table class="table tableCart mt-5">
    
   <thead>
@@ -91,7 +95,7 @@
     </tr>
    <td> <h4>Total Amount</h4> </td>
     <td></td>
-    <td> <h4> {{totalAmount}}</h4></td>
+    <td> <h4> {{TotalAmount}}</h4></td>
   </tr>
 </table>
 <div class="orderBtns d-flex  row justify-content-between ms-5">

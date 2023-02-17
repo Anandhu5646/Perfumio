@@ -48,31 +48,37 @@
               <div class="form-outline form-white mb-3 ">
                 <input type="number" name="stock" placeholder="Stock" class="form-control form-control-lg" />
               </div>
-{{!-- image --}}
+              {{!-- image --}}
               <div class="mb-5">
                 <label for="formFile" class="form-label"></label>
                 <div class="image-preview-container">
-                  <div class="preview">
-                    <img id="preview-selected-image" />
-                  </div>
-                  <input class="form-control mb-3" type="file" name="image" id="formFile">
+                
+                  <div ><img src="/pic/{{products.image.filename}}" id="imgView" style="width: 50px;height: 70px;margin-bottom: 10px;"></div>
+                  <input class="form-control mb-3" type="file" name="image" id="formFile" onchange="viewImage(event)">
 
 
-{{!-- sub-image --}}
-                  <div class="image-preview-container">
-                    <div class="preview">
-                      <img id="preview-selected-image" />
-                    </div>
-                    <input class="form-control" type="file" name="subimage" id="formFile" multiple>
-                  </div>
-                  <button class="btn btn-outline-success btn-lg px-5 mt-4" type="submit">Submit</button>
+                  {{!-- sub-image --}}
+                  
 
                 </div>
 
               </div>
+              <div class="image-preview-container">
+                    
+                  <div><img src="/pic/{{products.image.filename}}" id="imgView" style="width: 50px;height: 70px;"></div>
+                    <input class="form-control" type="file" name="subimage" id="formFile" multiple>
+                  </div>
+                  <button class="btn btn-outline-success btn-lg px-5 mt-4" type="submit">Submit</button>
             </div>
           </div>
         </div>
   </form>
   </div>
 </section>
+
+
+<script>
+  function viewImage(event) {
+    document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+  }
+</script>
