@@ -43,18 +43,38 @@
           {{/unless}}
           
           <div> <span>A code has been sent to</span> <small>email</small> </div>
+          <p id="countdown"></p>
           <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
             <input class="m-2 text-center form-control rounded w-50" type="text" name="ottp" id="first" maxlength="6" />
 
+
           </div>
+          <a href="/resendotp" id="unhide"><p>Resend OTP</p></a>
           <div class="mt-4"> <button class="btn btn-danger px-4 validate" type="submit">Submit</button> </div>
+
         </div>
       </div>
     </div>
   </form>
-  
-
   <script>
+  document.getElementById("unhide").style.display = "none";
+
+
+
+  var countDownTime = 12000;
+    var seconds = 120;
+  var x = setInterval(function () {
+    seconds--;
+    document.getElementById("countdown").innerHTML = "OTP wil expire in " + seconds + "s ";
+    if (seconds < 0) {
+      clearInterval(x);
+      document.getElementById("countdown").innerHTML = ""
+      document.getElementById("unhide").style.display = "block";
+    }
+  }, 1000);
+</script>
+
+  {{!-- <script>
     document.addEventListener("DOMContentLoaded", function (event) {
 
       function OTPInput() {
@@ -75,8 +95,8 @@
         }
       } OTPInput();
     });
-  </script>
-  <script>
+  </script> --}}
+  {{!-- <script>
         let countdown=document.getElementById("countdown");
         let count=61;
         const coundownInterval = setInterval(() => {
@@ -92,7 +112,7 @@
             
           }
         }
-  </script>
+  </script> --}}
 </body>
 
 </html>

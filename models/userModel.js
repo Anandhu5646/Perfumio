@@ -21,17 +21,21 @@ var userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
-    },
+    }, 
     
     block:{ 
         type:Boolean,
         required:true
     },
-    address:{
+    address:{   
         type:Array,
         default:[]
     },
     cart:{
+        type:Array,
+        default:[]
+    },
+    wishlist:{
         type:Array,
         default:[]
     }

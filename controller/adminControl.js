@@ -1,7 +1,11 @@
 const productModel = require('../models/productModel')
 const categoryModel = require('../models/categoryModel')
 const userModel = require('../models/userModel')
-
+const adminModel= require('../models/adminModel')
+const sharp = require('sharp')
+const fs=require('fs')
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink)
 
 
 var adminControl = {
@@ -12,16 +16,14 @@ var adminControl = {
             res.render('adminLogin')
         }
 
-    },
+    },    
 
-    postAdminLogin: (req, res) => {
-        let admin = {
-            email: "admin@gmail.com",
-            password: "123"
-        }
-        const { email, password } = req.body
-        if (admin.email == email && admin.password == password) {
-            req.session.admin = true
+    postAdminLogin:async (req, res) => {
+        
+        const { email, password } = req.body  
+        const adminInfo = await adminModel.findOne({ email })
+        if (adminInfo.password == password) {
+            req.session.admin = true  
             res.render('adminHome')
         } else {
             res.redirect('/')
@@ -38,10 +40,10 @@ var adminControl = {
         let users = await userModel.find({}, { pasword: 0 }).lean()
         console.log(users)
         if (req.session.admin) {
-            res.render('adminUser', { users })
+            res.render('adminUser', { users })  
         } else {
             res.redirect('/admin')
-        }
+        } 
         // ,
         //    { adminEmail:req.session.admin.email}
 
@@ -99,34 +101,38 @@ var adminControl = {
 
 
     },
+    
+
     //save category//
-    postAdminAddCategory: (req, res) => {
-
-        let block = false
-        const { category, sub } = req.body
-        let categories = new categoryModel({ category, sub, block })
-        categories.save((err, data) => {
-            if (err) {
-                console.log(err)
-                res.render('addCategory', { error: true, message: "Something went wrong" })
+    postAdminAddCategory: async (req, res) => {
+        const { category } = req.body;
+    
+        try {
+            // Check if category already exists 
+            const existingCategory = await categoryModel.findOne({ category: { $regex: new RegExp(`^${category}$`, "i") } });
+    
+            if (existingCategory) {
+               
+                existingCategory.block = true;
+                await existingCategory.save();
+                res.render('addCategory', { error: true, message: "Category already exists" });
             } else {
-                console.log('category added')
-                res.redirect('/admin/category')
+               
+                const newCategory = new categoryModel({ category, block: false });
+                await newCategory.save();
+                res.redirect('/admin/category');
             }
-        })
-
+        } catch (err) {
+            console.log(err);
+            res.render('addCategory', { error: true, message: "Something went wrong" });
+        }
     }
     ,
     //edit category//
     getAdminEditCat: async (req, res) => {
         const _id = req.params.id;
         const categories = await categoryModel.findOne({ _id }).lean()
-        // let existingCategory =await categoryModel.findOne({categoryModel:req.body.category})
-        // if(existingCategory){
-        //     req.session.existingCat ? message = 'Existing Category' : message = null
-        //     res.render('editCategory',{message})
-        //     req.session.existingCat=false
-        // }
+       
         if (req.session.admin) {
             res.render('editCategory', { categories })
         }
@@ -191,7 +197,7 @@ var adminControl = {
     getAdminProduct: async (req, res) => {
         let categories = await categoryModel.find({}).lean()
 
-        let products = await productModel.find({}).lean()
+        let products = await productModel.find({}).sort({_id:-1}).lean()
 
         // console.log(products, categories)
         if (req.session.admin) {
@@ -206,39 +212,39 @@ var adminControl = {
         let block = false
         let { name, description, category, sub, price, mrp, stock } = req.body
        
-        let mainImage = req.files.image[0], sideImages = req.files.subimage
-        await sharp(mainImage.path)
-            .png()
-            .resize(540, 540, {
-                kernel: sharp.kernel.nearest,
-                fit: 'contain',
-                position: 'center',
-                background: { r: 255, g: 255, b: 255, alpha: 0 }
-            })
-            .toFile(mainImage.path + ".png")
-            .then(async () => {
-                await unlinkAsync(mainImage.path)
-                mainImage.path = mainImage.path + ".png"
-                mainImage.filename = mainImage.filename + ".png"
-            });
-        for (let i in sideImages) {
-            await sharp(sideImages[i].path)
-                .png()
-                .resize(540, 540, {
-                    kernel: sharp.kernel.nearest,
-                    fit: 'contain',
-                    position: 'center',
-                    background: { r: 255, g: 255, b: 255, alpha: 0 }
-                })
-                .toFile(sideImages[i].path + ".png")
-                .then(async () => {
-                    await unlinkAsync(sideImages[i].path)
-                    sideImages[i].filename = sideImages[i].filename + ".png"
-                    sideImages[i].path = sideImages[i].path + ".png"
-                });
-        }
-        console.log(mainImage)
-        console.log(sideImages)
+        // let mainImage = req.files.image[0], sideImages = req.files.subimage
+        // await sharp(mainImage.path)
+        //     .png()
+        //     .resize(540, 540, {
+        //         kernel: sharp.kernel.nearest,
+        //         fit: 'contain',
+        //         position: 'center',
+        //         background: { r: 255, g: 255, b: 255, alpha: 0 }
+        //     })
+        //     .toFile(mainImage.path + ".png")
+        //     .then(async () => {
+        //         await unlinkAsync(mainImage.path)
+        //         mainImage.path = mainImage.path + ".png"
+        //         mainImage.filename = mainImage.filename + ".png"
+        //     });
+        // for (let i in sideImages) {
+        //     await sharp(sideImages[i].path)
+        //         .png()
+        //         .resize(540, 540, {
+        //             kernel: sharp.kernel.nearest,
+        //             fit: 'contain',
+        //             position: 'center',
+        //             background: { r: 255, g: 255, b: 255, alpha: 0 }
+        //         })
+        //         .toFile(sideImages[i].path + ".png")
+        //         .then(async () => {
+        //             await unlinkAsync(sideImages[i].path)
+        //             sideImages[i].filename = sideImages[i].filename + ".png"
+        //             sideImages[i].path = sideImages[i].path + ".png"
+        //         });
+        // }
+        // console.log(mainImage)
+        // console.log(sideImages)
         let products = new productModel({
             name, description, category, sub, price, mrp, stock, block,
             image: req.files.image[0], subimage: req.files.subimage

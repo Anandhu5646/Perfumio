@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="/user/productDetails.css">
     <title>Document</title>
 </head>
+
 <body>
-        <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
+    <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
     <header>
         <nav>
@@ -20,7 +22,7 @@
                 <input type="button" value="search">
             </div>
             <div class="cart__header__desktop" style="color: white;">
-                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
                 <a href=""><img src="/images/icons8-shopping-cart-64.png"
                         style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
                 {{!-- <span>50</span> --}}
@@ -42,27 +44,28 @@
                 </li>
                 {{!-- <li class="main__navigations__div__li save__from__left"><a href="" class="anchor__remains__same"
                         style="font-weight: bold;"><i class="fas fa-user"></i> Hello, parimal mahindrakar.</a></li> --}}
-                 <li class="main__navigations__div__li">
+                <li class="main__navigations__div__li">
                     {{#unless Login }}
                     <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
                             class="fas fa-sign-out-alt"></i> </a>
 
                     {{else}}
-                    
-                <div class="dropdown-center">
-                    <button class="btn btn-black dropdown-toggle" style="color: aliceblue;margin-top: -5px;font-weight: bold; "  type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        {{Login}}
-                    </button>
-                    <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
-                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                        
-                    </ul>
-                </div>
-                    
 
-                {{/unless}}
+                    <div class="dropdown-center">
+                        <button class="btn btn-black dropdown-toggle"
+                            style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{Login}}
+                        </button>
+                        <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                        </ul>
+                    </div>
+
+
+                    {{/unless}}
                 </li>
                 <div class="bars save__from__right">
                     <div class="line1"></div>
@@ -82,7 +85,7 @@
                 <div>
                     <p><a href="">Men</a></p>
                     <p><a href="">Women</a></p>
-                    
+
                 </div>
             </li>
         </div>
@@ -91,31 +94,61 @@
 
 
 
-     <div class="container my-5" style="padding-top: 150px;">
-        
+    <div class="container my-5" style="padding-top: 150px;">
+
         <div class="row">
             <div class="col-md-5">
-                
-                <div  class="wrap-pic-w pos-relative" id="image-zoom"  style="z-index: 10;">
-                    <img  src="/pic/{{products.image.filename}}" alt="IMG-PRODUCT">
+
+                {{!-- <ul class="preview-thumbnail nav nav-tabs">
+                    <li class="active"><a data-target="#pic-1" data-toggle="tab"><img onclick="changeImage(this.id)"
+                                id="pic-2" src="http://placekitten.com/200/126" /></a></li>
+                    <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                    <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                    <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                               
+                </ul> --}}
+
+
+
+
+                <div class="wrap-pic-w pos-relative" id="image-zoom" style="z-index: 10;">
+                    <img src="/pic/{{products.image.filename}}" alt="IMG-PRODUCT">
+                </div>
+                <div class="row my-3 previews">
+                    <div class="col-md-3">
+                        <img class="w-100 subimage" src="/pic/{{products.image.filename}}" alt="Sale" id="mainimage">
                     </div>
-                    <div class="row my-3 previews">
-                        <div class="col-md-3" >
-                            <img class="w-100" src="/pic/{{products.image.filename}}" alt="Sale">
-                        </div>
-                        <div class="col-md-3" style="margin-left: -8px;">
-                            <img class="w-100" src="/pic/{{products.subimage.[0].filename}}" alt="Sale">
-                        </div>
-                        <div class="col-md-3" style="margin-left: -8px;">
-                            <img class="w-100" src="/pic/{{products.subimage.[1].filename}}" alt="Sale">
-                        </div>
-                        <div class="col-md-3 " style="margin-left: -9px;">
-                            <img class="w-100" src="/pic/{{products.subimage.[2].filename}}" alt="Sale">
-                        </div>
+                    <div class="col-md-3" style="margin-left: -8px;">
+                        <img class="w-100 sub-image" src="/pic/{{products.subimage.[0].filename}}" alt="Sale"
+                            id="subimage" onclick="changeImage('subimage-1')">
                     </div>
-                
+                    <div class="col-md-3" style="margin-left: -8px;">
+                        <img class="w-100 sub-image" src="/pic/{{products.subimage.[1].filename}}" alt="Sale"
+                            id="subimage-2" onclick="changeImage('sub-image-2')">
+                    </div>
+                    <div class="col-md-3" style="margin-left: -9px;">
+                        <img class="w-100 sub-image" src="/pic/{{products.subimage.[2].filename}}" alt="Sale"
+                            id="subimage-3" onclick="changeImage('sub-image-3')">
+                    </div>
+                </div>
+                {{!-- <div class="row my-3 previews">
+                    <div class="col-md-3">
+                        <img class="w-100" src="/pic/{{products.image.filename}}" alt="Sale"
+                            onclick="changeImage(this.id)">
+                    </div>
+                    <div class="col-md-3" style="margin-left: -8px;">
+                        <img class="w-100" src="/pic/{{products.subimage.[0].filename}}" alt="Sale">
+                    </div>
+                    <div class="col-md-3" style="margin-left: -8px;">
+                        <img class="w-100" src="/pic/{{products.subimage.[1].filename}}" alt="Sale">
+                    </div>
+                    <div class="col-md-3 " style="margin-left: -9px;">
+                        <img class="w-100" src="/pic/{{products.subimage.[2].filename}}" alt="Sale">
+                    </div>
+                </div> --}}
+
             </div>
-            <div class="col-md-6  ms-5" >
+            <div class="col-md-6  ms-5">
                 <div class="main-description px-2">
                     <div class="category text-bold">
                         Category: {{products.category}}
@@ -126,7 +159,8 @@
 
 
                     <div class="price-area my-4">
-                        <p class="old-price mb-1"><del>{{products.mrp}}</del> <span class="old-price-discount text-danger">(20% off)</span></p>
+                        <p class="old-price mb-1"><del>{{products.mrp}}</del> <span
+                                class="old-price-discount text-danger">(20% off)</span></p>
                         <p class="new-price text-bold mb-1">{{products.price}}</p>
                         <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
 
@@ -135,19 +169,23 @@
 
                     <div class="buttons d-flex my-5">
                         <div class="block">
-                            <a href="/addwishlist" class="shadow btn custom-btn " style="background-color: black;">Wishlist</a>
+                            <a href="/addwishlist" class="shadow btn custom-btn "
+                                style="background-color: black;">Wishlist</a>
                         </div>
                         <div class="block">
-                            <a href="/cart/{{products._id}}"><button class="shadow btn custom-btn" style="background-color: black;">Add to cart</button></a>
+                            <a href="/cart"><button class="shadow btn custom-btn" style="background-color: black;">Add
+                                    to cart</button></a>
                         </div>
 
                         <div class="block quantity">
-                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5" placeholder="Enter email" name="cart_quantity">
+                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5"
+                                placeholder="Enter email" name="cart_quantity">
                         </div>
                     </div>
-                    <div class="block" >
-                            <a href="/checkout"><button class="shadow btn custom-btn" style="width: 305px;background-color: black;">Buy now</button></a>
-                        </div>
+                    <div class="block">
+                        <a href="/checkout"><button class="shadow btn custom-btn"
+                                style="width: 305px;background-color: black;">Buy now</button></a>
+                    </div>
 
 
 
@@ -156,18 +194,19 @@
                 <div class="product-details my-4">
                     <p class="details-title text-color mb-1">Product Details</p>
                     <p class="description">{{products.description}}</p>
-                
-                </div> 
+
+                </div>
 
                 <div class="delivery my-4">
-                    <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Delivery done in 3 days from date of purchase</b> </p>
+                    <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Delivery done in
+                            3 days from date of purchase</b> </p>
                     <p class="text-secondary">Order now to get this product delivery</p>
                 </div>
-                
-             
+
+
             </div>
         </div>
-        
+
     </div>
 
 
@@ -211,19 +250,36 @@
 
 
 
-    
+
     </script>
-    <script style="z-index: 10;" src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
+   
     <script>
-        var options = {
-            width: 500,
-            height: 550,
-            zoomwidth: 400,
-            offset: { vertical:0 , horizontal:10 },
-            scale: .6
+        function changeImage(id) {
+            let pic = document.getElementById(id).src;
+            document.getElementById('firstImage').src = pic;
         }
 
-        new ImageZoom(document.getElementById("image-zoom"), options)
+        // Add event listeners to all sub-images
+        const subimages = document.querySelectorAll('.subimage');
+        subImages.forEach((image) => {
+            image.addEventListener('click', () => {
+                changeImage(image.id);
+            });
+        });
     </script>
+   <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js"></script>
+<script>
+    var options = {
+        width: 500,
+        height: 550,
+        zoomWidth: 400,
+        offset: { vertical: 0, horizontal: 10 },
+        scale: 0.7
+    };
+
+    var img = document.getElementById("image-zoom");
+    new ImageZoom(img, options);
+</script>
 </body>
+
 </html>

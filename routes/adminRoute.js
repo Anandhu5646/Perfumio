@@ -6,7 +6,8 @@ const { getAdminLogin, postAdminLogin, getAdminHome, getAdminProduct, getAdminUs
     postAdminEditCat,postAdminSaveProduct, getAdminPdtBlock, getAdminPdtUnblock,
     getAdminEditProduct, postAdminEditProduct } = require('../controller/adminControl');
 const upload = require('../middlewares/multer');
-const router = express.Router();   
+const router = express.Router();  
+const verifyAdmin=require('../middlewares/verifyAdmin') 
 
 
 

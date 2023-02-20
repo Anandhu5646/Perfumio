@@ -1,0 +1,20 @@
+.categoryProCards{
+    height: 200px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center ;
+    margin-top: 20px ;
+    margin-left: 10px !important ;
+  }
+   .categoryProCards img{
+     height: 150px;
+    width:200px; 
+  } 
+  .wish .heart{
+    font-size: 30px;
+    color: #51624F;
+  }
+  .category-card a{
+    text-decoration: none;
+  }
