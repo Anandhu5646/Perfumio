@@ -34,8 +34,8 @@ hbs.registerHelper("inc", function(value, options)
     return parseInt(value) + 1;
 });
 
-app.use('/', userRouter);
 app.use('/admin',adminRouter);
+app.use('/', userRouter);
 
 app.listen(7800, ()=>{
     console.log('Server is running at http://localhost:7800 ')

@@ -1,56 +1,69 @@
 const productModel = require('../models/productModel')
 const categoryModel = require('../models/categoryModel')
 const userModel = require('../models/userModel')
-const adminModel= require('../models/adminModel')
+const adminModel = require('../models/adminModel')
 const sharp = require('sharp')
-const fs=require('fs')
+const fs = require('fs')
 const { promisify } = require('util')
 const unlinkAsync = promisify(fs.unlink)
 
 
 var adminControl = {
     getAdminLogin: (req, res) => {
-        if (req.session.admin) {
-            res.redirect('/admin/home')
-        } else {
-            res.render('adminLogin')
+        try {
+            if (req.session.admins) {
+                res.redirect('/admin/home');
+            } else {
+                res.render('adminLogin');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).render('error', {
+                message: 'Internal Server Error',
+                error,
+            });
         }
+    }
+    ,
 
-    },    
-
-    postAdminLogin:async (req, res) => {
-        
-        const { email, password } = req.body  
-        const adminInfo = await adminModel.findOne({ email })
-        if (adminInfo.password == password) {
-            req.session.admin = true  
-            res.render('adminHome')
-        } else {
-            res.redirect('/')
+    postAdminLogin: async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            const adminInfo = await adminModel.findOne({ email });
+            if (adminInfo) {
+                if (adminInfo.password == password) {
+                    req.session.admins = true;
+                    res.render('adminHome');
+                } else {
+                    res.status(401).send('Invalid password');
+                }
+            } else {
+                res.status(401).send('Invalid email');
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).send('Internal server error');
         }
-    },
+    }
+    ,
     getAdminHome: (req, res) => {
 
         res.render('adminHome')
 
     },
 
-
+    // admin user page// 
     getAdminUser: async (req, res) => {
-        let users = await userModel.find({}, { pasword: 0 }).lean()
-        console.log(users)
-        if (req.session.admin) {
-            res.render('adminUser', { users })  
-        } else {
-            res.redirect('/admin')
-        } 
-        // ,
-        //    { adminEmail:req.session.admin.email}
-
-
-    },
+        try {
+          let users = await userModel.find({}, { password: 0 }).lean();
+          res.render('adminUser', { users });
+        } catch (err) {
+          console.error(err);
+          res.status(500).send('Internal Server Error');
+        }
+      },
     getAdminLogout: (req, res) => {
-        req.session.admin = null
+        req.session.admins = null
         res.redirect('/admin/')
     },
     getAdminUserBlock: (req, res) => {
@@ -84,40 +97,30 @@ var adminControl = {
     //category//
     getAdminCategory: async (req, res) => {
         let categories = await categoryModel.find({}).lean();
-        if (req.session.admin) {
-            res.render('category', { categories })
-        } else {
-            res.redirect('/admin/')
-        }
+        res.render('category', { categories })
+
     },
     //add category//
     getAdminAddCategory: (req, res) => {
-
-        if (req.session.admin) {
-            res.render('addCategory')
-        } else {
-            res.redirect('/admin/')
-        }
-
-
+        res.render('addCategory')
     },
-    
+
 
     //save category//
     postAdminAddCategory: async (req, res) => {
         const { category } = req.body;
-    
+
         try {
             // Check if category already exists 
             const existingCategory = await categoryModel.findOne({ category: { $regex: new RegExp(`^${category}$`, "i") } });
-    
+
             if (existingCategory) {
-               
+
                 existingCategory.block = true;
                 await existingCategory.save();
                 res.render('addCategory', { error: true, message: "Category already exists" });
             } else {
-               
+
                 const newCategory = new categoryModel({ category, block: false });
                 await newCategory.save();
                 res.redirect('/admin/category');
@@ -132,7 +135,7 @@ var adminControl = {
     getAdminEditCat: async (req, res) => {
         const _id = req.params.id;
         const categories = await categoryModel.findOne({ _id }).lean()
-       
+
         if (req.session.admin) {
             res.render('editCategory', { categories })
         }
@@ -197,21 +200,17 @@ var adminControl = {
     getAdminProduct: async (req, res) => {
         let categories = await categoryModel.find({}).lean()
 
-        let products = await productModel.find({}).sort({_id:-1}).lean()
+        let products = await productModel.find({}).sort({ _id: -1 }).lean()
 
-        // console.log(products, categories)
-        if (req.session.admin) {
-            res.render('products', { products, categories })
-        } else {
-            res.redirect('/admin')
-        }
+        res.render('products', { products, categories })
+
     },
     // save product//
     postAdminSaveProduct: async (req, res) => {
-       
+
         let block = false
         let { name, description, category, sub, price, mrp, stock } = req.body
-       
+
         // let mainImage = req.files.image[0], sideImages = req.files.subimage
         // await sharp(mainImage.path)
         //     .png()

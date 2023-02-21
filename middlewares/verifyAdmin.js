@@ -1,5 +1,6 @@
 function verifyAdmin(req,res,next){
-    if(req.session.admin){
+    console.log(req.session);
+    if(req.session.admins){
         next()
     }else{
         res.redirect('/admin/')  

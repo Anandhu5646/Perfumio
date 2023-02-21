@@ -11,12 +11,13 @@ const verifyAdmin=require('../middlewares/verifyAdmin')
 
 
 
-router.get('/', getAdminLogin) 
+router.get('/', getAdminLogin)
 router.post('/', postAdminLogin)  
+router.get('/logout', getAdminLogout)
+router.use(verifyAdmin) 
 router.get('/home', getAdminHome) 
 router.get('/product', getAdminProduct)
 router.get('/user', getAdminUser) 
-router.get('/logout', getAdminLogout)
 router.get('/block/:id', getAdminUserBlock)
 router.get('/unblock/:id', getAdminuserUnblock)
 router.post('/searchuser', postAdminuserSearch)  

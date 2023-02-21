@@ -45,20 +45,20 @@ let userControl = {
 
     },
     postUserSignup: async (req, res) => {
-        const { name, email,mobile, password } = req.body;
-        if (email == "" || name == "" || mobile == "" || password == "") {
-            return res.render("/signup", {
-                error: true,
-                message: "all fields must be filled",
-            });
-        }
-        const user = await userModel.findOne({ email });
-        if (user) {
-            return res.render("/signup", {
-                error: true,
-                message: "User Already exists please Login",
-            });
-        }
+        // const { name, email,mobile, password } = req.body;
+        // if (email == "" || name == "" || mobile == "" || password == "") {
+        //     return res.render("/signup", {
+        //         error: true,
+        //         message: "all fields must be filled",
+        //     });
+        // }
+        // const user = await userModel.findOne({ email });
+        // if (user) {
+        //     return res.render("/signup", {
+        //         error: true,
+        //         message: "User Already exists please Login",
+        //     });
+        // }
 
 
 
@@ -218,18 +218,18 @@ let userControl = {
 
     // decrement product quantity //
     decrementQuantity: async (req, res) => {
-        await userModel.updateOne({ _id: req.session.user._id, cart: { $elemMatch: { id: req.params.id } } }, {
-
-            $inc: {
-                "cart.$.quantity": -1
-            }
-
-        })
-
-        res.redirect('/cart')
-
-
-    },
+        const user = req.session.user;
+        const itemId = req.params.id;
+        const item = user.cart.find(i => i.id === itemId);
+        if (item && item.quantity > 1) {
+            await userModel.updateOne(
+                { _id: user._id, cart: { $elemMatch: { id: itemId } } },
+                { $inc: { "cart.$.quantity": -1 } }
+            );
+        }
+        res.redirect('/cart');
+    }
+    ,
 
     getUserCartDetail: async (req, res) => {
 
@@ -375,11 +375,12 @@ let userControl = {
                 },
             }
         );
-
-        res.redirect("back");
-    },
+    
+        res.redirect('/profile');
+    }
+    ,
     getUserWishlist: async (req, res) => {
-        const products = await productModel
+        const products = await userModel
             .find({ _id: { $in: wishlist }}).lean();
         res.render("userWishlist", { products });
 
@@ -399,7 +400,7 @@ let userControl = {
                 },
             }
         );
-        res.redirect("back");
+        res.redirect('/wishlist');
     },
     // Remove from wishlist // 
     getUserRemoveWishlist: async (req, res) => {
@@ -413,7 +414,7 @@ let userControl = {
                 }
             }
         );
-        res.redirect("back");
+        res.redirect("/wishlist");
     },
 
 
