@@ -1,0 +1,85 @@
+<nav class="navbar">
+    <div class="navbar-container container">
+        <input type="checkbox" name="" id="" />
+        <div class="hamburger-lines">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
+        </div>
+        <ul class="menu-items">
+            
+            <li><a href="/admin/category">Categories</a></li>
+            <li><a href="/admin/product">Products</a></li>
+            <li><a href="/admin/user">Users</a></li>
+            <li><a href="/admin/coupon">Coupons</a></li>
+            <li><a href="/admin/order">Orders</a></li>
+            <li><a href="/admin/logout">Logout</a></li>
+        </ul>
+        <h1 class="logo">Aura Scents</h1>
+    </div>
+</nav>
+
+
+
+<div class="container mt-5">
+   
+    <table class="table table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total amount</th>
+                <th scope="col">Order Status</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
+            <tr>
+                <th scope="row">{{inc @index}}</th>
+                <td>{{this.address.name}}</td>
+                <td>{{this.products.name}}</td>
+                <td>{{this.products.category}}</td>
+                <td>{{this.}}</td>
+                <td>{{this.discount}}</td>
+                <td><a href="/admin/editCoupon/{{this._id}}" class="btn btn-success">Edit</a>
+                </td>
+                <td>{{#if this.block}}
+                    <p>Blocked</p>
+                    {{else}}
+                    <p>Active</p>
+                    {{/if}}
+                </td>
+
+                <td>
+
+            <div class="dropdown-container"  tabindex="-1">
+              <div class="three-dots "></div>
+              <div class="dropdown" >
+              
+                {{#if this.block}}
+                <button
+                  onclick="if( confirm(' Are you sure to unlist coupon?')){window.location.href='/admin/unblockCoupon/{{this._id}}' }"
+                  class="btn  btn-outline-success btn-block mb-4" style="margin-left: 70px;">List</button>
+                {{else}}
+                <button
+                  onclick="if( confirm(' Are you sure to Unlist coupon?')){window.location.href='/admin/blockCoupon/{{this._id}}' }"
+                  class="btn btn-outline-danger btn-block mb-4" style="margin-left: 70px;">Unlist</button>
+                {{/if}}
+
+              </div>
+            </div>
+
+
+
+          </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+   
+</div>

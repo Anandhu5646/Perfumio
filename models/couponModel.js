@@ -12,14 +12,10 @@ var couponSchema = new mongoose.Schema({
         required:true
     },
     minAmount:{
-        type:Number,
+        type:Number,    
         required:true
     },
     discount:{
-        type:Number,
-        required:true
-    },
-    maxDiscountAmount:{
         type:Number,
         required:true
     },
@@ -27,9 +23,9 @@ var couponSchema = new mongoose.Schema({
         type:Date,
         required:true
     },
-    unlist:{
+    block:{
         type:Boolean,
-        default:false
+        required:true
     }
 
 })

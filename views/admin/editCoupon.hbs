@@ -1,0 +1,63 @@
+<section class=" "
+  style="height: max-content; background: rgb(2,0,36);
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843137254902) 0%, rgba(197,213,214,1) 100%);">
+  <form action="/admin/updateCoupon" method="post"  >
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+
+              <div class="pb-5">
+                {{#if error}}
+                <span class="alert alert-dismissible alert-danger " role="alert"> {{message}}
+                  {{/if}}
+
+
+                </span>
+              </div>
+
+              <h2 class="fw-bold mb-5 text-dark text-uppercase">Edit Coupon</h2>
+
+
+              <input type="text" name="_id" placeholder="Product name" value="{{coupons._id}}"
+                    class="form-control form-control-lg"  style="visibility: hidden;"/>
+              <div class="form-outline mb-4">
+                <div class="form-outline form-white mb-5">
+                  <input type="text" name="name" placeholder="Product name" value="{{coupons.name}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                <div class="form-outline form-white mb-5">
+                  <input type="text" name="code" placeholder="Coupon code" value="{{coupons.code}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                <div class="form-outline form-white mb-5">
+                  <input type="date" name="expiry" placeholder="date" value="{{coupons.expiry}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                
+                <div class="form-outline form-white mb-4">
+                  <input type="number" name="minAmount" placeholder="Min Amount" value="{{coupons.minAmount}}"
+                    class="form-control form-control-lg" required />
+                </div>
+                <div class="form-outline form-white mb-4">
+                  <input type="number" name="discount" placeholder="discount" value="{{coupons.discount}}"
+                    class="form-control form-control-lg" required />
+                </div>
+               
+
+                <button class="btn btn-outline-success btn-lg px-5" type="submit">Submit</button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+</section>
+
+

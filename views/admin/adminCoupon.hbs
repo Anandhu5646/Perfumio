@@ -1,0 +1,115 @@
+<nav class="navbar">
+    <div class="navbar-container container">
+        <input type="checkbox" name="" id="" />
+        <div class="hamburger-lines">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
+        </div>
+        <ul class="menu-items">
+            
+            <li><a href="/admin/category">Categories</a></li>
+            <li><a href="/admin/product">Products</a></li>
+            <li><a href="/admin/user">Users</a></li>
+            <li><a href="/admin/coupon">Coupons</a></li>
+            <li><a href="/admin/order">Orders</a></li>
+            <li><a href="/admin/logout">Logout</a></li>
+        </ul>
+        <h1 class="logo">Aura Scents</h1>
+    </div>
+</nav>
+
+
+
+<div class="container mt-5">
+    <div class="mt-5">
+        <a href="/admin/addCoupon" class="btn btn-success mb-3">Add New
+            Coupon</a>
+    </div>
+    <table class="table table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Coupon Name</th>
+                <th scope="col">code</th>
+                <th scope="col">Date</th>
+                <th scope="col">Minimum Amount</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Status</th>
+                <th scope="col">action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each coupons}}
+            <tr>
+                <th scope="row">{{inc @index}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.code}}</td>
+                <td>{{this.expiry}}</td>
+                <td>{{this.minAmount}}</td>
+                <td>{{this.discount}}</td>
+                <td><a href="/admin/editCoupon/{{this._id}}" class="btn btn-success">Edit</a>
+                </td>
+                <td>{{#if this.block}}
+                    <p>Blocked</p>
+                    {{else}}
+                    <p>Active</p>
+                    {{/if}}
+                </td>
+
+                <td>
+
+            <div class="dropdown-container"  tabindex="-1">
+              <div class="three-dots "></div>
+              <div class="dropdown" >
+              
+                {{#if this.block}}
+                <button
+                  onclick="if( confirm(' Are you sure to unlist coupon?')){window.location.href='/admin/unblockCoupon/{{this._id}}' }"
+                  class="btn  btn-outline-success btn-block mb-4" style="margin-left: 70px;">List</button>
+                {{else}}
+                <button
+                  onclick="if( confirm(' Are you sure to Unlist coupon?')){window.location.href='/admin/blockCoupon/{{this._id}}' }"
+                  class="btn btn-outline-danger btn-block mb-4" style="margin-left: 70px;">Unlist</button>
+                {{/if}}
+
+              </div>
+            </div>
+
+
+
+          </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+   
+</div>
+                {{!-- <td>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Delete </button>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Do you want to delete this
+                                        product?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <a href="/admin/delete-coupon/{{this._id}}">
+                                        <input class="btn btn-outline-danger" type="submit" value="Delete"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td> --}}
+                {{!-- <a href="/admin/delete-coupon/{{this._id}}" class="btn btn-danger delete">Delete</a> --}}
+                

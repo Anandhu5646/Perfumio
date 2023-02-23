@@ -3,6 +3,8 @@ const productModel = require('../models/productModel')
 const categoryModel = require('../models/categoryModel')
 const sentOTP = require('../helper/otp')
 const createId = require('../helper/createId')
+const couponModel = require('../models/couponModel')
+const orderModel = require('../models/orderModel')
 
 
 
@@ -145,7 +147,7 @@ let userControl = {
         var countDownTime = 60000;
         setTimeout(() => {
             otp = undefined;
-            console.log("recountown");
+
         }, countDownTime);
         // ############## 
     },
@@ -218,18 +220,37 @@ let userControl = {
 
     // decrement product quantity //
     decrementQuantity: async (req, res) => {
-        const user = req.session.user;
-        const itemId = req.params.id;
-        const item = user.cart.find(i => i.id === itemId);
-        if (item && item.quantity > 1) {
+
+
+        let { cart } = await userModel.findOne(
+            { "cart.id": req.params.id },
+            { _id: 0, cart: { $elemMatch: { id: req.params.id } } }
+        )
+
+        if (cart[0].quantity <= 1) {
             await userModel.updateOne(
-                { _id: user._id, cart: { $elemMatch: { id: itemId } } },
-                { $inc: { "cart.$.quantity": -1 } }
+                { _id: req.session.user._id },
+                {
+                    $pull: {
+                        cart: { id: req.params.id },
+                    },
+                }
+            )
+            res.redirect('/cart')
+        } else {
+
+            await userModel.updateOne(
+                { _id: req.session.user._id, cart: { $elemMatch: { id: req.params.id } } },
+                {
+                    $inc: {
+                        "cart.$.quantity": -1,
+                    },
+                }
             );
+            res.redirect('/cart')
         }
-        res.redirect('/cart');
-    }
-    ,
+    },
+
 
     getUserCartDetail: async (req, res) => {
 
@@ -251,20 +272,23 @@ let userControl = {
                     })
                     productModel.find({ _id: { $in: cartItems } }).lean().then((products) => {
                         let TotalAmount = 0
-                        products.forEach((item, index) => {
-                            products[index].quantity = cartQuantity[item._id]
-                            TotalAmount = (TotalAmount + item.price * cartQuantity[item._id])
-                        })
                         let totalMRP = 0
+                        let Price = 0
+                        let discount = 0
                         products.forEach((item, index) => {
-                            totalMRP = totalMRP + item.mrp * cartQuantity[item._id];
+                            const quantity = cartQuantity[item._id]
+                            products[index].quantity = quantity
+                            const itemPrice = item.price * quantity
+                            TotalAmount += itemPrice
+                            totalMRP += item.mrp * quantity
+                            Price += itemPrice
+                            discount = totalMRP - TotalAmount
+                        })
 
-                        })
-                        let price = 0
-                        products.forEach((item, index) => {
-                            price = price * cartQuantity[item._id]
-                        })
-                        res.render('cart', { products, TotalAmount, cartDet, totalMRP, price })
+
+
+
+                        res.render('cart', { products, TotalAmount, cartDet, totalMRP, Price, discount })
                     })
                 })
             } else {
@@ -341,16 +365,111 @@ let userControl = {
         req.session.user = null
         res.redirect('/')
     },
-
-    getUserCheckout: (req, res) => {
-        res.render('userCheckout')
-    },
-    // user add address //
+    // user add address //   
     getUserAddAddress: (req, res) => {
 
 
         res.render('userAddAddress')
     },
+
+    getUserCheckout: async (req, res) => {
+
+        const _id = req.session.user._id
+
+        const users = await userModel.findById({ _id }).lean()
+        const address = users.address
+        const cart = users.cart
+        const cartQuantities = {}
+        const cartItems = cart.map((item) => {
+            cartQuantities[item.id] = item.quantity
+            return item.id;
+        })
+
+
+        const product = await productModel.find({ _id: { $in: cartItems } }).lean()
+        const products = product.map(item => {
+            return { ...item, quantity: cartQuantities[item._id] }
+        })
+        let shipping = 50
+        let totPrice;
+        let totalPrice = 0;
+        let coupons = await couponModel.find().lean()
+
+        products.forEach((item, index) => {
+            item.totalAmount = item.price * item.quantity
+            totalPrice = totalPrice + item.price * item.quantity;
+            totPrice = totalPrice + shipping
+        })
+
+        let coupon = req.session.coupon
+
+        let cashback = {}
+        if (coupon) {
+            if (totPrice > coupon.minAmount) {
+                cashback.discountedPrice = totPrice - coupon.discount
+                cashback.discount = coupon.discount
+            }
+        }
+      
+        res.render('userCheckout', { products, totalPrice, address, cart, users, coupons, cashback, totPrice })
+        cashback = null
+        req.session.coupon = null
+    },
+    postUserApplyCoupon: (req, res) => {
+
+
+        return new Promise((resolve, reject) => {
+            couponModel.findOne({ code: req.body.coupon }).then((coupon) => {
+                req.session.coupon = coupon;
+                res.redirect("/checkout");
+            });
+        });
+
+    },
+    postUserCheckout: async (req, res) => {
+        const _id = req.session.user._id
+
+        const users = await userModel.findById({ _id }).lean();
+
+            
+        const cart = users.cart  
+        
+        
+        const cartItems = cart.map(item => { 
+            return item.id
+        })
+        
+
+        const { address } = await userModel.findOne({ _id: _id }, { address : 1 })
+        let found = address.find(e => e.address_id = req.body.address)
+        
+        const product = await productModel.find({ _id: { $in: cartItems } }).lean();
+            
+        let orders = []
+        let i = 0
+        
+        for (let item of product) {      
+            orders.push({
+                address: found,
+                products: item,
+                userId: req.session.user._id,
+                quantity: cart[i].quantity,
+                totalPrice: cart[i].quantity * item.price,
+                payment: req.body.payment
+            })
+            i++;
+        }
+        
+        const order = await orderModel.create(orders) 
+        await userModel.findByIdAndUpdate({ _id }, {
+            $set: { cart: [] }
+        }) 
+        console.log(order);  
+        res.render('orderSuccess')
+    },
+
+
+
 
 
     // save user add address //
@@ -375,16 +494,15 @@ let userControl = {
                 },
             }
         );
-    
+
         res.redirect('/profile');
     }
     ,
     getUserWishlist: async (req, res) => {
-        const products = await userModel
-            .find({ _id: { $in: wishlist }}).lean();
+        _id = req.session.user._id
+        const users = await userModel.findById(_id).populate('wishlist');
+        const products = users.wishlist;
         res.render("userWishlist", { products });
-
-
     },
 
 
@@ -415,9 +533,8 @@ let userControl = {
             }
         );
         res.redirect("/wishlist");
-    },
-
-
+    },      
+    
 
 
 

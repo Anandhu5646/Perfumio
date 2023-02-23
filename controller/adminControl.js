@@ -5,13 +5,14 @@ const adminModel = require('../models/adminModel')
 const sharp = require('sharp')
 const fs = require('fs')
 const { promisify } = require('util')
+const couponModel = require('../models/couponModel')
 const unlinkAsync = promisify(fs.unlink)
 
 
-var adminControl = {
+let adminControl = {
     getAdminLogin: (req, res) => {
         try {
-            if (req.session.admins) {
+            if (req.session.admin) {
                 res.redirect('/admin/home');
             } else {
                 res.render('adminLogin');
@@ -32,7 +33,7 @@ var adminControl = {
             const adminInfo = await adminModel.findOne({ email });
             if (adminInfo) {
                 if (adminInfo.password == password) {
-                    req.session.admins = true;
+                    req.session.admin = true;
                     res.render('adminHome');
                 } else {
                     res.status(401).send('Invalid password');
@@ -46,22 +47,18 @@ var adminControl = {
         }
     }
     ,
-    getAdminHome: (req, res) => {
-
-        res.render('adminHome')
-
-    },
+   
 
     // admin user page// 
     getAdminUser: async (req, res) => {
         try {
-          let users = await userModel.find({}, { password: 0 }).lean();
-          res.render('adminUser', { users });
+            let users = await userModel.find({}, { password: 0 }).lean();
+            res.render('adminUser', { users });
         } catch (err) {
-          console.error(err);
-          res.status(500).send('Internal Server Error');
+            console.error(err);
+            res.status(500).send('Internal Server Error');
         }
-      },
+    },
     getAdminLogout: (req, res) => {
         req.session.admins = null
         res.redirect('/admin/')
@@ -261,17 +258,16 @@ var adminControl = {
     },
     //product block//
 
-    getAdminPdtBlock: (req, res) => {
-        const _id = req.params.id
-        productModel.findByIdAndUpdate(_id, { $set: { block: true } },
-            function (err, data) {
-                if (err) {
-                    res.redirect('/admin/product')
-                } else {
-                    res.redirect('/admin/product')
-                }
-            })
-    },
+    getAdminPdtBlock:async (req, res) => {
+        try {
+          const _id = req.params.id;
+          await productModel.findByIdAndUpdate(_id, { $set: { block: true } });
+          res.redirect("/admin/product");
+        } catch (error) {
+          console.log(error);
+          res.redirect("/admin/product");
+        }
+      },
     //product unblock//
 
     getAdminPdtUnblock: (req, res) => {
@@ -291,13 +287,11 @@ var adminControl = {
         const products = await productModel.findOne({ _id }).lean()
         const categories = await categoryModel.findOne({ _id }).lean()
         console.log(_id);
-        if (req.session.admin) {
 
-            res.render('editProduct', { products, categories })
-        }
-        else {
-            res.redirect('/admin/product')
-        }
+
+        res.render('editProduct', { products, categories })
+
+
 
 
     },
@@ -308,19 +302,19 @@ var adminControl = {
         const { name, description, category, sub, price, mrp, stock, _id } = req.body;
         console.log(req.body);
         if (req.files?.image && req.files?.subimage) {
-            let products = await productModel.updateOne({ _id }, {
+            await productModel.updateOne({ _id }, {
                 $set: {
                     name, description, category, sub, price, mrp, stock, block, image: req.files.image[0], subimage: req.files.subimage
 
                 },
             }
             ).lean()
-            console.log(req.files)
+            
             return res.redirect('/admin/product')
 
         }
         if (!req.files?.image && req.files?.subimage) {
-            let products = await productModel.updateOne({ _id }, {
+            await productModel.updateOne({ _id }, {
                 $set: {
                     name, description, category, sub, price, mrp, stock, block, subimage: req.files.subimage
 
@@ -329,7 +323,7 @@ var adminControl = {
             ).lean()
             return res.redirect('/admin/product')
         } if (req.files?.image && !req.files?.subimage) {
-            let products = await productModel.updateOne({ _id }, {
+            await productModel.updateOne({ _id }, {
                 $set: {
                     name, description, category, sub, price, mrp, stock, block, image: req.files.image[0]
 
@@ -339,7 +333,7 @@ var adminControl = {
             return res.redirect('/admin/product')
         }
         if (!req.files?.image && !req.files?.subimage) {
-            let products = await productModel.updateOne({ _id }, {
+            await productModel.updateOne({ _id }, {
                 $set: {
                     name, description, category, sub, price, mrp, stock, block
 
@@ -351,10 +345,109 @@ var adminControl = {
 
     },
 
+    getAdminCoupon: async (req, res) => {
+        let coupons = await couponModel.find({}).lean();
+        res.render('adminCoupon', { coupons })
+
+    },
+
+    getAdminAddCoupon: (req, res) => {
+        res.render('addCoupon')
+    },
 
 
 
+    postAdminAddCoupon: async (req, res) => {
 
-}
+        try {
+            const { name, code, minAmount, discount, expiry } = req.body;
+
+            const existingCoupon = await couponModel.findOne({ name: { $regex: new RegExp(`^${name}$`, "i") } });
+
+            if (existingCoupon) {
+
+                existingCoupon.block = true;
+                await existingCoupon.save();
+                res.render('addCoupon', { error: true, message: "Coupon already exists" });
+            } else {
+
+                const coupons = new couponModel({ name, code, minAmount, discount, expiry, block: false });
+                await coupons.save();
+                res.redirect('/admin/coupon');
+            }
+        } catch (err) {
+            console.log(err);
+            res.render('addCoupon', { error: true, message: "Something went wrong" });
+        }
+    },
+    getAdminEditCoupon :async (req, res) => {
+        try {
+          const _id = req.params.id
+          const coupons = await couponModel.findOne({ _id }).lean();
+          res.render("editCoupon", { coupons });
+        } catch (error) {
+          console.log(error);
+          res.redirect("/admin/coupon");
+        }
+      },
+    postAdminEditCoupon: async (req, res) => {
+        let block = false;
+        const { name, code, expiry, minAmount, discount, _id } = req.body;
+        console.log(req.body);
+
+        try {
+            await couponModel.findByIdAndUpdate(
+                _id,
+                {
+                    $set: {
+                        name,
+                        code,
+                        expiry,
+                        minAmount,
+                        discount,
+                        block
+                    }
+                },
+                { new: true }
+            );
+            res.redirect("/admin/coupon");
+        } catch (error) {
+            console.log(error);
+            res.render("editCoupon");
+        }
+    },
+    getAdminCouponBlock: (req, res) => {
+        const _id = req.params.id
+        couponModel.findByIdAndUpdate(_id, { $set: { block: true } },
+            function (err, data) {
+                if (err) {
+                    res.redirect('/admin/coupon')
+                } else {
+                    res.redirect('/admin/coupon')
+                }
+            })
+    },
+    //product unblock//
+
+    getAdminCouponUnblock: (req, res) => {
+        const _id = req.params.id
+        couponModel.findByIdAndUpdate(_id, { $set: { block: false } },
+            function (err, data) {
+                if (err) {
+                    res.redirect('err')
+                } else {
+                    res.redirect('/admin/coupon')
+                }
+            })
+    },
+    getAdminOrders:(req,res)=>{
+        res.render('orders')
+    }
+
+   
+
+
+
+}   
 
 module.exports = adminControl

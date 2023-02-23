@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/productDetails.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
+
+    <div class="bg-dark navBar" style="height: 120px;">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row align-items-center">
+                <!-- LOGO -->
+                <div class="col-md-2">
+                    <div class="header-logo ">
+                        <a href="/" class="logo" style="text-decoration: none;">
+                            <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
+
+                            </h1>
+
+                        </a>
+
+                    </div>
+
+                </div>
+                <div class="col-md-6 text-center " style="margin-left: 8rem;">
+                    {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="container my-5" style="padding-top: 150px;">
+
+        <div class="row">
+            <div class="col-md-5">
+
+                {{!-- <ul class="preview-thumbnail nav nav-tabs">
+                    <li class="active"><a data-target="#pic-1" data-toggle="tab"><img onclick="changeImage(this.id)"
+                                id="pic-2" src="http://placekitten.com/200/126" /></a></li>
+                    <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                    <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                    <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                               
+                </ul> --}}
+
+
+
+
+                <div class="wrap-pic-w pos-relative" id="image-zoom" style="z-index: 10;">
+                    <img src="/pic/{{products.image.filename}}" alt="IMG-PRODUCT">
+                </div>
+
+
+            </div>
+            <div class="col-md-6  ms-5">
+                <div class="main-description px-2">
+                    <div class="category text-bold">
+                        Category: {{products.category}}
+                    </div>
+                    <div class="product-title text-bold my-3">
+                        {{products.name}}
+                    </div>
+
+
+                    <div class="price-area my-4">
+                        <p class="old-price mb-1"><del>{{products.mrp}}</del> <span
+                                class="old-price-discount text-danger">(20% off)</span></p>
+                        <p class="new-price text-bold mb-1">{{products.price}}</p>
+                        <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
+
+                    </div>
+
+
+
+
+
+
+                </div>
+
+                <div class="product-details my-4">
+                    <p class="details-title text-color mb-1">Product Details</p>
+                    <p class="description">{{products.description}}</p>
+
+                </div>
+
+
+                <div class="block">
+                    <a href="/checkout"><button class="shadow btn custom-btn"
+                            style="width: 305px;background-color: black;">Cancel</button></a>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

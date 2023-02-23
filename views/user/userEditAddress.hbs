@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-    <form action="/updateAddress/" method="post" id="floatingTextarea" class=" product-add container d-flex flex-column">
+    <form action="/updateAddress" method="post" id="floatingTextarea" class=" product-add container d-flex flex-column">
         <H3 class="text-center ">Edit Address</H3>
         <input type="text" value="{{data._id}}" class="form-control" name="_id" style="height:0px;visibility:hidden;" />
         <label for="" >Name</label>
@@ -63,9 +63,12 @@
                 <input type="text" name="state" class="namefield" placeholder="state" value="{{data.state}}" required>
             </div>
         <label for="">House Address</label>
-        {{!-- <input type="text" name="address" class="namefield"> --}}
-        <textarea class="namefield" placeholder="Address" style="height: 90px;" name="address" value="{{data.address}}" id="floatingTextarea"
-                  required>{{addressDet.address}}</textarea>
+       
+         <div class="mb-4">
+                  <textarea class="namefield" placeholder="Address" name="address" style="width: 100%; height: 80px;"
+                    value="{{data.address}}" form="floatingTextarea">{{data.address}}</textarea>
+                </div>
+        
         <button type="submit" class="btn btn-dark">Save</button>
     </form>
 </body>

@@ -11,7 +11,7 @@
     <div class="row logo">
       <div class="col-md-3 adminlogo"> <a href="/wishlist"><i class="ri-heart-3-line"></i></a></div>
       <div class="col-md-3 adminlogo"> <a href="/cart"><i class="ri-shopping-cart-2-line"></a></i></div>
-      <div class="col-md-3 adminlogo"> <a href="/userProfile"><i class="ri-user-line"></i></a></div>
+      <div class="col-md-3 adminlogo"> <a href="/profile"><i class="ri-user-line"></i></a></div>
       <div class="col-md-3 logout"><a href="/logout"><i class="ri-logout-box-r-line"></i></a></div>
     </div>
   </div>
@@ -23,7 +23,7 @@
 {{#each products}}
 <div class="categoryProCards row container-fluid">
     <div class="col-md-3 col-sm-12">
-        <img src="/images/{{this.product.filename}}" class="img-fluid" alt="">
+        <img src="/images/{{this.image.filename}}" class="img-fluid" alt="">
     </div>
     <div class="col-md-7 col-sm-12">
         <h3>{{this.name}}</h3>

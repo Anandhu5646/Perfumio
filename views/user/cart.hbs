@@ -37,8 +37,10 @@
 
   <div class="p-5 row container-fluid">
     <div class="col-md-6 col-sm-12  mt-1">
+       
       {{#each products}}
       <div class=" mt-5 container-fluid row ms-2">
+       
         <div class="col-md-4 cartCard">
           <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
         </div>
@@ -85,19 +87,19 @@
             <td>{{this.price}}</td>
           </tr>
           {{/each}}
+          
 
-          <tr class="total">
-            <td>
-
-            </td>
-            <td></td>
-            {{!-- <td>{{price}}</td> --}}
-          </tr>
+          
         </tbody>
+        <tr>
+          <td>Total MRP</td>
+          <td></td>
+          <td>{{totalMRP}}</td>
+        </tr>
         <tr>
           <td>Discount</td>
           <td></td>
-          <td>0.00</td>
+          <td>{{discount}}</td>
         </tr>
         <td>Delivery Charge</td>
         <td></td>
