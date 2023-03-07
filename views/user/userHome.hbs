@@ -16,81 +16,85 @@
 
     <header>
         <nav>
-            <div class="logo" style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-                <h1>Aura Scents</h1>
+            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+                <h1>Perfumio</h1>
             </div>
-            <div class="search__bar__header">
+            <div class="search__bar__header ">
                 <input type="text" placeholder="Search">
                 <input type="button" value="search">
             </div>
-            <div class="cart__header__desktop" style="color: white;">
+            <div class="cart__header__desktop " style="color: white;">
                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
-                <a href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
                         style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
                 {{!-- <span>50</span> --}}
 
         </nav>
-    </header>
-    <div class="main__navigations pt-2">
-        <div class="main__navigations__div">
-            <ul class="main__navigations__div__ul">
-                <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a href="">Home</a>
-                </li>
-                <li class="main__navigations__div__li on__mobile_d_none">
-                    <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
-                    <div class="div__categories__items">
-                        <p><a href="">Men</a></p>
-                        <p><a href="">Women</a></p>
+
+        <div class="main__navigations pt-2">
+            <div class="main__navigations__div">
+                <ul class="main__navigations__div__ul">
+                    <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a
+                            href="">Home</a>
+                    </li>
+                    <li class="main__navigations__div__li on__mobile_d_none">
+                        <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                        <div class="div__categories__items">
+                            <p><a href="">Men</a></p>
+                            <p><a href="">Women</a></p>
+
+                        </div>
+                    </li>
+                    {{!-- <li class="main__navigations__div__li save__from__left"><a href=""
+                            class="anchor__remains__same" style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
+                            parimal mahindrakar.</a></li> --}}
+                    <li class="main__navigations__div__li">
+                        {{#unless Login }}
+                        <a href="/login" class="anchor__remains__same"
+                            style="padding-bottom: 0;font-weight: bold;">Login <i class="fas fa-sign-out-alt"></i> </a>
+
+                        {{else}}
+
+                        <div class="dropdown-center">
+                            <button class="btn btn-black dropdown-toggle"
+                                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Login}}
+                            </button>
+                            <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        {{/unless}}
+                    </li>
+                    <div class="bars save__from__right">
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="line3"></div>
+                    </div>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="mobile__nav__fade__and__show">
+            <div class="mobile__nav__fade__and__show__text">
+                <li><a href="">Home</a></li>
+                <li>
+                    <a href="">Categories</a>
+                    <div>
+                        <p><a href="">Category 1</a></p>
 
                     </div>
                 </li>
-                {{!-- <li class="main__navigations__div__li save__from__left"><a href="" class="anchor__remains__same"
-                        style="font-weight: bold;"><i class="fas fa-user"></i> Hello, parimal mahindrakar.</a></li> --}}
-                <li class="main__navigations__div__li">
-                    {{#unless Login }}
-                    <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
-                            class="fas fa-sign-out-alt"></i> </a>
-
-                    {{else}}
-                    
-                <div class="dropdown-center">
-                    <button class="btn btn-black dropdown-toggle" style="color: aliceblue;margin-top: -5px;font-weight: bold; "  type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        {{Login}}
-                    </button>
-                    <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
-                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                        
-                    </ul>
-                </div>
-                    
-
-                {{/unless}}
-                </li>
-                <div class="bars save__from__right">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </ul>
-
+            </div>
         </div>
-    </div>
-
-    <div class="mobile__nav__fade__and__show">
-        <div class="mobile__nav__fade__and__show__text">
-            <li><a href="">Home</a></li>
-            <li>
-                <a href="">Categories</a>
-                <div>
-                    <p><a href="">Category 1</a></p>
-                   
-                </div>
-            </li>
-        </div>
-    </div>
-    <div class="mobile__nav__fade__and__show__circle"></div>
+        <div class="mobile__nav__fade__and__show__circle">sdsds</div>
+    </header>
     <div class="container text-center  " style="padding-top: 150px;">
         <div class="row align-items-start">
             <div class="col-3 left-img">
@@ -144,7 +148,7 @@
 
                 <!--Grid row-->
                 <div class="row">
-                   
+
                     {{#each products}}
                     {{#unless this.block}}
                     <div class="col-lg-3 col-md-6 mb-4">
@@ -171,9 +175,14 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="wcf-left"><span class="price">{{this.price}}&#8377;</span></div>
-                                        <div style="margin-left: 5px;" class="wcf-right"><a href="/addtocart/{{this._id}}" class="buy-btn"><img style="width:14px ;height: 18px;margin-top: 8px;" src=" /images/icons8-add-shopping-cart-48.png" alt=""></a></div>
-                                        <div  class="wcf-right "><a href="/addwishlist" class="buy-btn "><img style="width:14px ;height: 18px;margin-top: 8px;" src="/images/icons8-heart-26.png" alt=""></a></div>
-                                    
+                                        <div style="margin-left: 5px;" class="wcf-right"><a
+                                                href="/addtocart/{{this._id}}" class="buy-btn"><img
+                                                    style="width:14px ;height: 18px;margin-top: 8px;"
+                                                    src=" /images/icons8-add-shopping-cart-48.png" alt=""></a></div>
+                                        <div class="wcf-right "><a href="/addToWishlist/{{this._id}}"
+                                                class="buy-btn "><img style="width:14px ;height: 18px;margin-top: 8px;"
+                                                    src="/images/icons8-heart-26.png" alt=""></a></div>
+
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +191,7 @@
                     {{/unless}}
                     {{/each}}
                     <!--Grid column-->
-                    
+
                 </div>
                 <!--Grid row-->
 

@@ -1,65 +1,137 @@
- <div class="bg-dark navBar" style="height: 120px;">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row align-items-center">
-                <!-- LOGO -->
-                <div class="col-md-2">
-                    <div class="header-logo ">
-                        <a href="/" class="logo" style="text-decoration: none;">
-                            <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
+<!DOCTYPE html>
+<html lang="en">
 
-                            </h1>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <link rel="stylesheet" href="/user/userHome.css" />
+    <title>Document</title>
+</head>
 
-                        </a>
+<body>
+ <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
+    <header>
+        <nav>
+            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+               <a href="/"><h1>Perfumio</h1></a> 
+            </div>
+            <div class="search__bar__header ">
+                <input type="text" placeholder="Search">
+                <input type="button" value="search">
+            </div>
+            <div class="cart__header__desktop " style="color: white;">
+                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+                {{!-- <span>50</span> --}}
+
+        </nav>
+
+        <div class="main__navigations pt-2">
+            <div class="main__navigations__div">
+                <ul class="main__navigations__div__ul">
+                    <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a
+                            href="/">Home</a>
+                    </li>
+                    <li class="main__navigations__div__li on__mobile_d_none">
+                        <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                        <div class="div__categories__items">
+                            <p><a href="">Men</a></p>
+                            <p><a href="">Women</a></p>
+
+                        </div>
+                    </li>
+                    {{!-- <li class="main__navigations__div__li save__from__left"><a href=""
+                            class="anchor__remains__same" style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
+                            parimal mahindrakar.</a></li> --}}
+                    <li class="main__navigations__div__li">
+                        
+                        {{#if Login}}
+                        <div class="dropdown-center">
+                            <button class="btn btn-black dropdown-toggle"
+                                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Login}}
+                            </button>
+                            <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        {{/if}}
+                    </li>
+                    <div class="bars save__from__right">
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="line3"></div>
                     </div>
+                </ul>
 
-                </div>
-                <div class="col-md-6 text-center " style="margin-left: 8rem;">
-                    {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
-                </div>
             </div>
         </div>
+
+        <div class="mobile__nav__fade__and__show">
+            <div class="mobile__nav__fade__and__show__text">
+                <li><a href="">Home</a></li>
+                <li>
+                    <a href="">Categories</a>
+                    <div>
+                        <p><a href="">Category 1</a></p>
+
+                    </div>
+                </li>
+            </div>
+        </div>
+        <div class="mobile__nav__fade__and__show__circle"></div>
+    </header>
+
+
+    <div class="container mt-5" style="padding-top: 150px;">
+        <div style="text-align: center;">
+            <h3> Order List</h3>
+        </div>
+        <table class="table table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Product Name</th>
+
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Amount</th>
+                    <th scope="col">Status</th>
+
+                    <th scope="col">Details</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orders}}
+                <tr>
+                    <th scope="row">{{inc @index}}</th>
+                    <td>{{this._id}}</td>
+                    <td><img src="/pic/{{this.products.image.filename}}" style="width: 40px;height: 50px;"></td>
+                    <td>{{this.products.name}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td>{{this.totalPrice}}</td>
+                    <td>{{this.status}}</td>
+
+                    <td><a href="/orderView/{{this._id}}" class="btn btn-dark">View</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
     </div>
 
 
-<div class="container mt-5">
-    <div style="text-align: center;"><h3> Order List</h3></div>
-    <table class="table table-hover" id="myTable">
-        <thead>
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">Order ID</th>
-                <th scope="col">Image</th>
-                <th scope="col">Product Name</th>
-                
-                <th scope="col">Quantity</th>
-                <th scope="col">Total Amount</th>
-                <th scope="col">Status</th>
-                
-                <th scope="col">Details</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            {{#each orders}}
-            <tr>
-                <th scope="row">{{inc @index}}</th>
-                <td>{{this._id}}</td>
-                 <td><img src="/pic/{{this.products.image.filename}}" style="width: 40px;height: 50px;"></td>
-                <td>{{this.products.name}}</td>
-                <td>{{this.quantity}}</td>
-                <td>{{this.totalPrice}}</td>
-                <td>{{this.status}}</td>
-                
-                <td><a href="/productView/{{this._id}}" class="btn btn-dark">View</a>
-                </td>
-            </tr>   
-            {{/each}}
-        </tbody>
-    </table>
-   
-</div>
-              
-                
+</body>
+
+</html>

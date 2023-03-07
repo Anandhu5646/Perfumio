@@ -17,20 +17,22 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                     
-                    <span class="h1 fw-bold mb-0">Aura Scents</span>
+                    <span class="h1 fw-bold mb-0">Perfumio</span>
                   </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Login</h5>
+                  {{#if message}}
                   <p class="text-danger" style="font-size: 15px;">
-                     {{InvalidUser}}
+                     {{message}}
                   </p>
+                  {{/if}}
                   <div class="form-outline mb-4">
-                    <input type="email" id="form2Example17" name="email" class="form-control form-control-lg"  placeholder="Email Address" required/>
+                    <input type="email" id="form2Example17" value="anandhus05646@gmail.com" name="email" class="form-control form-control-lg"  placeholder="Email Address" required/>
                     {{!-- <label class="form-label" for="form2Example17">Email address</label> --}}
                   </div>
-
+                  
                   <div class="form-outline mb-4">
-                    <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" placeholder="Password" required/>
+                    <input type="password" id="form2Example27" value="anandhus" name="password" class="form-control form-control-lg" placeholder="Password" required/>
                     {{!-- <label class="form-label" for="form2Example27">Password</label> --}}
                   </div>
 
@@ -51,4 +53,80 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843
       </div>
     </div>
   </div>
-</section>
+{{!-- </section> --}}
+{{!-- <script type="text/javascript">
+  function validation(changed) {
+   
+  
+  let email = document.getElementById('email');
+ 
+  let password = document.getElementById('password');
+
+
+
+  let usercheck = /^[A-Za-z\.\-]{3,30}$/;
+  let emailcheck = /^[A-Za-z0-9_\-\.]+@[A-Za-z]{3,}\.[A-Za-z]{2,6}$/;
+  let mobilecheck = /^[6789][0-9]{9}$/;
+  let passwordcheck = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+  if(changed=='username'){
+
+  if (usercheck.test(username.value)) {
+   document.getElementById('usernameerror').innerHTML = " ";
+
+  } else {
+    document.getElementById('usernameerror').innerHTML = "--Username is invalid--";
+    return false;
+  }
+  }
+
+if(changed=='email'){
+
+  if (emailcheck.test(email.value)) {
+    document.getElementById('emailerror').innerHTML = " ";
+
+  } else {
+    document.getElementById('emailerror').innerHTML = "--Email is invalid--";
+    return false;
+  }
+}
+
+if(changed=='mobile'){
+
+  if (mobilecheck.test(mobile.value)) {
+    document.getElementById('mobileerror').innerHTML = " ";
+
+  } else {
+    document.getElementById('mobileerror').innerHTML = "--Mobile Number is invalid--";
+    return false;
+  }
+}
+
+if(changed=='password'){
+
+  if (passwordcheck.test(password.value)) {
+    document.getElementById('passworderror').innerHTML = " ";
+
+  } else {
+    document.getElementById('passworderror').innerHTML = "--Password should be 8-16 characters long, contain at least one number and one special character--";
+    return false;
+  }
+}
+if(changed=='confirmpassword'){
+
+  if (password.value === confirmPassword.value) {
+    document.getElementById('confirmpassworderror').innerHTML = " ";
+
+  } else {
+    document.getElementById('confirmpassworderror').innerHTML = "--Passwords do not match--";
+    return false;
+  }
+}
+
+  return true;
+}
+
+
+    
+    
+  
+</script> --}}

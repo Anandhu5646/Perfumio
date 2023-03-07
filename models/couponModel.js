@@ -26,8 +26,11 @@ var couponSchema = new mongoose.Schema({
     block:{
         type:Boolean,
         required:true
+    },
+    stock:{
+        type:Number,
+        required:true
     }
-
 })
 
 

@@ -1,0 +1,139 @@
+postsignup: async (req, res) => {
+    // Validate name field
+    if (!req.body.name || req.body.name.length < 3) {
+      const message = "Name must be at least 3 characters long";
+      return res.render("signupform", { message });
+    }
+  
+    // Validate email field
+    if (!req.body.email || !validator.isEmail(req.body.email)) {
+      const message = "Please provide a valid email";
+      return res.render("signupform", { message });
+    }
+  
+    // Validate password field
+    if (!req.body.password || req.body.password.length < 6) {
+      const message = "Password must be at least 6 characters long";
+      return res.render("signupform", { message });
+    }
+  
+    // Validate mobile field
+    if (!req.body.mobile || !validator.isMobilePhone(req.body.mobile, "en-IN")) {
+      const message = "Please provide a valid mobile number";
+      return res.render("signupform", { message });
+    }
+  
+    // If all fields are valid, continue with signup process
+    req.session.UserDetails = req.body;
+    const userExist = await userModel.findOne({ email: req.body.email });
+  
+    if (userExist) {
+      const message = "Already registered email. Please try with a new email";
+      return res.render("signupform", { message });
+    } else {
+      // generate and send OTP to the user
+      const otp = Math.floor(Math.random() * 1000000);
+      req.session.signupOTP = otp;
+      req.session.signupEmail = req.body.email;
+      sentOTP(req.body.email, otp);
+      console.log(otp);
+      console.log("OTP sent");
+      return res.render("forotppage");
+    }
+  },
+  
+  
+
+  postlogin: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      let user = await userModel.findOne({ email });
+      if (user) {
+        if (user.block) {
+          return res.render("login", { status: true, message: "Your account has been blocked." });
+        } else if (password == user.password) {
+          req.session.userLoggedIn = true;
+          req.session.user = {
+            name: user.name,
+            id: user._id,
+          };
+          res.redirect("/");
+        } else {
+          res.render("login", { error: true ,status:true});
+        }
+      } else {
+        res.render("login", { error: true ,status:true});
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send("Internal Server Error");
+    }
+  },
+  
+  // post otp page
+  postotpPage: async (req, res) => {
+   
+ 
+    
+    if (req.session.signupOTP == req.body.otp) {
+      let block = false;
+      let UserDetails=req.session.UserDetails;
+      const details = await new userModel({ ...UserDetails, block });
+      details.save((err, data) => {
+        if (err) {
+          console.log(err);
+          res.render("forotppage");
+        } else {
+       
+          res.redirect("/user-login");
+          console.log("created");
+        }
+      });
+    } else {
+      
+      res.render("forotppage",{error:true,message:"something went Wrong "});
+      res.render("forotppage")
+    }
+  },
+    resendotp:(req,res)=>{
+      
+    console.log("resended Otp");
+    let otp = Math.floor(Math.random() * 1000000);
+      req.session.signupOTP = otp;
+      console.log(otp);
+    sentOTP( req.session.signupEmail, otp);
+      res.render('forotppage')
+  },
+
+
+
+
+
+(?=.*[0-9])(?=.*[!@#$^&*])
+
+
+
+<div class="bg-dark navBar" style="height: 120px;">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row align-items-center">
+      <!-- LOGO -->
+      <div class="col-md-2">
+        <div class="header-logo ">
+          <a href="/" class="logo" style="text-decoration: none;">
+            <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
+
+            </h1>
+           
+          </a>
+           
+        </div>
+        
+      </div>
+      <div class="col-md-6 text-center " style="margin-left: 8rem;">
+        {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
+      </div>
+    </div>
+  </div>
+</div>

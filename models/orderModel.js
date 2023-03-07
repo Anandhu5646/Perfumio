@@ -12,9 +12,9 @@ const orderSchema= new mongoose.Schema({
         required:true    
     },
    
-    orderStatus:{
+    orderStatus:{    
         type:String,
-        default:'available'
+        default:"Pending"
     },
     paymentStatus:{
         type:Boolean,
@@ -31,17 +31,29 @@ const orderSchema= new mongoose.Schema({
     },
     couponStatus:{
         type:Boolean,
-        required:true,
+        required:true,    
         default:false
     },
     totalPrice:{
         type:Number,
         required:true
     },
-    quantity:{
-        type:Number,
+    quantity:{    
+        type:Number,   
         required:true
     },
+    orderDate:{
+        type:String,
+        required:true
+    },
+    cancel: {
+        type:Boolean,
+        default:false
+    },
+    discountedPrice:{
+        type:Number,
+        required:true
+    }
     
     
 })

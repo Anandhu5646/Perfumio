@@ -49,7 +49,7 @@
 
 
           </div>
-          <a href="/resendotp" id="unhide"><p>Resend OTP</p></a>
+          <a href="/resendOtp" id="unhide"><p>Resend OTP</p></a>
           <div class="mt-4"> <button class="btn btn-danger px-4 validate" type="submit">Submit</button> </div>
 
         </div>
@@ -61,8 +61,8 @@
 
 
 
-  var countDownTime = 12000;
-    var seconds = 120;
+  var countDownTime = 10000;
+    var seconds = 60;
   var x = setInterval(function () {
     seconds--;
     document.getElementById("countdown").innerHTML = "OTP wil expire in " + seconds + "s ";

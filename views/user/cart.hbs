@@ -5,39 +5,105 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link rel="stylesheet" href="/user/cart.css">
+  <link rel="stylesheet" href="/user/userHome.css" />
+
   <title>Document</title>
 </head>
 
 <body>
-  <div class="bg-dark navBar" style="height: 120px;">
-    <!-- container -->
-    <div class="container">
-      <!-- row -->
-      <div class="row align-items-center">
-        <!-- LOGO -->
-        <div class="col-md-2">
-          <div class="header-logo ">
-            <a href="/" class="logo" style="text-decoration: none;">
-              <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
+  <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
-              </h1>
-             
-            </a>
-             
-          </div>
-          
-        </div>
-        <div class="col-md-6 text-center " style="margin-left: 8rem;">
-          {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
-        </div>
-      </div>
-    </div>
-  </div>
+    <header>
+        <nav>
+            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+                <a href="/"><h1>Perfumio</h1></a>
+            </div>
+            <div class="search__bar__header ">
+                <input type="text" placeholder="Search">
+                <input type="button" value="search">
+            </div>
+            <div class="cart__header__desktop " style="color: white;">
+                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+                {{!-- <span>50</span> --}}
 
-  <div class="p-5 row container-fluid">
+        </nav>
+
+        <div class="main__navigations pt-2">
+            <div class="main__navigations__div">
+                <ul class="main__navigations__div__ul">
+                    <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a
+                            href="">Home</a>
+                    </li>
+                    <li class="main__navigations__div__li on__mobile_d_none">
+                        <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                        <div class="div__categories__items">
+                            <p><a href="">Men</a></p>
+                            <p><a href="">Women</a></p>
+
+                        </div>
+                    </li>
+                    {{!-- <li class="main__navigations__div__li save__from__left"><a href=""
+                            class="anchor__remains__same" style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
+                            parimal mahindrakar.</a></li> --}}
+                    <li class="main__navigations__div__li">
+                        {{#unless Login }}
+                        <a href="/login" class="anchor__remains__same"
+                            style="padding-bottom: 0;font-weight: bold;">Login <i class="fas fa-sign-out-alt"></i> </a>
+
+                        {{else}}
+
+                        <div class="dropdown-center">
+                            <button class="btn btn-black dropdown-toggle"
+                                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Login}}
+                            </button>
+                            <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        {{/unless}}
+                    </li>
+                    <div class="bars save__from__right">
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="line3"></div>
+                    </div>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="mobile__nav__fade__and__show">
+            <div class="mobile__nav__fade__and__show__text">
+                <li><a href="">Home</a></li>
+                <li>
+                    <a href="">Categories</a>
+                    <div>
+                        <p><a href="">Category 1</a></p>
+
+                    </div>
+                </li>
+            </div>
+        </div>
+        <div class="mobile__nav__fade__and__show__circle">sdsds</div>
+    </header>
+
+  <div class="p-5 row container-fluid " style="margin-top: 100px;">
     <div class="col-md-6 col-sm-12  mt-1">
-       
+       {{#if message}}
+               <div style="margin-left: 290px;" ><img src="/images/cart1.png" alt="">
+               <a href="/"><button class="btn btn-dark" style="margin-left: 19rem;width: 50%; margin-top: -10rem;">Go Home</button></a></div>
+               {{!-- <div style="align-items: center;"></div> --}}
+                  {{/if}}
       {{#each products}}
       <div class=" mt-5 container-fluid row ms-2">
        
@@ -48,16 +114,10 @@
           <h3>{{this.name}}</h3>
           <h5 style="color: rgba(0, 0, 0, 0.526);">{{this.category}}</h5>
           <div class="qauntitySection">
-            Quantity: <a href="/addquantity/{{this._id}}">
-              <div class="addquantitybtn">+</div>
-
-            </a><b>{{this.quantity}}</b>
-
-            <a href="/minusquantity/{{this._id}}">
-              <div class="addquantitybtn">-</div>
-            </a>
+            Quantity:<button style="width: 2rem;color: white; background-color: rgb(5, 5, 5);color: #FFC107;" onclick="decrement('{{this._id}}')">-</button> <b id="quantityBox{{this._id}}" >{{this.quantity}}</b>
+            <button style="width: 2rem;color: #FFC107; background-color: rgb(0, 0, 0);margin-right: 5px;" onclick="increment('{{this._id}}')">+</button>
           </div>
-          <h4>{{this.price}}</h4>
+          <h4 id="singlePrice{{this._id}}">{{this.price}}</h4>
           <a href="/removeCart/{{this._id}}/{{this.quantity}}" class="btn btn-warning ">Remove From cart </a>
         </div>
       </div>
@@ -66,6 +126,7 @@
 
       </div>
     </div>
+    {{#unless message}}
     <div class="col-md-6 col-sm-4 mt-1 container-fluid">
       <h3 class="text-center">Cart Total</h3>
       <table class="table tableCart mt-5">
@@ -76,6 +137,7 @@
             <th scope="col">Item</th>
             <th scope="col">Quantity</th>
             <th scope="col">Price</th>
+            <th style="visibility: hidden;" scope="col">MRP</th>
           </tr>
         </thead>
         <tbody>
@@ -83,8 +145,9 @@
           <tr>
 
             <td>{{this.name}}</td>
-            <td>{{this.quantity}}</td>
-            <td>{{this.price}}</td>
+            <td id="quantity{{this._id}}">{{this.quantity}}</td>
+            <td id="price{{this._id}}" >{{this.price}}</td>
+            <td style="visibility: hidden;" id="mrp{{this.id}}">{{this.mrp}}</td>
           </tr>
           {{/each}}
           
@@ -94,7 +157,7 @@
         <tr>
           <td>Total MRP</td>
           <td></td>
-          <td>{{totalMRP}}</td>
+          <td id="totalMRP">{{totalMRP}}</td>
         </tr>
         <tr>
           <td>Discount</td>
@@ -110,7 +173,7 @@
           <h4>Total Amount</h4>
         </td>
         <td></td>
-        <td>
+        <td id="totalAmount">
           <h4> {{TotalAmount}}</h4>
         </td>
         </tr>
@@ -118,13 +181,56 @@
       <div class="orderBtns d-flex  row justify-content-between ms-5">
         <div class="row"></div>
         <a href="/checkOut" class="btn btn-dark col-sm-5">Check Out</a>
-        <button class="btn btn-outline-danger col-sm-5 cancelbtn">Cancel</button>
+        {{!-- <button class="btn btn-outline-danger col-sm-5 cancelbtn">Cancel</button> --}}
       </div>
 
     </div>
-
+{{/unless}}
 
   </div>
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <script>
+function increment(id){
+axios.get('/addquantity/'+id).then((result)=>{
+  if(result.data.success){
+    let quantityBox=document.getElementById('quantityBox'+id)
+    quantityBox.textContent=Number(quantityBox.textContent)+1
+    document.getElementById('quantity'+id).textContent=quantityBox.textContent
+    let price=document.getElementById('singlePrice'+id)
+    console.log(price.textContent)
+    document.getElementById('price'+id).textContent=Number(quantityBox.textContent)*Number(price.textContent)
+    document.getElementById('totalAmount').textContent=document.getElementById('price'+id).textContent
+    let totalMRP= document.getElementById('mrp'+id)
+    document.getElementById('totalMRP').textContent=Number(quantityBox.textContent)*Number(mrp.textContent)
+  }
+
+})
+}
+
+function decrement(id){
+  axios.get('/minusquantity/'+id).then((result)=>{
+   if(result.data.success){
+    let quantityBox= document.getElementById('quantityBox'+id)
+    quantityBox.textContent= Number(quantityBox.textContent)-1
+    document.getElementById('quantity'+id).textContent= quantityBox.textContent
+    let price = document.getElementById('singlePrice'+id)
+    document.getElementById('price'+id).textContent=Number(quantityBox.textContent)*Number(price.textContent)
+    document.getElementById('totalAmount').textContent=document.getElementById('price'+id).textContent
+    let totalMRP= document.getElementById('mrp'+id)
+    document.getElementById('totalMRP').textContent=Number(quantityBox.textContent)*Number(mrp.textContent)
+   }
+  })
+}
+  </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+   <script>new WOW().init();</script>
+    <script>$(".bars").click(() => {
+            $(".mobile__nav__fade__and__show__circle").toggleClass("open");
+            $(".mobile__nav__fade__and__show").toggleClass("open");
+            $(".bars").toggleClass("toggle")
+
+        })</script>
 </body>
 
 </html>

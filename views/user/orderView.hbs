@@ -40,7 +40,7 @@
 
 
 
-    <div class="container my-5" style="padding-top: 150px;">
+    <div class="container my-5">
 
         <div class="row">
             <div class="col-md-5">
@@ -57,8 +57,8 @@
 
 
 
-                <div class="wrap-pic-w pos-relative" id="image-zoom" style="z-index: 10;">
-                    <img src="/pic/{{products.image.filename}}" alt="IMG-PRODUCT">
+                <div class="wrap-pic-w pos-relative" style="z-index: 10;">
+                    <img style="height: 450px;" src="/pic/{{orders.products.image.filename}}" alt="IMG-PRODUCT">
                 </div>
 
 
@@ -66,18 +66,17 @@
             <div class="col-md-6  ms-5">
                 <div class="main-description px-2">
                     <div class="category text-bold">
-                        Category: {{products.category}}
+                        Category: {{orders.products.category}}
                     </div>
                     <div class="product-title text-bold my-3">
-                        {{products.name}}
+                        {{orders.products.name}}
                     </div>
 
 
                     <div class="price-area my-4">
-                        <p class="old-price mb-1"><del>{{products.mrp}}</del> <span
-                                class="old-price-discount text-danger">(20% off)</span></p>
-                        <p class="new-price text-bold mb-1">{{products.price}}</p>
-                        <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
+                        <p class="old-price mb-1"><del>{{orders.products.mrp}}</del> </p>
+                        <p class="new-price text-bold mb-1">{{orders.products.price}}</p>
+
 
                     </div>
 
@@ -90,14 +89,15 @@
 
                 <div class="product-details my-4">
                     <p class="details-title text-color mb-1">Product Details</p>
-                    <p class="description">{{products.description}}</p>
-
+                    <p class="description">{{orders.products.description}}</p>
                 </div>
 
 
                 <div class="block">
-                    <a href="/checkout"><button class="shadow btn custom-btn"
-                            style="width: 305px;background-color: black;">Cancel</button></a>
+                    <a href="#"><button class="shadow btn custom-btn"
+                            style="width: 150px;background-color: black;">Cancel</button></a>
+                    <a href="/"><button class="shadow btn custom-btn"
+                            style="width: 150px;background-color: black;margin-left: 20px;">Home</button></a>
                 </div>
 
 

@@ -6,6 +6,7 @@ const sharp = require('sharp')
 const fs = require('fs')
 const { promisify } = require('util')
 const couponModel = require('../models/couponModel')
+const orderModel = require('../models/orderModel')
 const unlinkAsync = promisify(fs.unlink)
 
 
@@ -47,7 +48,7 @@ let adminControl = {
         }
     }
     ,
-   
+
 
     // admin user page// 
     getAdminUser: async (req, res) => {
@@ -60,7 +61,7 @@ let adminControl = {
         }
     },
     getAdminLogout: (req, res) => {
-        req.session.admins = null
+        req.session.admin = null
         res.redirect('/admin/')
     },
     getAdminUserBlock: (req, res) => {
@@ -133,20 +134,15 @@ let adminControl = {
         const _id = req.params.id;
         const categories = await categoryModel.findOne({ _id }).lean()
 
-        if (req.session.admin) {
-            res.render('editCategory', { categories })
-        }
-        else {
-            res.redirect('/admin/category')
-        }
+
+        res.render('editCategory', { categories })
+
+
 
 
     },
     postAdminEditCat: async (req, res) => {
         let block = false
-
-
-
         categoryModel.findByIdAndUpdate({ _id: req.body._id }, { $set: { category: req.body.category } },
             (err, docs) => {
                 if (err) {
@@ -204,70 +200,48 @@ let adminControl = {
     },
     // save product//
     postAdminSaveProduct: async (req, res) => {
+        try {
+            let block = false
+            let { name, description, category, sub, price, mrp, stock } = req.body
 
-        let block = false
-        let { name, description, category, sub, price, mrp, stock } = req.body
+            await sharp(req.files.image[0].path)
+                .png()
+                .resize(300, 300, {
+                    kernel: sharp.kernel.nearest,
+                    fit: 'contain',
+                    position: 'center',
+                    background: { r: 255, g: 255, b: 255, alpha: 0 }
+                })
+                .toFile(req.files.image[0].path + ".png")
+            req.files.image[0].filename = req.files.image[0].filename + ".png"
+            req.files.image[0].path = req.files.image[0].path + ".png"
 
-        // let mainImage = req.files.image[0], sideImages = req.files.subimage
-        // await sharp(mainImage.path)
-        //     .png()
-        //     .resize(540, 540, {
-        //         kernel: sharp.kernel.nearest,
-        //         fit: 'contain',
-        //         position: 'center',
-        //         background: { r: 255, g: 255, b: 255, alpha: 0 }
-        //     })
-        //     .toFile(mainImage.path + ".png")
-        //     .then(async () => {
-        //         await unlinkAsync(mainImage.path)
-        //         mainImage.path = mainImage.path + ".png"
-        //         mainImage.filename = mainImage.filename + ".png"
-        //     });
-        // for (let i in sideImages) {
-        //     await sharp(sideImages[i].path)
-        //         .png()
-        //         .resize(540, 540, {
-        //             kernel: sharp.kernel.nearest,
-        //             fit: 'contain',
-        //             position: 'center',
-        //             background: { r: 255, g: 255, b: 255, alpha: 0 }
-        //         })
-        //         .toFile(sideImages[i].path + ".png")
-        //         .then(async () => {
-        //             await unlinkAsync(sideImages[i].path)
-        //             sideImages[i].filename = sideImages[i].filename + ".png"
-        //             sideImages[i].path = sideImages[i].path + ".png"
-        //         });
-        // }
-        // console.log(mainImage)
-        // console.log(sideImages)
-        let products = new productModel({
-            name, description, category, sub, price, mrp, stock, block,
-            image: req.files.image[0], subimage: req.files.subimage
-        })
-        products.save((err, data) => {
-            if (err) {
-                console.log(err)
-                res.render('addproduct', { error: true }, { message: 'something went wrong' })
-            } else {
-                console.log('product saved')
-                res.redirect('/admin/product')
-            }
-        })
+            let products = new productModel({
+                name, description, category, sub, price, mrp, stock, block,
+                image: req.files.image[0], subimage: req.files.subimage
+            })
 
-    },
+            await products.save()
+            console.log('product saved')
+            res.redirect('/admin/product')
+        } catch (err) {
+            console.error(err)
+            res.render('addproduct', { error: true }, { message: 'something went wrong' })
+        }
+    }
+    ,
     //product block//
 
-    getAdminPdtBlock:async (req, res) => {
+    getAdminPdtBlock: async (req, res) => {
         try {
-          const _id = req.params.id;
-          await productModel.findByIdAndUpdate(_id, { $set: { block: true } });
-          res.redirect("/admin/product");
+            const _id = req.params.id;
+            await productModel.findByIdAndUpdate(_id, { $set: { block: true } });
+            res.redirect("/admin/product");
         } catch (error) {
-          console.log(error);
-          res.redirect("/admin/product");
+            console.log(error);
+            res.redirect("/admin/product");
         }
-      },
+    },
     //product unblock//
 
     getAdminPdtUnblock: (req, res) => {
@@ -297,70 +271,102 @@ let adminControl = {
     },
     //update product//
     postAdminEditProduct: async (req, res) => {
-        let block = false
+        try {
+            let block = false
+            const { name, description, category, sub, price, mrp, stock, _id } = req.body;
 
-        const { name, description, category, sub, price, mrp, stock, _id } = req.body;
-        console.log(req.body);
-        if (req.files?.image && req.files?.subimage) {
-            await productModel.updateOne({ _id }, {
-                $set: {
-                    name, description, category, sub, price, mrp, stock, block, image: req.files.image[0], subimage: req.files.subimage
+            if (!req.files?.image && !req.files?.subimage) {
+                await productModel.updateOne({ _id }, {
+                    $set: {
+                        name, description, category, sub, price, mrp, stock, block
+                    },
+                }).lean()
 
-                },
+                return res.redirect('/admin/product')
             }
-            ).lean()
-            
-            return res.redirect('/admin/product')
 
+            if (req.files?.image && req.files?.subimage) {
+                sharp(req.files.image[0].path)
+                    .png()
+                    .resize(300, 300, {
+                        kernel: sharp.kernel.nearest,
+                        fit: 'contain',
+                        position: 'center',
+                        background: { r: 255, g: 255, b: 255, alpha: 0 }
+                    })
+                    .toFile(req.files.image[0].path + ".png")
+                    .then(() => {
+                        req.files.image[0].filename = req.files.image[0].filename + ".png"
+                        req.files.image[0].path = req.files.image[0].path + ".png"
+                    })
+
+                await productModel.updateOne({ _id }, {
+                    $set: {
+                        name, description, category, sub, price, mrp, stock, block, image: req.files.image[0], subimage: req.files.subimage
+                    },
+                }).lean()
+
+                return res.redirect('/admin/product')
+            }
+
+            if (!req.files?.image && req.files?.subimage) {
+                await productModel.updateOne({ _id }, {
+                    $set: {
+                        name, description, category, sub, price, mrp, stock, block, subimage: req.files.subimage
+                    },
+                }).lean()
+
+                return res.redirect('/admin/product')
+            }
+
+            if (req.files?.image && !req.files?.subimage) {
+                sharp(req.files.image[0].path)
+                    .png()
+                    .resize(300, 300, {
+                        kernel: sharp.kernel.nearest,
+                        fit: 'contain',
+                        position: 'center',
+                        background: { r: 255, g: 255, b: 255, alpha: 0 }
+                    })
+                    .toFile(req.files.image[0].path + ".png")
+                    .then(() => {
+                        req.files.image[0].filename = req.files.image[0].filename + ".png"
+                        req.files.image[0].path = req.files.image[0].path + ".png"
+                    })
+
+                await productModel.updateOne({ _id }, {
+                    $set: {
+                        name, description, category, sub, price, mrp, stock, block, image: req.files.image[0]
+                    },
+                }).lean()
+
+                return res.redirect('/admin/product')
+            }
+        } catch (error) {
+            console.error(error)
+            res.render('error', { message: 'Something went wrong' })
         }
-        if (!req.files?.image && req.files?.subimage) {
-            await productModel.updateOne({ _id }, {
-                $set: {
-                    name, description, category, sub, price, mrp, stock, block, subimage: req.files.subimage
+    }
+    ,
 
-                },
-            }
-            ).lean()
-            return res.redirect('/admin/product')
-        } if (req.files?.image && !req.files?.subimage) {
-            await productModel.updateOne({ _id }, {
-                $set: {
-                    name, description, category, sub, price, mrp, stock, block, image: req.files.image[0]
-
-                },
-            }
-            ).lean()
-            return res.redirect('/admin/product')
-        }
-        if (!req.files?.image && !req.files?.subimage) {
-            await productModel.updateOne({ _id }, {
-                $set: {
-                    name, description, category, sub, price, mrp, stock, block
-
-                },
-            }
-            ).lean()
-            return res.redirect('/admin/product')
-        }
-
-    },
-
+    // admin coupon //
     getAdminCoupon: async (req, res) => {
         let coupons = await couponModel.find({}).lean();
         res.render('adminCoupon', { coupons })
 
     },
 
+    // add coupon //
     getAdminAddCoupon: (req, res) => {
         res.render('addCoupon')
     },
 
 
-
+    // save coupon //
     postAdminAddCoupon: async (req, res) => {
 
         try {
-            const { name, code, minAmount, discount, expiry } = req.body;
+            const { name, code, minAmount, discount, expiry, stock } = req.body;
 
             const existingCoupon = await couponModel.findOne({ name: { $regex: new RegExp(`^${name}$`, "i") } });
 
@@ -371,7 +377,7 @@ let adminControl = {
                 res.render('addCoupon', { error: true, message: "Coupon already exists" });
             } else {
 
-                const coupons = new couponModel({ name, code, minAmount, discount, expiry, block: false });
+                const coupons = new couponModel({ name, code, minAmount, discount, expiry, stock, block: false });
                 await coupons.save();
                 res.redirect('/admin/coupon');
             }
@@ -380,19 +386,23 @@ let adminControl = {
             res.render('addCoupon', { error: true, message: "Something went wrong" });
         }
     },
-    getAdminEditCoupon :async (req, res) => {
+
+    // edit coupon //
+    getAdminEditCoupon: async (req, res) => {
         try {
-          const _id = req.params.id
-          const coupons = await couponModel.findOne({ _id }).lean();
-          res.render("editCoupon", { coupons });
+            const _id = req.params.id
+            const coupons = await couponModel.findOne({ _id }).lean();
+            res.render("editCoupon", { coupons });
         } catch (error) {
-          console.log(error);
-          res.redirect("/admin/coupon");
+            console.log(error);
+            res.redirect("/admin/coupon");
         }
-      },
+    },
+
+    // updated coupon //
     postAdminEditCoupon: async (req, res) => {
         let block = false;
-        const { name, code, expiry, minAmount, discount, _id } = req.body;
+        const { name, code, expiry, minAmount, discount, stock, _id } = req.body;
         console.log(req.body);
 
         try {
@@ -405,6 +415,7 @@ let adminControl = {
                         expiry,
                         minAmount,
                         discount,
+                        stock,
                         block
                     }
                 },
@@ -416,6 +427,8 @@ let adminControl = {
             res.render("editCoupon");
         }
     },
+
+    // block coupon //
     getAdminCouponBlock: (req, res) => {
         const _id = req.params.id
         couponModel.findByIdAndUpdate(_id, { $set: { block: true } },
@@ -427,7 +440,7 @@ let adminControl = {
                 }
             })
     },
-    //product unblock//
+    // coupon unblock//
 
     getAdminCouponUnblock: (req, res) => {
         const _id = req.params.id
@@ -440,14 +453,113 @@ let adminControl = {
                 }
             })
     },
-    getAdminOrders:(req,res)=>{
-        res.render('orders')
+
+    // admin orders //
+    getAdminOrders: async (req, res) => {
+        let orders = await orderModel.find().lean()
+
+        res.render('orders', { orders })
+    },
+
+    // order pending //
+    getAdminOrderPending: async (req, res) => {
+        let orderId = req.params.id
+        console.log(orderId);
+        try {
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: {
+                    orderStatus: 'pending'
+                }
+            });
+            res.redirect('/admin/order');
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+        }
+    },
+
+    // order cancel //
+    getAdminOrderCancel: async (req, res) => {
+        let orderId = req.params.id;
+        try {
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: {
+                    orderStatus: 'Cancelled'
+                }
+            });
+            res.redirect('/admin/order');
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+        }
+    },
+    // order shipping //
+    getAdminOrderShipping: async (req, res) => {
+        let orderId = req.params.id;
+        try {
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: {
+                    orderStatus: 'Shipped'
+                }
+            });
+            res.redirect('/admin/order');
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+        }
+    },
+    // order delivered //
+    getAdminOrderDelivered: async (req, res) => {
+        let orderId = req.params.id;
+        try {
+            await orderModel.updateOne({ _id: orderId }, {
+                $set: {
+                    orderStatus: 'Delivered'
+                }
+            });
+            res.redirect('/admin/order');
+        } catch (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+        }
+    },
+    getAdminSalesReport: async (req, res) => {
+        const start = req.query.start
+        const end = req.query.end
+        let orders
+    
+        let deliveredOrders
+        let salesCount
+        let salesSum
+        let result
+        if (start) {
+            orders = await orderModel.find({ orderDate: { $gte: start, $lt: end } }).lean()
+    
+            deliveredOrders = orders.filter(order => order.orderStatus === "Delivered")
+            salesCount = await orderModel.countDocuments({ orderDate: { $gte: start, $lt: end }, orderStatus: "Delivered" })
+            salesSum = deliveredOrders.reduce((acc, order) => acc + order.totalPrice, 0)
+    
+        } else {    
+             
+            deliveredOrders = await orderModel.find({ orderStatus: "Delivered" }).lean()
+           
+            salesCount = await orderModel.countDocuments({ orderStatus: "Delivered" })
+            result = await orderModel.aggregate([{ $match: { orderStatus: "Delivered" } },
+                 {
+                $group: { _id: null, totalPrice: { $sum: '$totalPrice' } }
+            }])
+            salesSum = result[0].totalPrice
+        }
+        const users = await orderModel.distinct('userId')
+        const userCount = users.length
+        res.render('adminSalesreport', { userCount, salesCount, salesSum, deliveredOrders })
     }
+    
 
-   
+     
 
 
 
-}   
+}
 
-module.exports = adminControl
+module.exports = adminControl  

@@ -1,63 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");body{background-color: #eee;font-family: "Poppins", sans-serif;font-weight: 300}.cart{height: 100vh}.progresses{display: flex;align-items: center}.line{width: 76px;height: 6px;background: #63d19e}.steps{display: flex;background-color: #63d19e;color: #fff;font-size: 12px;width: 30px;height: 30px;align-items: center;justify-content: center;border-radius: 50%}.check1{display: flex;background-color: #63d19e;color: #fff;font-size: 17px;width: 60px;height: 60px;align-items: center;justify-content: center;border-radius: 50%;margin-bottom: 10px}.invoice-link{font-size: 15px}.order-button{height: 50px}.background-muted{background-color:#fafafc}</style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/user/userHome.css" />
+    
     <title>Document</title>
 </head>
+
 <body>
-     <div class="bg-dark navBar" style="height: 120px;">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row align-items-center">
-                <!-- LOGO -->
-                <div class="col-md-2">
-                    <div class="header-logo ">
-                        <a href="/" class="logo" style="text-decoration: none;">
-                            <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
+    <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
-                            </h1>
+    <header>
+        <nav>
+            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+               <a href="/"><h1>Perfumio</h1></a> 
+            </div>
+            <div class="search__bar__header ">
+                <input type="text" placeholder="Search">
+                <input type="button" value="search">
+            </div>
+            <div class="cart__header__desktop " style="color: white;">
+                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+                {{!-- <span>50</span> --}}
 
-                        </a>
+        </nav>
 
+        <div class="main__navigations pt-2">
+            <div class="main__navigations__div">
+                <ul class="main__navigations__div__ul">
+                    <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a
+                            href="/">Home</a>
+                    </li>
+                    <li class="main__navigations__div__li on__mobile_d_none">
+                        <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                        <div class="div__categories__items">
+                            <p><a href="">Men</a></p>
+                            <p><a href="">Women</a></p>
+
+                        </div>
+                    </li>
+                    {{!-- <li class="main__navigations__div__li save__from__left"><a href=""
+                            class="anchor__remains__same" style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
+                            parimal mahindrakar.</a></li> --}}
+                    <li class="main__navigations__div__li">
+                        
+                        {{#if Login}}
+                        <div class="dropdown-center">
+                            <button class="btn btn-black dropdown-toggle"
+                                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Login}}
+                            </button>
+                            <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        {{/if}}
+                    </li>
+                    <div class="bars save__from__right">
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="line3"></div>
                     </div>
+                </ul>
 
-                </div>
-                <div class="col-md-6 text-center " style="margin-left: 8rem;">
-                    {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
-                </div>
             </div>
         </div>
-    </div>
-   <div class="container mt-4 mb-4">
-    <div class="row d-flex cart align-items-center justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="d-flex justify-content-center border-bottom">
-                    <div class="p-3">
-                        {{!-- <div class="progresses">
-                            <div class="steps"> <span><i class="fa fa-check"></i></span> </div> <span class="line"></span>
-                            <div class="steps"> <span><i class="fa fa-check"></i></span> </div> <span class="line"></span>
-                            <div class="steps"> <span class="font-weight-bold">3</span> </div>
-                        </div> --}}
+
+        <div class="mobile__nav__fade__and__show">
+            <div class="mobile__nav__fade__and__show__text">
+                <li><a href="">Home</a></li>
+                <li>
+                    <a href="">Categories</a>
+                    <div>
+                        <p><a href="">Category 1</a></p>
+
                     </div>
-                </div>
-                <div class="row g-0">
-                    <div class="col-md-12 border-right p-5">
-                        <div class="text-center order-details">
-                            <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1">	&#x2714;<i class="fa fa-check"></i></span> <span class="font-weight-bold">Order Confirmed</span> <small class="mt-2">Your illustraion will go to you soon</small> <a href="#" class="text-decoration-none invoice-link">View Invoice</a> </div>
-                            <a href="/orders"> <button class="btn btn-danger btn-block order-button">Go to your Order</button></a>
+                </li>
+            </div>
+        </div>
+        <div class="mobile__nav__fade__and__show__circle"></div>
+    </header>
+   
+
+
+    <div class="container " style="padding-top: 190px;">
+        <div class="row d-flex cart align-items-center justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="d-flex justify-content-center border-bottom">
+                        <div class="p-3">
+
                         </div>
                     </div>
-                    
+                    <div class="row g-0">
+                        <div class="col-md-12 border-right p-5">
+                            <div class="text-center order-details">
+                                <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span
+                                        class="check1"> <i class="fa fa-check"></i></span> <span
+                                        class="font-weight-bold">Order Confirmed</span> <small class="mt-2">Your
+                                        illustraion will go to you soon</small> <a href="#"
+                                        class="text-decoration-none invoice-link" style="color: rgb(230, 52, 64);">View Invoice</a> </div>
+                                <a href="/orders"> <button class="btn btn-danger btn-block order-button">Go to your
+                                        Order</button></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div> </div>
                 </div>
-                <div> </div>
             </div>
         </div>
     </div>
-</div> 
 </body>
+
 </html>

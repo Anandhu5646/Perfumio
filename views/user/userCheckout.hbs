@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
-    <link real <!-- Animate.css -->
-    <link rel="stylesheet" href="css/animate.css">
+    <link  rel="stylesheet" href="css/animate.css">
     <!-- Icomoon Icon Fonts-->
     <link rel="stylesheet" href="css/icomoon.css">
     <!-- Ion Icon Fonts-->
@@ -22,7 +21,7 @@
 
     <!-- Flexslider  -->
     <link rel="stylesheet" href="css/flexslider.css">
-
+    <link rel="stylesheet" href="/user/userHome.css" />
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
@@ -36,30 +35,85 @@
     <link rel="stylesheet" href="css/style.css">
 
 <body>
-    <div class="bg-dark navBar" style="height: 120px;">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row align-items-center">
-                <!-- LOGO -->
-                <div class="col-md-2">
-                    <div class="header-logo ">
-                        <a href="/" class="logo" style="text-decoration: none;">
-                            <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
+    <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
-                            </h1>
+    <header>
+        <nav>
+            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+               <a href="/"><h1>Perfumio</h1></a> 
+            </div>
+            <div class="search__bar__header ">
+                <input type="text" placeholder="Search">
+                <input type="button" value="search">
+            </div>
+            <div class="cart__header__desktop " style="color: white;">
+                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+                {{!-- <span>50</span> --}}
 
-                        </a>
+        </nav>
 
+        <div class="main__navigations pt-2">
+            <div class="main__navigations__div">
+                <ul class="main__navigations__div__ul">
+                    <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a
+                            href="/">Home</a>
+                    </li>
+                    <li class="main__navigations__div__li on__mobile_d_none">
+                        <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                        <div class="div__categories__items">
+                            <p><a href="">Men</a></p>
+                            <p><a href="">Women</a></p>
+
+                        </div>
+                    </li>
+                    {{!-- <li class="main__navigations__div__li save__from__left"><a href=""
+                            class="anchor__remains__same" style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
+                            parimal mahindrakar.</a></li> --}}
+                    <li class="main__navigations__div__li">
+                        
+                        {{#if Login}}
+                        <div class="dropdown-center">
+                            <button class="btn btn-black dropdown-toggle"
+                                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Login}}
+                            </button>
+                            <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        {{/if}}
+                    </li>
+                    <div class="bars save__from__right">
+                        <div class="line1"></div>
+                        <div class="line2"></div>
+                        <div class="line3"></div>
                     </div>
+                </ul>
 
-                </div>
-                <div class="col-md-6 text-center " style="margin-left: 8rem;">
-                    {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
-                </div>
             </div>
         </div>
-    </div>
+
+        <div class="mobile__nav__fade__and__show">
+            <div class="mobile__nav__fade__and__show__text">
+                <li><a href="">Home</a></li>
+                <li>
+                    <a href="">Categories</a>
+                    <div>
+                        <p><a href="">Category 1</a></p>
+
+                    </div>
+                </li>
+            </div>
+        </div>
+        <div class="mobile__nav__fade__and__show__circle">sdsds</div>
+    </header>
     <div class="colorlib-loader"></div>
 
     <div id="page">
@@ -73,13 +127,13 @@
                         <div class="page section-header text-center">
                             <div class="page-title">
                                 <div class="wrapper" style="margin-top: 40px;">
-                                    <h1 class="page-width " >Checkout</h1>
+                                    <h1 class="page-width ">Checkout</h1>
                                 </div>
                             </div>
                         </div>
                         <!--End Page Title-->
 
-                        <div class="container">
+                        <div class="container" style="padding-top: 100px;">
                             <div class="row">
 
 
@@ -115,9 +169,18 @@
 
                                     </form> --}}
                                     <form action="/applyCoupon" method="post">
+                                        {{#unless error}}
                                         <span id="errMsg"
                                             class="gl-text u-s-m-b-16 font-weight-bold text-danger">Available
                                             coupons</span>
+                                        {{else}}
+                                        <span id="errMsg"
+                                            class="gl-text u-s-m-b-16 font-weight-bold text-danger">{{error}}</span>
+                                        {{/unless}}
+                                        {{#if success}}
+                                        <span id="errMsg"
+                                            class="gl-text u-s-m-b-16 font-weight-bold text-danger">{{success}}</span>
+                                        {{/if}}
                                         <div class="u-s-m-b-16">
                                             <div class="u-s-m-b-15">
 
@@ -134,7 +197,9 @@
                                             </div>
                                             <div class="u-s-m-b-15">
 
-                                                <button class="btn btn-primary mt-2" type="submit">APPLY</button>
+                                                <button class="btn btn-dark mt-2" type="submit">APPLY</button>
+                                                <span><a href="/removeCoupon"
+                                                        style="text-decoration: none; margin-left: 4rem; color: black;">Remove</a></span>
                                             </div>
                                         </div>
                                     </form>
@@ -160,7 +225,10 @@
                                             style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-weight: bold; font-size: 15px; color: rgb(212, 83, 83); text-transform: capitalize;">
                                             select an address</h4>
 
-
+                                        <button
+                                            style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-weight: bold; font-size: 15px; color: rgb(212, 83, 83); text-transform: capitalize; margin-bottom: 10px;">
+                                            <a href="/addAddress" style="text-decoration: none; color: black;"> add
+                                                address</a></button>
                                         <form action="/placeOrder" method="post">
 
                                             <div class="row">
@@ -184,10 +252,11 @@
                                                                 <b>{{this.address}}</b>
                                                                 <b>PIN:{{this.pincode}}</b>
 
+
                                                             </div>
 
-                                                            <input type="radio" value="{{item.id}}  " name="address"
-                                                                id="<%= item.id  %>" required>
+                                                            <input type="radio" value="{{this.id}}" name="address"
+                                                                id="{{this.id}}" required>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -210,10 +279,10 @@
 
 
 
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" >
                                     <div class="your-order-payment">
                                         <div class="your-order">
-                                            <h2 class="order-title mb-4">Your Order</h2>
+                                            <h2 class="order-title mb-4" >Your Order</h2>
 
                                             <div class="table-responsive-sm order-table">
                                                 <table class="bg-white table table-bordered table-hover text-center">
@@ -239,7 +308,7 @@
 
                                                     </tbody>
 
-
+                                                    <input type="hidden" name="totalPrice" value="{{this.totPrice}}">
                                                     <tfoot class="font-weight-600">
                                                         <tr>
                                                             <td colspan="3" class="text-right">Shipping </td>
@@ -268,11 +337,12 @@
                                                             <td> <b style="color: rgb(108, 214, 143);">₹{{cashback.discount}}
                                                                 </b></td>
                                                         </tr>
-
                                                         <tr>
                                                             <td colspan="3" class="text-right">After Applying Coupon
                                                             </td>
                                                             <td> <b>₹ {{cashback.discountedPrice}}</b></td>
+                                                            <input type="hidden" name="discountedPrice"
+                                                                value="{{cashback.discountedPrice}}">
                                                         </tr>
 
 
@@ -295,7 +365,7 @@
                                                                 <input type="radio" id="cod" name="payment" value="cod"
                                                                     required>
                                                                 <a class="card-link" data-toggle="collapse"
-                                                                    href="#collapseOne">Cash On Delivery </a>
+                                                                  style="color: black;"  href="#collapseOne">Cash On Delivery </a>
                                                             </div>
 
 
@@ -317,7 +387,7 @@
                                                                 <input type="radio" id="online" name="payment"
                                                                     value="online" required>
                                                                 <a class="collapsed card-link" data-toggle="collapse"
-                                                                    href="#collapseTwo"> online Payment </a>
+                                                                   style="color: black;" href="#collapseTwo"> online Payment </a>
                                                             </div>
 
 
@@ -339,7 +409,8 @@
                                                 </div>
 
                                                 <div class="order-button-payment pt-3">
-                                                    <button class="btn" style="background-color: black;color: white;" type="submit">Place order</button>
+                                                    <button class="btn" style="background-color: black;color: white;"
+                                                        onclick="placeOrder()" type="submit">Place order</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -350,20 +421,12 @@
 
 
                                 </form>
-
-
-
-
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-
-
-
-
             <!-- jQuery -->
             <script src="js/jquery.min.js"></script>
             <!-- popper -->

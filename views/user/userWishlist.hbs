@@ -1,38 +1,122 @@
-<div class="navbar row text-white">
-  <div class="col-md-8">
-    <div class="row product-section  ms-4">
-      <div class="col-md-4 logo"><a href="/">HomeKart</a></div>
-      <div class="col-md-3 adminpanel  mt-2">
- <a href="/viewAllProducts/?page=1"> All Products</a></div>
-      <div class="col-md-3 adminpanel mt-1">deals</div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="row logo">
-      <div class="col-md-3 adminlogo"> <a href="/wishlist"><i class="ri-heart-3-line"></i></a></div>
-      <div class="col-md-3 adminlogo"> <a href="/cart"><i class="ri-shopping-cart-2-line"></a></i></div>
-      <div class="col-md-3 adminlogo"> <a href="/profile"><i class="ri-user-line"></i></a></div>
-      <div class="col-md-3 logout"><a href="/logout"><i class="ri-logout-box-r-line"></i></a></div>
-    </div>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="category-head container d-flex align-items-center justify-content-center mt-5"><h3>My Wishlist</h3></div>
-<div class="containerfluid p-5">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/user/userHome.css" />
+  <title>Document</title>
+</head>
 
-{{#each products}}
-<div class="categoryProCards row container-fluid">
-    <div class="col-md-3 col-sm-12">
-        <img src="/images/{{this.image.filename}}" class="img-fluid" alt="">
-    </div>
-    <div class="col-md-7 col-sm-12">
+<body>
+
+  <header>
+    <nav>
+      <div class="logo" style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+        <a href="/">
+          <a href="/">
+            <h1>Perfumio</h1>
+          </a>
+        </a>
+      </div>
+      <div class="search__bar__header">
+        <input type="text" placeholder="Search">
+        <input type="button" value="search">
+      </div>
+      <div class="cart__header__desktop" style="color: white;">
+        <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+        <a href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+            style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+        {{!-- <span>50</span> --}}
+
+
+        <div class="main__navigations pt-2">
+          <div class="main__navigations__div">
+            <ul class="main__navigations__div__ul">
+              <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a href="/">Home</a>
+              </li>
+              <li class="main__navigations__div__li on__mobile_d_none">
+                <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                <div class="div__categories__items">
+                  <p><a href="">Men</a></p>
+                  <p><a href="">Women</a></p>
+
+                </div>
+              </li>
+
+              <li class="main__navigations__div__li">
+                {{#unless Login }}
+                <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
+                    class="fas fa-sign-out-alt"></i> </a>
+
+                {{else}}
+
+                <div class="dropdown-center">
+                  <button class="btn btn-black dropdown-toggle"
+                    style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{Login}}
+                  </button>
+                  <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                  </ul>
+                </div>
+
+
+                {{/unless}}
+              </li>
+
+            </ul>
+
+          </div>
+        </div>
+
+        <div class="mobile__nav__fade__and__show">
+          <div class="mobile__nav__fade__and__show__text">
+            <li><a href="">Home</a></li>
+            <li>
+              <a href="">Categories</a>
+              <div>
+                <p><a href="">Men</a></p>
+                <p><a href="">Women</a></p>
+
+              </div>
+            </li>
+          </div>
+        </div>
+        <div class="mobile__nav__fade__and__show__circle"></div>
+
+
+
+    </nav>
+  </header>
+
+
+  <div class="category-head container d-flex align-items-center justify-content-center mt-5" style="padding-top: 120px;">
+    <h3>My Wishlist</h3>
+  </div>
+  <div class="containerfluid p-5">
+
+    {{#each products}}
+    <div class="categoryProCards row container-fluid mt-4">
+      <div class="col-md-3 col-sm-12">
+        <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="">
+      </div>
+      <div class="col-md-7 col-sm-12">
         <h3>{{this.name}}</h3>
-        <div class="wish d-flex w-100 justify-content-between"><p>{{this.category}}</p> 
-         <div class="heart"> <a href="/removeFromWishlist/{{this._id}}"><i class="ri-heart-fill"></i></a></div>
+        <div class="wish d-flex w-100 justify-content-between">
+          <p>{{this.category}}</p>
+          {{!-- <div class="heart"> <a href="/removeWishlist/{{this._id}}"><i class="ri-heart-fill"></i></a></div> --}}
         </div>
         <h5>Rs {{this.price}}<h5>
-        <button class="btn btn-success  col-md-4 col-sm-12 ">Add to Cart</button>
+            <a href="/removeWishlist/{{this._id}}"><button class="btn btn-dark  col-md-4 col-sm-12 ">Add to Cart</button></a>
+      </div>
     </div>
-</div>
-{{/each}}
-</div>
+    {{/each}}
+  </div>
+</body>
+
+</html>

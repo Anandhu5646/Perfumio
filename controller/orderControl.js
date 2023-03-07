@@ -11,16 +11,20 @@ let orderControl ={
     getUserOrders:async(req,res)=>{
         let _id= req.session.user._id
         let orders = await orderModel.find({userId:_id}).lean()   
+        let Login = req.session.user.name
 
-
-        res.render('orderHistory',{orders})     
+        res.render('orderHistory',{orders, Login})     
     },
-    getUserOrderView:(req,res)=>{
-        res.render('orderView')
+    getUserOrderView:async(req,res)=>{
+        let Login = req.session.user.name
+        const _id = req.params.id
+        let orders = await orderModel.findOne({ _id }).lean()
+       
+        res.render('orderView',{orders, Login})
     }
 
 
 }
 
 
-module.exports= orderControl
+module.exports= orderControl     

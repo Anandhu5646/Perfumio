@@ -1,29 +1,30 @@
 <nav class="navbar">
-    <div class="navbar-container container">
-        <input type="checkbox" name="" id="" />
-        <div class="hamburger-lines">
-            <span class="line line1"></span>
-            <span class="line line2"></span>
-            <span class="line line3"></span>
+        <div class="navbar-container container">
+            <input type="checkbox" name="" id="" />
+            <div class="hamburger-lines">
+                <span class="line line1"></span>
+                <span class="line line2"></span>
+                <span class="line line3"></span>
+            </div>
+            <ul class="menu-items">
+
+                <li><a href="/admin/category">Categories</a></li>
+                <li><a href="/admin/product">Products</a></li>
+                <li><a href="/admin/user">Users</a></li>
+                <li><a href="/admin/coupon">Coupons</a></li>
+                <li><a href="/admin/order">Orders</a></li>
+                <li><a href="/admin/salesReport">Sales Report</a></li>
+                <li><a href="/admin/logout">Logout</a></li>
+            </ul>
+            <h1 class="logo">Perfumio</h1>
         </div>
-        <ul class="menu-items">
-            
-            <li><a href="/admin/category">Categories</a></li>
-            <li><a href="/admin/product">Products</a></li>
-            <li><a href="/admin/user">Users</a></li>
-            <li><a href="/admin/coupon">Coupons</a></li>
-            <li><a href="/admin/order">Orders</a></li>
-            <li><a href="/admin/logout">Logout</a></li>
-        </ul>
-        <h1 class="logo">Aura Scents</h1>
-    </div>
-</nav>
+    </nav>
 
 
 
-<div class="container mt-5">
+<div class="container mt-5" style="margin-top: 80px; background-color: rgb(255, 255, 255);margin-left: 6rem;margin-right: 6rem;" >
     <div class="mt-5">
-        <a href="/admin/addCoupon" class="btn btn-success mb-3">Add New
+        <a href="/admin/addCoupon" class="btn btn-success mb-3 mt-3">Add New
             Coupon</a>
     </div>
     <table class="table table-hover" id="myTable">
@@ -35,6 +36,7 @@
                 <th scope="col">Date</th>
                 <th scope="col">Minimum Amount</th>
                 <th scope="col">Discount</th>
+                <th scope="col">Stock</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Status</th>
                 <th scope="col">action</th>
@@ -49,6 +51,7 @@
                 <td>{{this.expiry}}</td>
                 <td>{{this.minAmount}}</td>
                 <td>{{this.discount}}</td>
+                <td>{{this.stock}}</td>
                 <td><a href="/admin/editCoupon/{{this._id}}" class="btn btn-success">Edit</a>
                 </td>
                 <td>{{#if this.block}}
