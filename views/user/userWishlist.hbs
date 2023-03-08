@@ -112,7 +112,8 @@
           {{!-- <div class="heart"> <a href="/removeWishlist/{{this._id}}"><i class="ri-heart-fill"></i></a></div> --}}
         </div>
         <h5>Rs {{this.price}}<h5>
-            <a href="/removeWishlist/{{this._id}}"><button class="btn btn-dark  col-md-4 col-sm-12 ">Add to Cart</button></a>
+            <a href="/cartToWishlist/{{this._id}}"><button class="btn btn-dark  col-md-4 col-sm-12 ">Add to Cart</button></a>
+            <a href="/removeFromWishlist/{{this._id}}"><button class="btn btn-warning  col-md-4 col-sm-12 ">Remove from wishlist</button></a>
       </div>
     </div>
     {{/each}}

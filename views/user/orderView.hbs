@@ -5,42 +5,105 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+   integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="/user/productDetails.css">
     <title>Document</title>
 </head>
 
 <body>
     <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
+    <header>
+    <nav>
+      <div class="logo" style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+        <a href="/">
+          <a href="/"><h1>Perfumio</h1></a>
+        </a>
+      </div>
+      <div class="search__bar__header">
+        <input type="text" placeholder="Search" style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+         <a onclick="cart" href="/search"><img src="/images/search-30.png"
+                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 26px;background-color: aliceblue;" alt=""></a>
+       
+      </div>
+      <div class="cart__header__desktop" style="color: white;">
+        <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+        <a href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+            style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+        {{!-- <span>50</span> --}}
 
-    <div class="bg-dark navBar" style="height: 120px;">
-        <!-- container -->
-        <div class="container">
-            <!-- row -->
-            <div class="row align-items-center">
-                <!-- LOGO -->
-                <div class="col-md-2">
-                    <div class="header-logo ">
-                        <a href="/" class="logo" style="text-decoration: none;">
-                            <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
 
-                            </h1>
-
-                        </a>
-
-                    </div>
+        <div class="main__navigations pt-2">
+          <div class="main__navigations__div">
+            <ul class="main__navigations__div__ul">
+              <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a href="/">Home</a>
+              </li>
+              <li class="main__navigations__div__li on__mobile_d_none">
+                <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                <div class="div__categories__items">
+                  <p><a href="">Men</a></p>
+                  <p><a href="">Women</a></p>
 
                 </div>
-                <div class="col-md-6 text-center " style="margin-left: 8rem;">
-                    {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
-                </div>
-            </div>
+              </li>
+
+              <li class="main__navigations__div__li">
+                        {{#unless Login }}
+                        <a href="/login" class="anchor__remains__same"
+                            style="padding-bottom: 0;font-weight: bold;">Login <i class="fas fa-sign-out-alt"></i> </a>
+
+                        {{else}}
+
+                        <div class="dropdown-center">
+                            <button class="btn btn-black dropdown-toggle"
+                                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Login}}
+                            </button>
+                            <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        {{/unless}}
+                    </li>
+
+            </ul>
+
+          </div>
         </div>
-    </div>
+
+        <div class="mobile__nav__fade__and__show">
+          <div class="mobile__nav__fade__and__show__text">
+            <li><a href="">Home</a></li>
+            <li>
+              <a href="">Categories</a>
+              <div>
+                <p><a href="">Men</a></p>
+                <p><a href="">Women</a></p>
+
+              </div>
+            </li>
+          </div>
+        </div>
+        <div class="mobile__nav__fade__and__show__circle"></div>
+
+
+
+    </nav>
+  </header>
+   
 
 
 
 
-    <div class="container my-5">
+    <div class="container my-5" style="padding-top: 150px;">
 
         <div class="row">
             <div class="col-md-5">
@@ -105,6 +168,11 @@
         </div>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
+  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 
 </html>

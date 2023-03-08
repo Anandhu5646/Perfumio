@@ -5,8 +5,6 @@ const orderSchema= new mongoose.Schema({
         type:ObjectId,
         required:true
     },
-   
-     
     address:{
         type:Object,
         required:true    

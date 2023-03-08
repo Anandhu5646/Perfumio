@@ -35,7 +35,7 @@ let userControl = {
             req.session.InvalidMail ? message = "Email not exist. Please register" : message = null
             req.session.InvalidPassword ? message = "Password incorrect" : message = null
             res.render("userLogin", { message })
-            console.log(message);
+            
             req.session.InvalidMail = false
             req.session.InvalidPassword= false
 
@@ -105,7 +105,7 @@ let userControl = {
                     if (password == userInfo.password) {
                         
                         req.session.user = userInfo
-                        console.log(userInfo);
+                       
                         res.redirect('/')
                     } else {
                         req.session.InvalidPassword = true
@@ -293,6 +293,7 @@ let userControl = {
                         },
                     }
                 )
+                // return res.json({ success:{acknowledged: false}})
             } else {
                 await userModel.updateOne(
                     { _id: req.session.user._id, cart: { $elemMatch: { id: req.params.id } } },
@@ -305,7 +306,7 @@ let userControl = {
             }
 
             // res.redirect('/cart')
-            res.json({ success: true })
+           res.json({ success: true })
         } catch (err) {
             console.log(err);
             res.render('404page')
@@ -577,7 +578,7 @@ let userControl = {
    
 
     postUserCheckout: async (req, res) => {
-        console.log(req.body);
+        
         const userId = req.session.user._id;
            
         try {
@@ -648,7 +649,7 @@ let userControl = {
           } else {
             const order = await orderModel.create(orders);
             await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
-            console.log(order);
+           
             res.render('orderSuccess');
           }
         } catch (error) {
@@ -700,7 +701,7 @@ let userControl = {
     postUserAddAddress: async (req, res) => {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
-            console.log(req.body);
+           
             await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
@@ -730,7 +731,7 @@ let userControl = {
     postUserCheckoutAddAddress: async (req, res) => {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
-            console.log(req.body);
+           
             await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
@@ -769,7 +770,7 @@ let userControl = {
                   const userId = user._id;
                   let Login = req.session.user.name
                   const wishListDetails = await userModel.findOne({ _id: userId }, { wishlist: 1 });
-                console.log(wishListDetails);
+                
               
                     // Get cart items 
                     const wishLIstItems =wishListDetails.wishlist.map((item) => {
@@ -814,8 +815,8 @@ let userControl = {
                   });
                 }
     },
-    // Remove from wishlist // 
-    getUserRemoveWishlist: async (req, res) => {
+    // Wishlist to cart add // 
+    getUserWishlistToCart: async (req, res) => {
         return new Promise(async(resolve, reject) => {
             const user_id = req.session.user._id;
             const pdt_id = req.params.id;
@@ -833,16 +834,93 @@ let userControl = {
                 )
             
                 res.redirect("/cart");    
-        })
+        })   
+    },
+    getUserRemoveFromWishlist:async(req,res)=>{
+        const user_id = req.session.user._id;
+            const pdt_id = req.params.id;
+            await userModel.updateOne(
+                { _id: user_id },
+                {
+                    $pull: {
+                        wishlist: { id: pdt_id }
+                    }
+                }
+            )
+            res.redirect("/wishlist")
+                 
+    },
+
+    getMenCategory:async(req,res)=>{
+        const products =await productModel.find({category:'Men'}).sort({ _id: -1 }).lean();
+        const user =await  userModel.findOne({}).lean();
+
+        Login = req.session.user.name
+        res.render('menCategory',{products, Login})
+    },
 
 
-          
+
+    getWomenCategory:async(req,res)=>{
+        const products = await productModel.find({category:'Women'}).sort({ _id: -1 }).lean();
         
-    },    
-  
+        Login = req.session.user.name
+        res.render('womenCategory',{products,Login})
+    },
+
+    sortLowToHigh: async (req, res) => {
+        
+          let pricePdt
+          
+          if (req.session.sub) {
+             pricePdt = await productModel
+            .find({sub:req.session.sub })
+            .sort({ price: 1 })
+            .lean();
+            console.log(productsub);
+            console.log("brand is present");
+            
+          } else {
+            pricePdt= await productModel
+            .find()
+            .sort({ price: 1 })
+            .lean();
+            console.log("brand is not present");
+          }
+          let pstatus = true;
+          req.session.pricePdt = pricePdt;
+          req.session.pstatus = pstatus;
+          res.redirect("/");
+       
+    },
       
    
 
 }
 
 module.exports = userControl
+
+// lowtohigh: async (req, res) => {
+//     try {
+//       let pricepro
+//       if (req.session.brandstatus) {
+//          pricepro = await productModel
+//         .find({ brand:req.session.brandstatus })
+//         .sort({ price: 1 })
+//         .lean();
+//         console.log("brand is present");
+//       } else {
+//         const pricepro = await productModel
+//         .find()
+//         .sort({ price: 1 })
+//         .lean();
+//         console.log("brand is not present");
+//       }
+//       let pstatus = true;
+//       req.session.pricepro = pricepro;
+//       req.session.pstatus = pstatus;
+//       res.redirect("/viewallproducts");
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
