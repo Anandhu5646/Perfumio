@@ -22,6 +22,7 @@ let userControl = {
                 Login = req.session.user.name;
             }
             res.render('userHome', { products, Login });
+            req.session.sub = products.sub
         } catch (error) {
             console.error(error);
             res.render('404page')
@@ -35,9 +36,9 @@ let userControl = {
             req.session.InvalidMail ? message = "Email not exist. Please register" : message = null
             req.session.InvalidPassword ? message = "Password incorrect" : message = null
             res.render("userLogin", { message })
-            
+
             req.session.InvalidMail = false
-            req.session.InvalidPassword= false
+            req.session.InvalidPassword = false
 
         } catch (error) {
             console.error(error)
@@ -103,9 +104,9 @@ let userControl = {
             if (userInfo) {
                 if (userInfo.block == false) {
                     if (password == userInfo.password) {
-                        
+
                         req.session.user = userInfo
-                       
+
                         res.redirect('/')
                     } else {
                         req.session.InvalidPassword = true
@@ -113,13 +114,13 @@ let userControl = {
                     }
 
                 }
-     
+
             } else {
 
                 req.session.InvalidMail = true
                 res.redirect('/login')
             }
-        } catch(error) {
+        } catch (error) {
             console.error(error)
             res.render('404page')
         }
@@ -195,9 +196,9 @@ let userControl = {
             const _id = req.params.id
             let Login = req.session.user.name
             let products = await productModel.findOne({ _id }).lean()
-            res.render('productDetails', { products })
+           
             if (req.session.user) {
-                
+
                 res.render('productDetails', { products, Login })
 
             } else {
@@ -306,13 +307,44 @@ let userControl = {
             }
 
             // res.redirect('/cart')
-           res.json({ success: true })
+            res.json({ success: true })
         } catch (err) {
             console.log(err);
             res.render('404page')
         }
     }
     ,
+    checkQuantity: async (req, res) => {
+
+        const cart = req?.user?.cart ?? [];
+        console.log(cart);
+        let cartQuantity = {};
+        const cartList = cart.map((item) => {
+            cartQuantity[item.id] = item.quantity;
+            return item.id;
+        });
+        let totalPrice = 0;
+        let products = await productModel
+            .find({ _id: { $in: cartList }, unlist: false })
+            .lean();
+        let quantityError = false;
+        let outOfQuantity = [];
+        for (let item of products) {
+            totalPrice = totalPrice + item.price * cartQuantity[item._id];
+            if (item.quantity < cartQuantity[item._id]) {
+                quantityError = true;
+                outOfQuantity.push({ id: item._id, balanceQuantity: item.quantity });
+            } else {
+            }
+        }
+        req.session.tempOrder = {
+            totalPrice,
+        };
+        if (quantityError) {
+            return res.json({ error: true, outOfQuantity });
+        }
+        return res.json({ error: false });
+    },
 
 
     getUserCartDetail: (req, res) => {
@@ -452,7 +484,7 @@ let userControl = {
                             id: req.params.id
                         }
                     }
-                }      
+                }
             )
             res.redirect("/profile");
         } catch (error) {
@@ -460,7 +492,7 @@ let userControl = {
             res.render('404page')
         }
 
-    },     
+    },
 
     // user logout //
     getUserLogout: (req, res) => {
@@ -524,7 +556,7 @@ let userControl = {
                 }
             }
 
-            res.render('userCheckout', { products, totalPrice, address, cart, users, coupons, cashback, totPrice,Login })
+            res.render('userCheckout', { products, totalPrice, address, cart, users, coupons, cashback, totPrice, Login })
             cashback = null
             req.session.coupon = null
         } catch (error) {
@@ -541,13 +573,13 @@ let userControl = {
         return new Promise((resolve, reject) => {
             couponModel.findOne({ code: req.body.coupon }).then((coupon) => {
                 if (!coupon) {
-                    const message="Invalid Coupon"
-                    res.redirect('/checkout',{message})
+                    const message = "Invalid Coupon"
+                    res.redirect('/checkout', { message })
                 }
                 if (coupon.stock <= 0) {
-                    const message= "Coupon out of stock"
-                    res.redirect('/checkout',{message})
-                   
+                    const message = "Coupon out of stock"
+                    res.redirect('/checkout', { message })
+
                 }
 
 
@@ -575,91 +607,91 @@ let userControl = {
 
 
     },
-   
+
 
     postUserCheckout: async (req, res) => {
-        
+
         const userId = req.session.user._id;
-           
+
         try {
-          const user = await userModel.findById(userId).lean();
-          const cart = user.cart.map(item => item.id);
-          const { address } = await userModel.findOne({ _id: userId }, { address: 1 });
-          const found = address.find(e => e.id == req.body.address);
-          const products = await productModel.find({ _id: { $in: cart } }).lean();
-      
-          const orders = products.map((product, i) => ({
-            address: found,
-            products: product,
-            userId,
-            orderDate: new Date().toLocaleDateString(),
-            quantity: user.cart[i].quantity,
-            totalPrice: user.cart[i].quantity * product.price,
-            discountedPrice: req.body.discountedPrice,
-            payment: req.body.payment,
-            paymentStatus: true
-          }));
-      
-          for (let i = 0; i < products.length; i++) {
-            await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -1 * user.cart[i].quantity } });
-          }
-
-
-                
-
-          req.session.orders = orders;
-          
-          if (req.body.payment !== 'cod') {
+            const user = await userModel.findById(userId).lean();
+            const cart = user.cart.map(item => item.id);
+            const { address } = await userModel.findOne({ _id: userId }, { address: 1 });
+            const found = address.find(e => e.id == req.body.address);
+            const products = await productModel.find({ _id: { $in: cart } }).lean();
             
-            let allprice= req.body.discountedPrice? req.body.discountedPrice: req.body.totalPrice
-            const orderId = "order_" + createId();
-            const options = {
-              method: "POST",
-              url: "https://sandbox.cashfree.com/pg/orders",
-              headers: {
-                accept: "application/json",
-                "x-api-version": "2022-09-01",
-                "x-client-id": '3321367e689eca6ab917be78c4631233',
-                "x-client-secret": '1e3f26f5a41de3d03e035ce4976f0d1707df902d',
-                "content-type": "application/json",
-              },
-              data: {
-                order_id: orderId,
-                order_amount:allprice,
-                order_currency: "INR",   
-                customer_details: {
-                  customer_id: userId,
-                  customer_email: 'anandhus186@gmail.com',
-                  customer_phone: '9072858479',
-                },
-                order_meta: {
-                  return_url: "http://localhost:7800/verifyPayment?order_id={order_id}",
-                },
-              },
-            };
-      
-            await axios.request(options).then(function (response) {
-              return res.render("paymentTemp", {
-                orderId,
-                sessionId: response.data.payment_session_id,
-              });
-            }).catch(function (error) {
-              console.error(error);
-            });
-          } else {
-            const order = await orderModel.create(orders);
-            await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
-           
-            res.render('orderSuccess');
-          }
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ error: 'Internal Server Error' });
-        }
-      }
-      ,
+            orders = products.map((product, i) => ({
+                address: found,
+                products: product,
+                userId,
+                orderDate: new Date().toLocaleDateString(),
+                quantity: user.cart[i].quantity,
+                totalPrice: user.cart[i].quantity * product.price,
+                discountedPrice: req.body.discountedPrice,
+                payment: req.body.payment,
+                paymentStatus: true
+            }));
 
-    
+            for (let i = 0; i < products.length; i++) {
+                await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -1 * user.cart[i].quantity } });
+            }
+
+
+
+
+            req.session.orders = orders;
+
+            if (req.body.payment !== 'cod') {
+
+                let allprice = req.body.discountedPrice ? req.body.discountedPrice : req.body.totalPrice
+                const orderId = "order_" + createId();
+                const options = {
+                    method: "POST",
+                    url: "https://sandbox.cashfree.com/pg/orders",
+                    headers: {
+                        accept: "application/json",
+                        "x-api-version": "2022-09-01",
+                        "x-client-id": '3321367e689eca6ab917be78c4631233',
+                        "x-client-secret": '1e3f26f5a41de3d03e035ce4976f0d1707df902d',
+                        "content-type": "application/json",
+                    },
+                    data: {
+                        order_id: orderId,
+                        order_amount: allprice,
+                        order_currency: "INR",
+                        customer_details: {
+                            customer_id: userId,
+                            customer_email: 'anandhus186@gmail.com',
+                            customer_phone: '9072858479',
+                        },
+                        order_meta: {
+                            return_url: "http://localhost:7800/verifyPayment?order_id={order_id}",
+                        },
+                    },
+                };
+
+                await axios.request(options).then(function (response) {
+                    return res.render("paymentTemp", {
+                        orderId,
+                        sessionId: response.data.payment_session_id,
+                    });
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            } else {
+                const order = await orderModel.create(orders);
+                await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
+
+                res.render('orderSuccess');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+    ,
+
+
 
     getUserPayment: async (req, res) => {
 
@@ -701,7 +733,7 @@ let userControl = {
     postUserAddAddress: async (req, res) => {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
-           
+
             await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
@@ -731,7 +763,7 @@ let userControl = {
     postUserCheckoutAddAddress: async (req, res) => {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
-           
+
             await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
@@ -760,36 +792,36 @@ let userControl = {
     ,
     getUserWishlist: async (req, res) => {
         try {
-                  // Check if user is logged in
-                  if (!req.session.user) {
-                    return res.redirect("/login");
-                  }
-              
-                  // Get user and wish list details
-                  const user = req.session.user;
-                  const userId = user._id;
-                  let Login = req.session.user.name
-                  const wishListDetails = await userModel.findOne({ _id: userId }, { wishlist: 1 });
-                
-              
-                    // Get cart items 
-                    const wishLIstItems =wishListDetails.wishlist.map((item) => {
-                      return item.id;
-                    });
-              
-                   
-                  // Get product details for cart items
-                  const products = await productModel.find({ _id: { $in: wishLIstItems } }).lean();
-               
-              
-                    
-                res.render('userWishlist',{products,Login})
-              }catch (error) {
-                console.error(error);
-                res.status(500).json({
-                  message: 'Internal Server Error',
-                });
-              }
+            // Check if user is logged in
+            if (!req.session.user) {
+                return res.redirect("/login");
+            }
+
+            // Get user and wish list details
+            const user = req.session.user;
+            const userId = user._id;
+            let Login = req.session.user.name
+            const wishListDetails = await userModel.findOne({ _id: userId }, { wishlist: 1 });
+
+
+            // Get cart items 
+            const wishLIstItems = wishListDetails.wishlist.map((item) => {
+                return item.id;
+            });
+
+
+            // Get product details for cart items
+            const products = await productModel.find({ _id: { $in: wishLIstItems } }).lean();
+
+
+
+            res.render('userWishlist', { products, Login })
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                message: 'Internal Server Error',
+            });
+        }
 
     },
 
@@ -798,47 +830,33 @@ let userControl = {
     getUserAddToWishlist: async (req, res) => {
 
         try {
-                  
-                    const user_id = req.session.user._id;
-                    const pdt_id = req.params.id;
-                    await userModel.updateOne(
-                      { _id: user_id },
-                      { $addToSet: { wishlist: { id: pdt_id } } }
-                    );
-                    res.redirect("/");
-                  
-                } catch (err) {
-                  // Handle errors
-                  console.error(err);
-                  res.status(500).json({
-                    message: 'Server error',
-                  });
-                }
+
+            const user_id = req.session.user._id;
+            const pdt_id = req.params.id;
+            await userModel.updateOne(
+                { _id: user_id },
+                { $addToSet: { wishlist: { id: pdt_id } } }
+            );
+            res.redirect("/");
+
+        } catch (err) {
+            // Handle errors
+            console.error(err);
+            res.status(500).json({
+                message: 'Server error',
+            });
+        }
     },
     // Wishlist to cart add // 
     getUserWishlistToCart: async (req, res) => {
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const user_id = req.session.user._id;
             const pdt_id = req.params.id;
             await userModel.updateOne({ _id: user_id },
-                { $addToSet: { cart: { id: pdt_id } }
-                   
+                {
+                    $addToSet: { cart: { id: pdt_id } }
+
                 })
-                await userModel.updateOne(
-                    { _id: user_id },
-                    {
-                        $pull: {
-                            wishlist: { id: pdt_id }
-                        }
-                    }
-                )
-            
-                res.redirect("/cart");    
-        })   
-    },
-    getUserRemoveFromWishlist:async(req,res)=>{
-        const user_id = req.session.user._id;
-            const pdt_id = req.params.id;
             await userModel.updateOne(
                 { _id: user_id },
                 {
@@ -847,80 +865,223 @@ let userControl = {
                     }
                 }
             )
-            res.redirect("/wishlist")
-                 
+
+            res.redirect("/cart");
+        })
+    },
+    getUserRemoveFromWishlist: async (req, res) => {
+        const user_id = req.session.user._id;
+        const pdt_id = req.params.id;
+        await userModel.updateOne(
+            { _id: user_id },
+            {
+                $pull: {
+                    wishlist: { id: pdt_id }
+                }
+            }
+        )
+        res.redirect("/wishlist")
+
     },
 
-    getMenCategory:async(req,res)=>{
-        const products =await productModel.find({category:'Men'}).sort({ _id: -1 }).lean();
-        const user =await  userModel.findOne({}).lean();
+    getMenCategory: async (req, res) => {
+        const products = await productModel.find({ category: 'Men' }).sort({ _id: -1 }).lean();
+        const user = await userModel.findOne({}).lean();
 
         Login = req.session.user.name
-        res.render('menCategory',{products, Login})
+        res.render('menCategory', { products, Login })
     },
 
 
 
-    getWomenCategory:async(req,res)=>{
-        const products = await productModel.find({category:'Women'}).sort({ _id: -1 }).lean();
-        
+    getWomenCategory: async (req, res) => {
+        const products = await productModel.find({ category: 'Women' }).sort({ _id: -1 }).lean();
+
         Login = req.session.user.name
-        res.render('womenCategory',{products,Login})
+        res.render('womenCategory', { products, Login })
     },
 
+
+
+    getUserAllProducts: async (req, res) => {
+
+        try {
+            Login = req.session.user.name
+            const brands = await productModel.aggregate([{ $group: { _id: "$sub" } }]);
+            // console.log(brands);
+            const categ = await categoryModel.find({}).lean();
+            // console.log(categ);
+            req.session.pageNum = parseInt(req.query.page ?? 1);
+            req.session.perpage = 4;
+            let allproducts = await productModel.find().countDocuments().then(documentCount => {
+                docCount = documentCount;
+                return productModel
+                    .find()
+                    .skip((req.session.pageNum - 1) * req.session.perpage)
+                    .limit(req.session.perpage)
+                    .lean();
+            });
+            username = req.session.user;
+            let pageCount = Math.ceil(docCount / req.session.perpage);
+            let pagination = [];
+            for (i = 1; i <= pageCount; i++) {
+                pagination.push(i);
+            }
+
+            if (req.session.pstatus) {
+                res.render("allProducts", {
+                    categ,
+                    brands,
+                    pricepro: req.session.pricepro,
+                    pstatus: req.session.pstatus,
+                    Login,
+                    pagination
+                });
+                req.session.pstatus = false;
+            } else if (req.session.pstatuss) {
+                res.render("allProducts", {
+                    categ,
+                    brands,
+                    pstatuss: req.session.pstatuss,
+                    priceprod: req.session.priceprod,
+                    Login,
+                    pagination
+                });
+                req.session.pstatuss = false;
+            } else if (req.session.catstatus) {
+                res.render("allProducts", {
+                    catgproducts: req.session.catgproducts,
+                    status: req.session.catstatus,
+                    Login,
+                    pagination
+                });
+
+            } else if (req.session.brandstatus) {
+                res.render("allProducts", {
+                    categ,
+                    brands,
+                    brandstatus: req.session.brandstatus,
+                    brandproduct: req.session.brandproduct,
+                    Login,
+                    pagination
+
+                });
+
+            } else {
+                res.render("allProducts", { allproducts, categ, brands, Login });
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Internal server error");
+        }
+
+    },
     sortLowToHigh: async (req, res) => {
-        
-          let pricePdt
-          
-          if (req.session.sub) {
-             pricePdt = await productModel
-            .find({sub:req.session.sub })
-            .sort({ price: 1 })
-            .lean();
-            console.log(productsub);
-            console.log("brand is present");
-            
-          } else {
-            pricePdt= await productModel
-            .find()
-            .sort({ price: 1 })
-            .lean();
-            console.log("brand is not present");
-          }
-          let pstatus = true;
-          req.session.pricePdt = pricePdt;
-          req.session.pstatus = pstatus;
-          res.redirect("/");
-       
+
+        try {
+            let pricepro
+            if (req.session.brandstatus) {
+                pricepro = await productModel
+                    .find({ sub: req.session.brandstatus })
+                    .sort({ price: 1 })
+                    .lean();
+                console.log("brand is present");
+            } else {
+                pricepro = await productModel
+                    .find()
+                    .sort({ price: 1 })
+                    .lean();
+                console.log("brand is not present");
+            }
+            let pstatus = true;
+            req.session.pricepro = pricepro;
+            req.session.pstatus = pstatus;
+            res.redirect("/allProducts");
+        } catch (error) {
+            console.log(error);
+        }
+
     },
-      
-   
+    sortHighToLow: async (req, res) => {
+        try {
+            let priceprod;
+            let pstatuss = true;
+            if (req.session.brandstatus) {
+                console.log("brand is present");
+                priceprod = await productModel
+                    .find({ brand: req.session.brandstatus })
+                    .sort({ price: -1 })
+                    .lean();
+            } else {
+                console.log("brand is not present");
+                priceprod = await productModel
+                    .find()
+                    .sort({ price: -1 })
+                    .lean();
+            }
+            req.session.pstatuss = pstatuss;
+            req.session.priceprod = priceprod;
+            res.redirect("/allProducts");
+        } catch (error) {
+            console.log(error);
+        }
+
+    },
+    categoryFilterPdt: async (req, res) => {
+        try {
+            const catgy = req.params.catgy;
+
+            const catgproducts = await productModel.find({ category: catgy }).lean();
+
+            let catstatus = true;
+            console.log(catgproducts);
+            req.session.catstatus = catstatus;
+            req.session.catgproducts = catgproducts;
+
+            res.redirect("/allProducts");
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    postUserSearch: async (req, res) => {
+
+    
+            try {
+                Login = req.session.user.name
+              const [category, sub] = await Promise.all([
+                productModel.find({ block: false }).lean(),
+                categoryModel.find({block:false}).lean()
+                
+              ]);
+         
+              if (req.body.name) {
+                const products = await productModel.find({
+                  $and: [
+                    { status: 'available' },
+                    {
+                      $or: [
+                        { name: new RegExp(req.body.name, 'i') },
+                        { category: new RegExp(req.body.name, 'i') }
+                      ]
+                    }
+                  ]
+                }).lean();
+                
+                res.render('allProducts',{ products,category,sub,Login});
+              } else {
+               
+                res.render('allProducts',{ category,sub,Login});
+              }
+         
+            } catch (err) {
+              console.log('Error:', err);
+              // Handle the error here
+            }
+          }
+    
+
 
 }
 
 module.exports = userControl
 
-// lowtohigh: async (req, res) => {
-//     try {
-//       let pricepro
-//       if (req.session.brandstatus) {
-//          pricepro = await productModel
-//         .find({ brand:req.session.brandstatus })
-//         .sort({ price: 1 })
-//         .lean();
-//         console.log("brand is present");
-//       } else {
-//         const pricepro = await productModel
-//         .find()
-//         .sort({ price: 1 })
-//         .lean();
-//         console.log("brand is not present");
-//       }
-//       let pstatus = true;
-//       req.session.pricepro = pricepro;
-//       req.session.pstatus = pstatus;
-//       res.redirect("/viewallproducts");
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   },

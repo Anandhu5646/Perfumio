@@ -19,11 +19,16 @@
             <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
                 <h1>Perfumio</h1>
             </div>
+           
             <div class="search__bar__header ">
-                <input type="text" placeholder="Search" style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-         <a onclick="cart" href="/search"><img src="/images/search-30.png"
-                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 26px;background-color: aliceblue;" alt=""></a>
+                <input type="text" placeholder="Search" name="name"
+                    style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+
+                <a  href="/search"><img src="/images/search-30.png"
+                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 26px;background-color: aliceblue;"
+                        alt=""></a>
             </div>
+           
             <div class="cart__header__desktop " style="color: white;">
                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
                 <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
@@ -140,21 +145,21 @@
     </div>
     <!--Main layout-->
     <main>
-       
+
         <div class="container pt-5">
 
- <div style="width: 100px;">
-    <div class="dropdown-center">
-  <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Sort
-  </button>
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="/lowToHigh">Price low to high</a></li>
-    <li><a class="dropdown-item" href="/HighToLow">Price high to low</a></li>
-    
-  </ul>
-</div>
- </div>
+            {{!-- <div style="width: 100px;">
+                <div class="dropdown-center"> --}}
+                    <a href="/allProducts"><button class="btn btn-light " type="button">
+                            All products
+                        </button></a>
+                    {{!-- <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/lowToHigh">Price low to high</a></li>
+                        <li><a class="dropdown-item" href="/HighToLow">Price high to low</a></li>
+
+                    </ul>
+                </div>
+            </div> --}}
 
             <!--Section: Products v.3-->
             <section class=" text-center mb-4">
@@ -166,15 +171,16 @@
                     {{#unless this.block}}
                     <div class="col-lg-3 col-md-6 mb-4">
 
-                        
+
 
                         <div class="col-12" style="cursor: pointer;">
-                            
+
                             <div class="wsk-cp-product">
-                                
-                                <div class="wsk-cp-img"><a href="pdtdetails/{{this._id}}"><img src="/pic/{{this.image.filename}}"
-                                        style="border-top-left-radius: 15px; border-top-right-radius: 15px;"
-                                        alt="Product" class="img-responsive" /></a></div>
+
+                                <div class="wsk-cp-img"><a href="pdtdetails/{{this._id}}"><img
+                                            src="/pic/{{this.image.filename}}"
+                                            style="border-top-left-radius: 15px; border-top-right-radius: 15px;"
+                                            alt="Product" class="img-responsive" /></a></div>
                                 <div class="wsk-cp-text">
                                     <div class="category">
                                         <span><a href="pdtdetails/{{this._id}}">{{this.sub}}</a></span>
@@ -201,7 +207,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                     {{/unless}}

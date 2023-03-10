@@ -201,7 +201,7 @@
       </table>
       <div class="orderBtns d-flex  row justify-content-between ms-5">
         <div class="row"></div>
-        <a onclick="checkQuantity()" class="btn btn-dark col-sm-5">Check Out</a>
+        <a class="btn btn-dark col-sm-5" onclick="checkQuantity()">Check Out</a>
         {{!-- <button class="btn btn-outline-danger col-sm-5 cancelbtn">Cancel</button> --}}
       </div>
 
@@ -244,21 +244,22 @@
     }
 
 
-    function checkQuantity(id) {
-      axios.post('/checkOut').then((result) => {
+    function checkQuantity() {
+      axios.post("/checkQuantity").then(result => {
         if (result?.data?.error) {
-           document.getElementById('cartAlert').style.display="flex"
-           result.data.outOfQuantity.forEach(item=>{
-          if(item.balanceQuantity<=0){
-            document.getElementById(item.id).innerHTML="Out Of Stock"
-          }else{
-            document.getElementById(item.id).innerHTML="Only "+item.balanceQuantity+" stocks left"
-          }
+          document.getElementById('cartAlert').style.display = "flex"
+          response.data.outOfQuantity.forEach(item => {
+            if (item.balanceQuantity <= 0) {
+              document.getElementById(item.id).innerHTML = "Out Of Stock"
+            } else {
+              document.getElementById(item.id).innerHTML = "Only " + item.balanceQuantity + " stocks left"
+            }
+          })
+        } else {
+          window.location.href = "/checkout"
         }
       })
-    }else{
-        window.location.href="/checkout"
-      }
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"

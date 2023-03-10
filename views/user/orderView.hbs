@@ -19,9 +19,9 @@
     <header>
     <nav>
       <div class="logo" style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-        <a href="/">
+        
           <a href="/"><h1>Perfumio</h1></a>
-        </a>
+        
       </div>
       <div class="search__bar__header">
         <input type="text" placeholder="Search" style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
@@ -44,8 +44,8 @@
               <li class="main__navigations__div__li on__mobile_d_none">
                 <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
                 <div class="div__categories__items">
-                  <p><a href="">Men</a></p>
-                  <p><a href="">Women</a></p>
+                  <p><a href="/men">Men</a></p>
+                  <p><a href="/women">Women</a></p>
 
                 </div>
               </li>
@@ -154,10 +154,13 @@
                     <p class="details-title text-color mb-1">Product Details</p>
                     <p class="description">{{orders.products.description}}</p>
                 </div>
-
+                <div class="product-details my-4">
+                    <p class="details-title text-color mb-1">Order Status</p>
+                    <p class="description"><strong>{{orders.orderStatus}}</strong></p>
+                </div>
 
                 <div class="block">
-                    <a href="#"><button class="shadow btn custom-btn"
+                    <a href="/"><button class="shadow btn custom-btn"
                             style="width: 150px;background-color: black;">Cancel</button></a>
                     <a href="/"><button class="shadow btn custom-btn"
                             style="width: 150px;background-color: black;margin-left: 20px;">Home</button></a>

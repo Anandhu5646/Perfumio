@@ -8,7 +8,7 @@ const { getUserHome, getUserLogin, getUserSignup, postUserLogin, postUserSignup,
      getUserDeleteAddress, getUserAddToWishlist, getUserWishlistToCart, getUserWishlist,
      postUserApplyCoupon, postUserCheckout, postUserCheckoutAddAddress, getUserPayment,
      getUserRemoveCoupon, getMenCategory, getWomenCategory, sortLowToHigh,
-     getUserRemoveFromWishlist } = require('../controller/userControl');
+     getUserRemoveFromWishlist, checkQuantity, getUserAllProducts, sortHighToLow, categoryFilterPdt, postUserSearch } = require('../controller/userControl');
 const verifyNotLogin = require('../middlewares/verifyNotLogin');
 const verifyUser = require('../middlewares/verifyUser');
 const router = express.Router();
@@ -33,11 +33,13 @@ router.get('/logout', getUserLogout)
 router.use(verifyUser)
 
 router.get('/cart', getUserCartDetail)
+router.get('/allProducts', getUserAllProducts)
 router.get('/addtocart/:id', getUserAddToCart)
 router.get('/removeCart/:id/:quantity', getUserRemoveCart)
 router.get('/profile', getUserProfile)
 router.get('/addquantity/:id', incrementQuantity)
 router.get('/minusquantity/:id', decrementQuantity)
+router.post('/checkQuantity', checkQuantity)
 router.get('/checkout', getUserCheckout)
 router.get('/addAddress', getUserAddAddress)
 router.get('/deleteAddress/:id', getUserDeleteAddress)
@@ -58,6 +60,9 @@ router.get('/removeCoupon', getUserRemoveCoupon)
 router.get('/men', getMenCategory)
 router.get('/women', getWomenCategory)
 router.get('/lowToHigh', sortLowToHigh)
+router.get('/highToLow', sortHighToLow)
+router.get('/catFilter/:catgy', categoryFilterPdt)
+router.post('/search', postUserSearch)
 
 
 

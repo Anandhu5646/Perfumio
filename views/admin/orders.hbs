@@ -75,30 +75,41 @@
                         <td class="border-dark">{{this.totalPrice}}</td>
                         <td class="border-dark">{{this.payment}}</td>
                         <td class="border-dark">{{this.paymentStatus}}</td>
-
+                        {{#ifEquals this.orderStatus "Pending"}}
                         <td class="badge text-bg-warning mt-3">{{this.orderStatus}}</td>
-
-                        
-
+                        {{else ifEquals this.orderStatus "Shipped"}}
+                        <td class="badge text-bg-primary mt-3">{{this.orderStatus}}</td>
+                        {{else ifEquals this.orderStatus "Delivered"}}
+                        <td class="badge text-bg-success mt-3">{{this.orderStatus}}</td>
+                        {{else ifEquals this.orderStatus "Cancelled"}}
+                        <td class="badge text-bg-danger mt-3">{{this.orderStatus}}</td>
+                        {{/ifEquals}}
                         <td class="border-dark">
+
+                           
                             <div class="dropdown-container" tabindex="-1">
+                                 {{#ifEquals orderStatus "Delivered"}}
                                 <div class="three-dots "></div>
                                 <div class="dropdown">
 
-
+                                   
                                     <button style="width: 100%;"><a class="dropdown-item "
                                             href="/admin/pendingPdt/{{this._id}}">Pending</a></button>
-                                    <button style="width: 100%;"><a class="dropdown-item "
-                                            href="/admin/cancelPdt/{{this._id}}">Cancelled</a></button>
-                                    <button style="width: 100%;"><a class="dropdown-item"
-                                            href="/admin/deliveredPdt/{{this._id}} ">Delivered</a></button>
                                     <button style="width: 100%;"><a class="dropdown-item"
                                             href="/admin/shippingPdt/{{this._id}} ">Shipped</a></button>
-
+                                    <button style="width: 100%;"><a class="dropdown-item"
+                                            href="/admin/deliveredPdt/{{this._id}} ">Delivered</a></button>
+                                    <button style="width: 100%;"><a class="dropdown-item "
+                                            href="/admin/cancelPdt/{{this._id}}">Cancelled</a></button>
+                                    
+                                  
 
                                 </div>
                             </div>
-
+                            {{else}}
+                            <p>*</p>
+                            {{/ifEquals}}
+                            
                         </td>
                         <td><a href="/admin/editOrder/{{this._id}}" class="btn btn-success">View</a>
 
@@ -110,7 +121,7 @@
 
         </div>
     </section>
-    
+
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
