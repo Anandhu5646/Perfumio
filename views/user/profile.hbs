@@ -29,12 +29,15 @@
           <a href="/"><h1>Perfumio</h1></a>
         </a>
       </div>
-      <div class="search__bar__header">
-        <input type="text" placeholder="Search" style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-         <a onclick="cart" href="/search"><img src="/images/search-30.png"
-                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 26px;background-color: aliceblue;" alt=""></a>
-       
-      </div>
+     <form action="/search" method="post">
+                <div class="search__bar__header mt-4">
+                    <input type="text" placeholder="Search" name="name"
+                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
+                            
+                            alt=""></button>
+                </div>
+            </form>
       <div class="cart__header__desktop" style="color: white;">
         <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
         <a href="/cart"><img src="/images/icons8-shopping-cart-64.png"
@@ -50,8 +53,8 @@
               <li class="main__navigations__div__li on__mobile_d_none">
                 <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
                 <div class="div__categories__items">
-                  <p><a href="">Men</a></p>
-                  <p><a href="">Women</a></p>
+                  <p><a href="/men">Men</a></p>
+                  <p><a href="/women">Women</a></p>
 
                 </div>
               </li>
@@ -87,12 +90,12 @@
 
         <div class="mobile__nav__fade__and__show">
           <div class="mobile__nav__fade__and__show__text">
-            <li><a href="">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li>
               <a href="">Categories</a>
               <div>
-                <p><a href="">Men</a></p>
-                <p><a href="">Women</a></p>
+                <p><a href="/men">Men</a></p>
+                <p><a href="/women">Women</a></p>
 
               </div>
             </li>
@@ -117,10 +120,10 @@
           <div class="profile-container">
             <h4>General</h4>
             <div class="profil-row">
-              <b>Name : </b><span>{{address.name}}</span>
+              <b>Name : </b><span>{{users.name}}</span>
             </div>
             <div class="profil-row">
-              <b>Mob No : </b><span>{{address.mobile}}</span>
+              <b>Mob No : </b><span>{{users.address.mobile}}</span>
             </div>
 
             <div class="profil-row">

@@ -196,7 +196,7 @@ let userControl = {
             const _id = req.params.id
             let Login = req.session.user.name
             let products = await productModel.findOne({ _id }).lean()
-           
+
             if (req.session.user) {
 
                 res.render('productDetails', { products, Login })
@@ -353,9 +353,10 @@ let userControl = {
                 res.redirect('/login');
                 return;
             }
-
+            
             return new Promise((resolve, reject) => {
                 let Login = req.session.user.name
+               
                 let cartQuantity = {}
 
                 let user_id = req.session.user._id
@@ -367,12 +368,12 @@ let userControl = {
                     })
 
                     if (cartItems.length === 0) {
-                        res.render('cart', { message: 'cart empty' })
+                          res.render('cart', { message: 'cart empty' })
                         return;
                     }
+   
 
-
-                    productModel.find({ _id: { $in: cartItems } }).lean().then((products) => {
+                    productModel.find({ _id: { $in: cartItems } }).sort({_id:1}).lean().then((products) => {
                         let TotalAmount = 0
                         let totalMRP = 0
                         let Price = 0
@@ -612,32 +613,30 @@ let userControl = {
     postUserCheckout: async (req, res) => {
 
         const userId = req.session.user._id;
-
         try {
+            let Login = req.session.user.name
             const user = await userModel.findById(userId).lean();
             const cart = user.cart.map(item => item.id);
             const { address } = await userModel.findOne({ _id: userId }, { address: 1 });
             const found = address.find(e => e.id == req.body.address);
             const products = await productModel.find({ _id: { $in: cart } }).lean();
-            
-            orders = products.map((product, i) => ({
+            let discountedPrice = 0
+            const orders = products.map((product, i) => ({
                 address: found,
                 products: product,
                 userId,
                 orderDate: new Date().toLocaleDateString(),
                 quantity: user.cart[i].quantity,
                 totalPrice: user.cart[i].quantity * product.price,
-                discountedPrice: req.body.discountedPrice,
+                discountedPrice: req.body?.discountedPrice,
                 payment: req.body.payment,
                 paymentStatus: true
             }));
+            console.log(req.body.discountedPrice);
 
             for (let i = 0; i < products.length; i++) {
                 await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -1 * user.cart[i].quantity } });
             }
-
-
-
 
             req.session.orders = orders;
 
@@ -682,7 +681,7 @@ let userControl = {
                 const order = await orderModel.create(orders);
                 await userModel.findByIdAndUpdate(userId, { $set: { cart: [] } });
 
-                res.render('orderSuccess');
+                res.render('orderSuccess',{Login});
             }
         } catch (error) {
             console.error(error);
@@ -696,6 +695,7 @@ let userControl = {
     getUserPayment: async (req, res) => {
 
         try {
+            let Login = req.session.user.name
             const _id = req.session.user._id
             const order_id = req.query.order_id;
             const options = {
@@ -719,7 +719,7 @@ let userControl = {
                 await userModel.findByIdAndUpdate({ _id }, {
                     $set: { cart: [] }
                 })
-                res.render('orderSuccess')
+                res.render('orderSuccess',{Login})
 
 
             }
@@ -985,13 +985,13 @@ let userControl = {
                     .find({ sub: req.session.brandstatus })
                     .sort({ price: 1 })
                     .lean();
-                console.log("brand is present");
+
             } else {
                 pricepro = await productModel
                     .find()
                     .sort({ price: 1 })
                     .lean();
-                console.log("brand is not present");
+
             }
             let pstatus = true;
             req.session.pricepro = pricepro;
@@ -1045,40 +1045,61 @@ let userControl = {
     },
     postUserSearch: async (req, res) => {
 
-    
-            try {
-                Login = req.session.user.name
-              const [category, sub] = await Promise.all([
+
+        try {
+            Login = req.session.user.name
+            const [category, sub] = await Promise.all([
                 productModel.find({ block: false }).lean(),
-                categoryModel.find({block:false}).lean()
-                
-              ]);
-         
-              if (req.body.name) {
+                categoryModel.find({ block: false }).lean()
+
+            ]);
+
+            if (req.body.name) {
                 const products = await productModel.find({
-                  $and: [
-                    { status: 'available' },
-                    {
-                      $or: [
-                        { name: new RegExp(req.body.name, 'i') },
-                        { category: new RegExp(req.body.name, 'i') }
-                      ]
-                    }
-                  ]
+                    $and: [
+                        { status: 'available' },
+                        {
+                            $or: [
+                                { name: new RegExp(req.body.name, 'i') },
+                                { category: new RegExp(req.body.name, 'i') }
+                            ]
+                        }
+                    ]
                 }).lean();
-                
-                res.render('allProducts',{ products,category,sub,Login});
-              } else {
-               
-                res.render('allProducts',{ category,sub,Login});
-              }
-         
-            } catch (err) {
-              console.log('Error:', err);
-              // Handle the error here
+
+                res.render('allProducts', { products, category, sub, Login });
+            } else {
+
+                res.render('allProducts', { category, sub, Login });
             }
-          }
-    
+
+        } catch (err) {
+            console.log('Error:', err);
+            // Handle the error here
+        }
+    },
+    // cancelOrder:async(req, res)=> {
+    //     const _id = req.params.id;
+    //     const order = await orderModel.findOne({ _id });
+    //     console.log(order);
+    //     let walletInc=order.amountPayable;
+    //     if (order.paid) {
+    //       await userModel.updateOne(
+    //         { _id: req.session.user.id },
+    //         { $inc: { wallet: walletInc } }
+    //       );
+    //     }
+    //     await orderModel.updateOne(
+    //       { _id },
+    //       {
+    //         $set: {
+    //           orderStatus: "cancelled",
+    //         },
+    //       }
+    //     );
+    //     res.redirect("/orderView");
+    //   }
+
 
 
 }

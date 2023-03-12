@@ -5,7 +5,66 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <style>@media screen and (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo {
+    margin-top: 1rem;
+  }
+  .menu-items {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    background-color: #fff;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  .menu-items li {
+    width: 100%;
+    text-align: center;
+  }
+  .menu-items li a {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+  }
+  .hamburger-lines {
+    display: block;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+  }
+  .line {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-color: #333;
+    transition: transform 0.3s ease-out;
+  }
+  .line1 {
+    transform: translateY(-0.5rem);
+  }
+  .line2 {
+    transform: translateY(0);
+  }
+  .line3 {
+    transform: translateY(0.5rem);
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+  input[type="checkbox"]:checked + .menu-items {
+    display: block;
+  }
+}
+</style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.rtl.min.css"
         integrity="sha384-DOXMLfHhQkvFFp+rWTZwVlPVqdIhpDVYT9csOnHSgWQWPX0v5MCGtjCJbY6ERspU" crossorigin="anonymous">
@@ -14,6 +73,7 @@
 </head>
 
 <body>
+    
     <nav class="navbar">
         <div class="navbar-container container">
             <input type="checkbox" name="" id="" />
@@ -23,7 +83,7 @@
                 <span class="line line3"></span>
             </div>
             <ul class="menu-items">
-
+                <li><a href="/admin/dashboard">Dashboard</a></li>
                 <li><a href="/admin/category">Categories</a></li>
                 <li><a href="/admin/product">Products</a></li>
                 <li><a href="/admin/user">Users</a></li>
@@ -75,42 +135,83 @@
                         <td class="border-dark">{{this.totalPrice}}</td>
                         <td class="border-dark">{{this.payment}}</td>
                         <td class="border-dark">{{this.paymentStatus}}</td>
-                        {{#ifEquals this.orderStatus "Pending"}}
+                        
+                       {{#ifEquals this.orderStatus "pending"}}
                         <td class="badge text-bg-warning mt-3">{{this.orderStatus}}</td>
-                        {{else ifEquals this.orderStatus "Shipped"}}
+                        {{/ifEquals}}
+                        {{#ifEquals this.orderStatus "Shipped"}}
                         <td class="badge text-bg-primary mt-3">{{this.orderStatus}}</td>
-                        {{else ifEquals this.orderStatus "Delivered"}}
+                        {{/ifEquals}}
+                        {{#ifEquals this.orderStatus "Delivered"}}
                         <td class="badge text-bg-success mt-3">{{this.orderStatus}}</td>
-                        {{else ifEquals this.orderStatus "Cancelled"}}
+                        {{/ifEquals}}
+                        {{#ifEquals this.orderStatus "Cancelled"}}
                         <td class="badge text-bg-danger mt-3">{{this.orderStatus}}</td>
                         {{/ifEquals}}
+                       
+                            {{#ifEquals orderStatus "pending"}} 
                         <td class="border-dark">
 
-                           
                             <div class="dropdown-container" tabindex="-1">
-                                 {{#ifEquals orderStatus "Delivered"}}
+                                 
                                 <div class="three-dots "></div>
                                 <div class="dropdown">
-
-                                   
                                     <button style="width: 100%;"><a class="dropdown-item "
                                             href="/admin/pendingPdt/{{this._id}}">Pending</a></button>
+
+                                          
                                     <button style="width: 100%;"><a class="dropdown-item"
                                             href="/admin/shippingPdt/{{this._id}} ">Shipped</a></button>
                                     <button style="width: 100%;"><a class="dropdown-item"
                                             href="/admin/deliveredPdt/{{this._id}} ">Delivered</a></button>
+
                                     <button style="width: 100%;"><a class="dropdown-item "
                                             href="/admin/cancelPdt/{{this._id}}">Cancelled</a></button>
                                     
-                                  
-
+            
                                 </div>
                             </div>
-                            {{else}}
-                            <p>*</p>
-                            {{/ifEquals}}
-                            
                         </td>
+                          {{/ifEquals}}
+
+                           {{#ifEquals orderStatus "Shipped"}} 
+                        <td class="border-dark">
+
+                            <div class="dropdown-container" tabindex="-1">
+                                 
+                                <div class="three-dots "></div>
+                                <div class="dropdown">
+                                    <button style="width: 100%;"><a class="dropdown-item"
+                                            href="/admin/shippingPdt/{{this._id}} ">Shipped</a></button>
+                                    <button style="width: 100%;"><a class="dropdown-item"
+                                            href="/admin/deliveredPdt/{{this._id}} ">Delivered</a></button>
+
+                                    <button style="width: 100%;"><a class="dropdown-item "
+                                            href="/admin/cancelPdt/{{this._id}}">Cancelled</a></button>
+                                    
+            
+                                </div>
+                            </div>
+                        </td>
+                          {{/ifEquals}}
+                          {{#ifEquals orderStatus "Delivered"}} 
+                        <td class="border-dark">
+
+                            <div class="dropdown-container" tabindex="-1">
+                                 -
+                                </div>
+                            </div>
+                        </td>
+                          {{/ifEquals}}
+                           {{#ifEquals orderStatus "Cancelled"}} 
+                        <td class="border-dark">
+
+                            <div class="dropdown-container" tabindex="-1">
+                                 -
+                                </div>
+                            </div>
+                        </td>
+                          {{/ifEquals}}
                         <td><a href="/admin/editOrder/{{this._id}}" class="btn btn-success">View</a>
 
                     </tr>

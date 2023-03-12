@@ -20,15 +20,16 @@
                 <h1>Perfumio</h1>
             </div>
            
-            <div class="search__bar__header ">
-                <input type="text" placeholder="Search" name="name"
-                    style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+            <form action="/search" method="post">
+                <div class="search__bar__header mt-4">
+                    <input type="text" placeholder="Search" name="name"
+                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
+                            
+                            alt=""></button>
+                </div>
+            </form>
 
-                <a  href="/search"><img src="/images/search-30.png"
-                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 26px;background-color: aliceblue;"
-                        alt=""></a>
-            </div>
-           
             <div class="cart__header__desktop " style="color: white;">
                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
                 <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"

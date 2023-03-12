@@ -10,116 +10,121 @@
 </head>
 
 <body>
-  <nav class="navbar">
+  <div class="container-scroller">
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <nav class="navbar">
         <div class="navbar-container container">
-            <input type="checkbox" name="" id="" />
-            <div class="hamburger-lines">
-                <span class="line line1"></span>
-                <span class="line line2"></span>
-                <span class="line line3"></span>
-            </div>
-            <ul class="menu-items">
-
-                <li><a href="/admin/category">Categories</a></li>
-                <li><a href="/admin/product">Products</a></li>
-                <li><a href="/admin/user">Users</a></li>
-                <li><a href="/admin/coupon">Coupons</a></li>
-                <li><a href="/admin/order">Orders</a></li>
-                <li><a href="/admin/salesReport">Sales Report</a></li>
-                <li><a href="/admin/logout">Logout</a></li>
-            </ul>
-            <h1 class="logo">Perfumio</h1>
+          <input type="checkbox" name="" id="" />
+          <div class="hamburger-lines">
+            <span class="line line1"></span>
+            <span class="line line2"></span>
+            <span class="line line3"></span>
+          </div>
+          <ul class="menu-items">
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/category">Categories</a></li>
+            <li><a href="/admin/product">Products</a></li>
+            <li><a href="/admin/user">Users</a></li>
+            <li><a href="/admin/coupon">Coupons</a></li>
+            <li><a href="/admin/order">Orders</a></li>
+            <li><a href="/admin/salesReport">Sales Report</a></li>
+            <li><a href="/admin/logout">Logout</a></li>
+          </ul>
+          <h1 class="logo">Perfumio</h1>
         </div>
-    </nav>
-  <section style="margin-top: 10px; margin-left: 5rem;margin-right: 5rem; background-color: rgb(255, 255, 255);">
-    <div class="container">
-      {{!-- <div class="row">
-        <form class="form-inline my-2 my-lg-0">
-          <div class="d-flex">
-            <input class="form-control mr-sm-2" style="width: 80%;" type="text" placeholder="Search product">
-            <button class="btn btn-outline-success my-2 my-sm-0 " type="submit">Search</button>
+      </nav>
+      <section style="margin-top: 10px; margin-left: 5rem;margin-right: 5rem; background-color: rgb(255, 255, 255);">
+        <div class="container">
+          {{!-- <div class="row">
+            <form class="form-inline my-2 my-lg-0">
+              <div class="d-flex">
+                <input class="form-control mr-sm-2" style="width: 80%;" type="text" placeholder="Search product">
+                <button class="btn btn-outline-success my-2 my-sm-0 " type="submit">Search</button>
 
-        </form>
-      </div> --}}
+            </form>
+          </div> --}}
 
-    </div>
-    <div style="padding-top: 10px;">
-      <a href="/admin/addproduct" style="text-decoration: none;width: 10rem;margin-left: 1rem;"><button
-          class="btn btn-outline-primary">Add item</button></a>
-      
-    </div>
-    
+        </div>
+        <div style="padding-top: 10px;">
+          <a href="/admin/addproduct" style="text-decoration: none;width: 10rem;margin-left: 1rem;"><button
+              class="btn btn-outline-primary">Add item</button></a>
 
-    <table class="table" style="margin-top: 20px;">
-      <thead>
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">Image</th>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col">Category</th>
-          <th scope="col">Brand</th>
-          <th scope="col">Price</th>
-          <th scope="col">MRP</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Status</th>
-          <th scope="col">action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each products}}
-        <tr>
+        </div>
 
-          <td>{{inc @index}}</td>
-          
-          <td><img src="/pic/{{this.image.filename}}" style="width: 40px;height: 50px;"></td>
-          
-          <td>{{this.name}}</td>
-          <td>{{this.description}}</td>
-          <td>{{this.category}}</td>
-          <td>{{this.sub}}</td>
-          <td>{{this.price}}&#8377;</td>
-          <td>{{this.mrp}}&#8377;</td>
-          <td>{{this.stock}}</td>
-          <td><li style="list-style: none;"><a href="/admin/editproduct/{{this._id}}" style="text-decoration: none;">
-                  <button class="btn btn-outline-primary" >Edit</button></a></li></td>
-          <td>{{#if this.block}}
-            <p>Blocked</p>
-            {{else}}
-            <p>Active</p>
-            {{/if}}
-          </td>
-          <td>
 
-            <div class="dropdown-container"  tabindex="-1">
-              <div class="three-dots "></div>
-              <div class="dropdown" >
-              
-                {{#if this.block}}
-                <button
-                  onclick="if( confirm(' Are you sure to unblock product?')){window.location.href='/admin/unblockpdt/{{this._id}}' }"
-                  class="btn  btn-outline-success btn-block mb-4">Unblock</button>
+        <table class="table" style="margin-top: 20px;">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Image</th>
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Category</th>
+              <th scope="col">Brand</th>
+              <th scope="col">Price</th>
+              <th scope="col">MRP</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Status</th>
+              <th scope="col">action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each products}}
+            <tr>
+
+              <td>{{inc @index}}</td>
+
+              <td><img src="/pic/{{this.image.filename}}" style="width: 40px;height: 50px;"></td>
+
+              <td>{{this.name}}</td>
+              <td>{{this.description}}</td>
+              <td>{{this.category}}</td>
+              <td>{{this.sub}}</td>
+              <td>{{this.price}}&#8377;</td>
+              <td>{{this.mrp}}&#8377;</td>
+              <td>{{this.stock}}</td>
+              <td>
+                <li style="list-style: none;"><a href="/admin/editproduct/{{this._id}}" style="text-decoration: none;">
+                    <button class="btn btn-outline-primary">Edit</button></a></li>
+              </td>
+              <td>{{#if this.block}}
+                <p>Blocked</p>
                 {{else}}
-                <button
-                  onclick="if( confirm(' Are you sure to block product?')){window.location.href='/admin/blockpdt/{{this._id}}' }"
-                  class="btn btn-outline-danger btn-block mb-4">Block</button>
+                <p>Active</p>
                 {{/if}}
+              </td>
+              <td>
 
-              </div>
-            </div>
+                <div class="dropdown-container" tabindex="-1">
+                  <div class="three-dots "></div>
+                  <div class="dropdown">
+
+                    {{#if this.block}}
+                    <button
+                      onclick="if( confirm(' Are you sure to unblock product?')){window.location.href='/admin/unblockpdt/{{this._id}}' }"
+                      class="btn  btn-outline-success btn-block mb-4">Unblock</button>
+                    {{else}}
+                    <button
+                      onclick="if( confirm(' Are you sure to block product?')){window.location.href='/admin/blockpdt/{{this._id}}' }"
+                      class="btn btn-outline-danger btn-block mb-4">Block</button>
+                    {{/if}}
+
+                  </div>
+                </div>
 
 
 
-          </td>
-        </tr>
-        {{/each}}
+              </td>
+            </tr>
+            {{/each}}
 
-      </tbody>
-    </table>
+          </tbody>
+        </table>
 
     </div>
-  </section>
+    </section>
 </body>
 
 </html>

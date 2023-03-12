@@ -8,12 +8,12 @@ const { getUserHome, getUserLogin, getUserSignup, postUserLogin, postUserSignup,
      getUserDeleteAddress, getUserAddToWishlist, getUserWishlistToCart, getUserWishlist,
      postUserApplyCoupon, postUserCheckout, postUserCheckoutAddAddress, getUserPayment,
      getUserRemoveCoupon, getMenCategory, getWomenCategory, sortLowToHigh,
-     getUserRemoveFromWishlist, checkQuantity, getUserAllProducts, sortHighToLow, categoryFilterPdt, postUserSearch } = require('../controller/userControl');
+     getUserRemoveFromWishlist, checkQuantity, getUserAllProducts, sortHighToLow, categoryFilterPdt, postUserSearch, cancelOrder } = require('../controller/userControl');
 const verifyNotLogin = require('../middlewares/verifyNotLogin');
 const verifyUser = require('../middlewares/verifyUser');
 const router = express.Router();
 
-
+  
 
 
 
@@ -63,6 +63,7 @@ router.get('/lowToHigh', sortLowToHigh)
 router.get('/highToLow', sortHighToLow)
 router.get('/catFilter/:catgy', categoryFilterPdt)
 router.post('/search', postUserSearch)
+// router.post('/cancel/:id', cancelOrder)
 
 
 

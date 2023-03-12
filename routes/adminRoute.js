@@ -7,7 +7,7 @@ const { getAdminLogin, postAdminLogin, getAdminHome, getAdminProduct, getAdminUs
     getAdminEditProduct, postAdminEditProduct, getAdminCoupon, getAdminAddCoupon,
     postAdminAddCoupon, getAdminEditCoupon, postAdminEditCoupon, getAdminCouponBlock,
     getAdminCouponUnblock, getAdminOrders, getAdminOrderPending, getAdminOrderCancel,
-     getAdminOrderShipping, getAdminOrderDelivered, getAdminSalesReport, } = require('../controller/adminControl');
+     getAdminOrderShipping, getAdminOrderDelivered, getAdminSalesReport, getAdminDashboard, } = require('../controller/adminControl');
 const upload = require('../middlewares/multer');
 const router = express.Router();
 const verifyAdmin = require('../middlewares/verifyAdmin');
@@ -15,24 +15,24 @@ const verifyNotAdmin = require('../middlewares/verifyNotAdmin');
 
 
 
-router.get('/',verifyNotAdmin, getAdminLogin)
+router.get('/', verifyNotAdmin,getAdminLogin)
 router.post('/',verifyNotAdmin, postAdminLogin)
 router.get('/logout', getAdminLogout)
 
 
 router.use(verifyAdmin)
-
+router.get('/dashboard',getAdminDashboard) 
    
-router.get('/product', getAdminProduct)
+router.get('/product', getAdminProduct)   
 router.get('/user', getAdminUser)
-router.get('/coupon', getAdminCoupon)
+router.get('/coupon', getAdminCoupon)   
 router.get('/order', getAdminOrders)
 router.get('/block/:id', getAdminUserBlock)
 router.get('/unblock/:id', getAdminuserUnblock)     
 router.post('/searchuser', postAdminuserSearch)
 router.get('/category', getAdminCategory)
 router.get('/addcategory', getAdminAddCategory)
-router.post('/savecategory', postAdminAddCategory)
+router.post('/savecategory', postAdminAddCategory)    
 router.get('/editcategory/:id', getAdminEditCat)
 router.post('/editcat', postAdminEditCat)
 router.get('/addproduct', getAdminAddProduct)

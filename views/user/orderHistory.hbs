@@ -21,11 +21,15 @@
             <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
                <a href="/"><h1>Perfumio</h1></a> 
             </div>
-            <div class="search__bar__header ">
-                <input type="text" placeholder="Search" style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-         <a onclick="cart" href="/search"><img src="/images/search-30.png"
-                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 26px;background-color: aliceblue;" alt=""></a>
-            </div>
+            <form action="/search" method="post">
+                <div class="search__bar__header mt-4">
+                    <input type="text" placeholder="Search" name="name"
+                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
+                            
+                            alt=""></button>
+                </div>
+            </form>
             <div class="cart__header__desktop " style="color: white;">
                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
                 <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
@@ -96,7 +100,7 @@
     </header>
 
 
-    <div class="container mt-5" style="padding-top: 150px;">
+    <div class="container-fluid mt-5 " style="padding-top: 150px;">
         <div style="text-align: center;">
             <h3> Order List</h3>
         </div>
@@ -107,25 +111,22 @@
                     <th scope="col">Order ID</th>
                     <th scope="col">Image</th>
                     <th scope="col">Product Name</th>
-
                     <th scope="col">Quantity</th>
                     <th scope="col">Total Amount</th>
                     <th scope="col">Status</th>
-
                     <th scope="col">Details</th>
-
                 </tr>
             </thead>
             <tbody>
                 {{#each orders}}
                 <tr>
-                    <th scope="row">{{inc @index}}</th>
+                    <td>{{inc @index}}</td>
                     <td>{{this._id}}</td>
                     <td><img src="/pic/{{this.products.image.filename}}" style="width: 40px;height: 50px;"></td>
                     <td>{{this.products.name}}</td>
                     <td>{{this.quantity}}</td>
                     <td>{{this.totalPrice}}</td>
-                    <td>{{this.status}}</td>
+                    <td>{{this.orderStatus}}</td>
 
                     <td><a href="/orderView/{{this._id}}" class="btn btn-dark">View</a>
                     </td>

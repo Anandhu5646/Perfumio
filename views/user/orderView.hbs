@@ -2,33 +2,38 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-   integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="/user/productDetails.css">
-    <title>Document</title>
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="/user/productDetails.css">
+  <title>Document</title>
 </head>
 
 <body>
-    <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
-    <header>
+  <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
+  <header>
     <nav>
       <div class="logo" style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-        
-          <a href="/"><h1>Perfumio</h1></a>
-        
+
+        <a href="/">
+          <h1>Perfumio</h1>
+        </a>
+
       </div>
-      <div class="search__bar__header">
-        <input type="text" placeholder="Search" style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-         <a onclick="cart" href="/search"><img src="/images/search-30.png"
-                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 26px;background-color: aliceblue;" alt=""></a>
-       
-      </div>
+      <form action="/search" method="post">
+                <div class="search__bar__header mt-4">
+                    <input type="text" placeholder="Search" name="name"
+                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
+                            
+                            alt=""></button>
+                </div>
+            </form>
       <div class="cart__header__desktop" style="color: white;">
         <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
         <a href="/cart"><img src="/images/icons8-shopping-cart-64.png"
@@ -51,28 +56,28 @@
               </li>
 
               <li class="main__navigations__div__li">
-                        {{#unless Login }}
-                        <a href="/login" class="anchor__remains__same"
-                            style="padding-bottom: 0;font-weight: bold;">Login <i class="fas fa-sign-out-alt"></i> </a>
+                {{#unless Login }}
+                <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
+                    class="fas fa-sign-out-alt"></i> </a>
 
-                        {{else}}
+                {{else}}
 
-                        <div class="dropdown-center">
-                            <button class="btn btn-black dropdown-toggle"
-                                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                {{Login}}
-                            </button>
-                            <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
-                                <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                <div class="dropdown-center">
+                  <button class="btn btn-black dropdown-toggle"
+                    style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{Login}}
+                  </button>
+                  <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
 
-                            </ul>
-                        </div>
+                  </ul>
+                </div>
 
 
-                        {{/unless}}
-                    </li>
+                {{/unless}}
+              </li>
 
             </ul>
 
@@ -85,8 +90,8 @@
             <li>
               <a href="">Categories</a>
               <div>
-                <p><a href="">Men</a></p>
-                <p><a href="">Women</a></p>
+                <p><a href="/men">Men</a></p>
+                <p><a href="/women">Women</a></p>
 
               </div>
             </li>
@@ -98,84 +103,92 @@
 
     </nav>
   </header>
-   
-
-
-
-
-    <div class="container my-5" style="padding-top: 150px;">
-
-        <div class="row">
-            <div class="col-md-5">
-
-                {{!-- <ul class="preview-thumbnail nav nav-tabs">
-                    <li class="active"><a data-target="#pic-1" data-toggle="tab"><img onclick="changeImage(this.id)"
-                                id="pic-2" src="http://placekitten.com/200/126" /></a></li>
-                    <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                    <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                    <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                               
-                </ul> --}}
-
-
-
-
-                <div class="wrap-pic-w pos-relative" style="z-index: 10;">
-                    <img style="height: 450px;" src="/pic/{{orders.products.image.filename}}" alt="IMG-PRODUCT">
-                </div>
-
-
-            </div>
-            <div class="col-md-6  ms-5">
-                <div class="main-description px-2">
-                    <div class="category text-bold">
-                        Category: {{orders.products.category}}
-                    </div>
-                    <div class="product-title text-bold my-3">
-                        {{orders.products.name}}
-                    </div>
-
-
-                    <div class="price-area my-4">
-                        <p class="old-price mb-1"><del>{{orders.products.mrp}}</del> </p>
-                        <p class="new-price text-bold mb-1">{{orders.products.price}}</p>
-
-
-                    </div>
 
 
 
 
 
+  <div class="container my-5" style="padding-top: 150px;">
 
-                </div>
+    <div class="row">
+      <div class="col-md-5">
 
-                <div class="product-details my-4">
-                    <p class="details-title text-color mb-1">Product Details</p>
-                    <p class="description">{{orders.products.description}}</p>
-                </div>
-                <div class="product-details my-4">
-                    <p class="details-title text-color mb-1">Order Status</p>
-                    <p class="description"><strong>{{orders.orderStatus}}</strong></p>
-                </div>
-
-                <div class="block">
-                    <a href="/"><button class="shadow btn custom-btn"
-                            style="width: 150px;background-color: black;">Cancel</button></a>
-                    <a href="/"><button class="shadow btn custom-btn"
-                            style="width: 150px;background-color: black;margin-left: 20px;">Home</button></a>
-                </div>
+        {{!-- <ul class="preview-thumbnail nav nav-tabs">
+          <li class="active"><a data-target="#pic-1" data-toggle="tab"><img onclick="changeImage(this.id)" id="pic-2"
+                src="http://placekitten.com/200/126" /></a></li>
+          <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+          <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+          <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                     
+        </ul> --}}
 
 
-            </div>
+
+
+        <div class="wrap-pic-w pos-relative" style="z-index: 10;">
+          <img style="height: 450px;" src="/pic/{{orders.products.image.filename}}" alt="IMG-PRODUCT">
         </div>
 
+
+      </div>
+      <div class="col-md-6  ms-5">
+        <div class="main-description px-2">
+          <div class="category text-bold">
+            Category: {{orders.products.category}}
+          </div>
+          <div class="product-title text-bold my-3">
+            {{orders.products.name}}
+          </div>
+
+
+          <div class="price-area my-4">
+            <p class="old-price mb-1"><del>{{orders.products.mrp}}</del> </p>
+            <p class="new-price text-bold mb-1">{{orders.products.price}}</p>
+
+
+          </div>
+
+
+
+
+
+
+        </div>
+
+        <div class="product-details my-4">
+          <p class="details-title text-color mb-1">Product Details</p>
+          <p class="description">{{orders.products.description}}</p>
+        </div>
+        <div class="product-details my-4">
+          <p class="details-title text-color mb-1">Order Status</p>
+          <p class="description"><strong>{{orders.orderStatus}}</strong></p>
+        </div>
+
+        {{#ifEquals orders.orderStatus "Delivered"}}
+        <a href="/cancel/{{this._id}}"><button class="shadow btn custom-btn"
+            style="width: 150px;background-color: black;">Return</button></a>
+        {{/ifEquals}}
+
+        {{#ifEquals orders.orderStatus "pending"}}
+        <a href="/cancel/{{this._id}}"><button class="shadow btn custom-btn"
+            style="width: 150px;background-color: black;">Cancel</button></a>
+        {{/ifEquals}}
+        {{#ifEquals orders.orderStatus "Shipped"}}
+        <a href="/cancel/{{this._id}}"><button class="shadow btn custom-btn"
+            style="width: 150px;background-color: black;">Cancel</button></a>
+        {{/ifEquals}}
+
+
+      </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
-  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

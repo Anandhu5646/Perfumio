@@ -10,7 +10,7 @@ let orderControl ={
 
     getUserOrders:async(req,res)=>{
         let _id= req.session.user._id
-        let orders = await orderModel.find({userId:_id}).lean()   
+        let orders = await orderModel.find({userId:_id}).sort({_id:-1}).lean()   
         let Login = req.session.user.name
 
         res.render('orderHistory',{orders, Login})     

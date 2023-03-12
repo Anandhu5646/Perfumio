@@ -19,10 +19,15 @@
             <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
                <a href="/"><h1>Perfumio</h1></a> 
             </div>
-            <div class="search__bar__header ">
-                <input type="text" placeholder="Search">
-                <input type="button" value="search">
-            </div>
+           <form action="/search" method="post">
+                <div class="search__bar__header mt-4">
+                    <input type="text" placeholder="Search" name="name"
+                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
+                            
+                            alt=""></button>
+                </div>
+            </form>
             <div class="cart__header__desktop " style="color: white;">
                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
                 <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
@@ -50,7 +55,12 @@
                             parimal mahindrakar.</a></li> --}}
                     <li class="main__navigations__div__li">
                         
-                        {{#if Login}}
+                        {{#unless Login }}
+                        <a href="/login" class="anchor__remains__same"
+                            style="padding-bottom: 0;font-weight: bold;">Login <i class="fas fa-sign-out-alt"></i> </a>
+
+                        {{else}}
+
                         <div class="dropdown-center">
                             <button class="btn btn-black dropdown-toggle"
                                 style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
@@ -65,7 +75,7 @@
                         </div>
 
 
-                        {{/if}}
+                        {{/unless}}
                     </li>
                     <div class="bars save__from__right">
                         <div class="line1"></div>
@@ -106,8 +116,8 @@
                     <div class="row g-0">
                         <div class="col-md-12 border-right p-5">
                             <div class="text-center order-details">
-                                <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span
-                                        class="check1"> <i class="fa fa-check"></i></span> <span
+                                <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span>
+                                        <img src="/images/success.jpg" style="width: 5rem; height: 5rem;"> </span> <span
                                         class="font-weight-bold">Order Confirmed</span> <small class="mt-2">Your
                                         illustraion will go to you soon</small> <a href="#"
                                         class="text-decoration-none invoice-link" style="color: rgb(230, 52, 64);">View Invoice</a> </div>
@@ -120,7 +130,8 @@
                     <div> </div>
                 </div>
             </div>
-        </div>
+            {{!-- class="check1"> --}}
+        {{!-- </div><i class="fa fa-check"></i> --}}
     </div>
 </body>
 

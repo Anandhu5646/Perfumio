@@ -7,14 +7,14 @@ const fs = require('fs')
 const { promisify } = require('util')
 const couponModel = require('../models/couponModel')
 const orderModel = require('../models/orderModel')
-const unlinkAsync = promisify(fs.unlink)
+
 
 
 let adminControl = {
     getAdminLogin: (req, res) => {
         try {
             if (req.session.admin) {
-                res.redirect('/admin/home');
+                res.redirect('/admin/');
             } else {
                 res.render('adminLogin');
             }
@@ -27,6 +27,83 @@ let adminControl = {
         }
     }
     ,
+    getAdminDashboard: async (req, res) => {
+        try {
+          const orderCount = await orderModel.countDocuments().lean();
+      
+          const deliveredOrders = await orderModel.find({ orderStatus: "Delivered" }).lean();
+      
+          let totalRevenue = 0;
+          let Orders = await Promise.all(deliveredOrders.map(async (item) => {
+            totalRevenue = totalRevenue + item.totalPrice;
+            return item;
+          }));
+      
+          const monthlyDataArray = await orderModel.aggregate([
+            { $match: { orderStatus: "Delivered" } },
+            {
+              $addFields: {
+                orderDateConverted: {
+                  $toDate: "$orderDate"
+                }
+              }
+            },
+            {
+              $group: {
+                _id: { $month: "$orderDateConverted" },
+                sum: { $sum: "$totalPrice" }
+              }
+            },
+          ]);
+      
+          const monthlyReturnArray = await orderModel.aggregate([
+            {
+              $match: { orderStatus: "Return" }
+            },
+            {
+              $group: {
+                _id: { $month: "$orderDate" },
+                sum: { $sum: "$totalPrice" }
+              }
+            }
+          ]);
+      
+          let monthlyDataObject = {};
+          let monthlyReturnObject = {}
+          monthlyDataArray.map((item) => {
+            monthlyDataObject[item._id] = item.sum;
+          });
+          monthlyReturnArray.map(item => {
+            monthlyReturnObject[item._id] = item.sum
+          })
+          let monthlyReturn = []
+          for (let i = 1; i <= 12; i++) {
+            monthlyReturn[i - 1] = monthlyReturnObject[i] ?? 0
+          }
+          let monthlyData = [];
+          for (let i = 1; i <= 12; i++) {
+            monthlyData[i - 1] = monthlyDataObject[i] ?? 0;
+          }
+          const online = await orderModel.find({ payment: "online" }).countDocuments().lean();
+          const cod = await orderModel.find({ payment: "cod" }).countDocuments().lean();
+          const userCount = await userModel.countDocuments().lean();
+      
+          const productCount = await productModel.countDocuments().lean();
+          res.render("sample", {
+            totalRevenue,
+            orderCount,
+            monthlyData,
+            monthlyReturn,
+            online,
+            cod,
+            productCount,
+            userCount,
+          });
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      ,
 
     postAdminLogin: async (req, res) => {
         try {
@@ -35,12 +112,14 @@ let adminControl = {
             if (adminInfo) {
                 if (adminInfo.password == password) {
                     req.session.admin = true;
-                    res.render('adminHome');
+                    res.redirect('/admin/dashboard');
                 } else {
                     res.status(401).send('Invalid password');
+                    res.redirect('/admin/')
                 }
             } else {
                 res.status(401).send('Invalid email');
+                res.redirect('/admin/')
             }
         } catch (err) {
             console.log(err);
@@ -48,6 +127,7 @@ let adminControl = {
         }
     }
     ,
+
 
 
     // admin user page// 
@@ -527,36 +607,36 @@ let adminControl = {
         const start = req.query.start
         const end = req.query.end
         let orders
-    
+
         let deliveredOrders
         let salesCount
         let salesSum
         let result
         if (start) {
             orders = await orderModel.find({ orderDate: { $gte: start, $lt: end } }).lean()
-    
+
             deliveredOrders = orders.filter(order => order.orderStatus === "Delivered")
             salesCount = await orderModel.countDocuments({ orderDate: { $gte: start, $lt: end }, orderStatus: "Delivered" })
             salesSum = deliveredOrders.reduce((acc, order) => acc + order.totalPrice, 0)
-    
-        } else {    
-             
+
+        } else {
+
             deliveredOrders = await orderModel.find({ orderStatus: "Delivered" }).lean()
-           
+
             salesCount = await orderModel.countDocuments({ orderStatus: "Delivered" })
             result = await orderModel.aggregate([{ $match: { orderStatus: "Delivered" } },
-                 {
+            {
                 $group: { _id: null, totalPrice: { $sum: '$totalPrice' } }
             }])
-            salesSum = result[0].totalPrice
+            salesSum = result[0]?.totalPrice
         }
         const users = await orderModel.distinct('userId')
         const userCount = users.length
         res.render('adminSalesreport', { userCount, salesCount, salesSum, deliveredOrders })
     }
-    
 
-     
+
+
 
 
 
