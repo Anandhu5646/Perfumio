@@ -41,17 +41,21 @@ const orderSchema= new mongoose.Schema({
         required:true
     },
     orderDate:{
-        type:String,
+        type:Date,
         required:true
     },
     cancel: {
         type:Boolean,
-        default:false
+  
     },
     discountedPrice:{
         type:Number,
-        required:true
-    }
+        
+    },
+    return: {
+        type:Boolean,
+        
+    },
     
     
 })

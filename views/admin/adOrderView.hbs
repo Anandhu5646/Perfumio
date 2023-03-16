@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="/admin/orderView.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <nav class="navbar">
+        <div class="navbar-container container">
+            <input type="checkbox" name="" id="" />
+            <div class="hamburger-lines">
+                <span class="line line1"></span>
+                <span class="line line2"></span>
+                <span class="line line3"></span>
+            </div>
+            <ul class="menu-items">
+              <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/category">Categories</a></li>
+                <li><a href="/admin/product">Products</a></li>
+                <li><a href="/admin/user">Users</a></li>
+                <li><a href="/admin/coupon">Coupons</a></li>
+                <li><a href="/admin/order">Orders</a></li>
+                <li><a href="/admin/salesReport">Sales Report</a></li>
+                <li><a href="/admin/logout">Logout</a></li>
+            </ul>
+            <h1 class="logo">Perfumio</h1>
+        </div>
+    </nav>
+
+
+
+
+
+  <div class="container my-5" style="padding-top: 50px;">
+
+    <div class="row">
+      <div class="col-md-5">
+
+        {{!-- <ul class="preview-thumbnail nav nav-tabs">
+          <li class="active"><a data-target="#pic-1" data-toggle="tab"><img onclick="changeImage(this.id)" id="pic-2"
+                src="http://placekitten.com/200/126" /></a></li>
+          <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+          <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+          <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                     
+        </ul> --}}
+
+
+
+
+        <div class="wrap-pic-w pos-relative" style="z-index: 10;">
+          <img style="height: 450px;" src="/pic/{{adorders.products.image.filename}}" alt="IMG-PRODUCT">
+        </div>
+
+
+      </div>
+      <div class="col-md-6  ms-5">
+        <div class="main-description px-2">
+          <div class="category text-bold">
+            Category: {{adorders.products.category}}
+          </div>
+          <div class="product-title text-bold my-3">
+            {{adorders.products.name}}
+          </div>
+
+
+          <div class="price-area my-4">
+            <p class="old-price mb-1"><del>{{adorders.products.mrp}}</del> </p>
+            <p class="new-price text-bold mb-1">{{adorders.products.price}}</p>
+
+
+          </div>
+
+
+
+
+
+
+        </div>
+
+        <div class="product-details my-4">
+          <p class="details-title text-color mb-1">Product Details</p>
+          <p class="description">{{adorders.products.description}}</p>
+        </div>
+
+        <div class="product-details my-4">
+          <p class="details-title text-color mb-1">Shipping Address</p>
+          <p class="text">{{adorders.address.name}}</p>
+          <p class="text">{{adorders.address.mobile}}</p>
+          <p class="text">{{adorders.address.address}}</p>
+          <p class="text">{{adorders.address.city}}</p>
+          <p class="text">{{adorders.address.pincode}}</p>
+          
+
+        </div>
+        <div class="product-details my-4">
+          <p class="details-title text-color mb-1">Order Status</p>
+          <p class="description"><strong>{{adorders.orderStatus}}</strong></p>
+        </div>
+
+        {{#ifEquals orders.orderStatus "Delivered"}}
+        <a href="/cancel/{{this._id}}"><button class="shadow btn custom-btn"
+            style="width: 150px;background-color: black;">Return</button></a>
+        {{/ifEquals}}
+
+        {{#ifEquals orders.orderStatus "pending"}}
+        <a href="/cancel/{{this._id}}"><button class="shadow btn custom-btn"
+            style="width: 150px;background-color: black;">Cancel</button></a>
+        {{/ifEquals}}
+        {{#ifEquals orders.orderStatus "Shipped"}}
+        <a href="/cancel/{{this._id}}"><button class="shadow btn custom-btn"
+            style="width: 150px;background-color: black;">Cancel</button></a>
+        {{/ifEquals}}
+
+
+      </div>
+    </div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

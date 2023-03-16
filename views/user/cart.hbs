@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-   integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link rel="stylesheet" href="/user/profle.css">
   <link rel="stylesheet" href="/user/productDetails.css">
   <link rel="stylesheet" href="/user/cart.css">
@@ -32,14 +32,14 @@
         </a>
       </div>
       <form action="/search" method="post">
-                <div class="search__bar__header mt-4">
-                    <input type="text" placeholder="Search" name="name"
-                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
-                            
-                            alt=""></button>
-                </div>
-            </form>
+        <div class="search__bar__header mt-4">
+          <input type="text" placeholder="Search" name="name"
+            style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+          <button
+            style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
+            type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png" alt=""></button>
+        </div>
+      </form>
       <div class="cart__header__desktop " style="color: white;">
         <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
         <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
@@ -121,18 +121,13 @@
       </div>
       {{!-- <div style="align-items: center;"></div> --}}
       {{/if}}
-      <div class="alert alert-dark alert-dismissible fade show" role="alert" style="display: none;" id="cartAlert">
-        <div>
-          <strong>Out Of Stock!</strong>
-        </div>
-
-
-      </div>
+      
       {{#each products}}
       <div class=" mt-5 container-fluid row ms-2">
 
         <div class="col-md-4 cartCard">
           <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
+          <span id="message{{this._id}}" class="text-danger font-weight-bold"></span>
         </div>
         <div class="col-md-8 cart">
           <h3>{{this.name}}</h3>
@@ -144,7 +139,9 @@
               onclick="increment('{{this._id}}')">+</button>
           </div>
           <h4 id="singlePrice{{this._id}}">{{this.price}}</h4>
-          <a href="/removeCart/{{this._id}}/{{this.quantity}}" class="btn btn-warning ">Remove From cart </a>
+
+          <a href="/removeCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a>
+
         </div>
       </div>
       {{/each}}
@@ -163,7 +160,7 @@
             <th scope="col">Item</th>
             <th scope="col">Quantity</th>
             <th scope="col">Price</th>
-            <th style="visibility: hidden;" scope="col">MRP</th>
+            {{!-- <th style="visibility: hidden;" scope="col">MRP</th> --}}
           </tr>
         </thead>
         <tbody>
@@ -173,18 +170,13 @@
             <td>{{this.name}}</td>
             <td id="quantity{{this._id}}">{{this.quantity}}</td>
             <td id="price{{this._id}}">{{this.price}}</td>
-            <td style="visibility: hidden;" id="mrp{{this.id}}">{{this.mrp}}</td>
+            {{!-- <td style="visibility: hidden;" id="mrp{{this.id}}">{{this.mrp}}</td> --}}
           </tr>
           {{/each}}
 
 
 
         </tbody>
-        <tr>
-          <td>Total MRP</td>
-          <td></td>
-          <td id="totalMRP">{{totalMRP}}</td>
-        </tr>
         <tr>
           <td>Discount</td>
           <td></td>
@@ -217,60 +209,45 @@
   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
   <script>
     function increment(id) {
-      axios.get('/addquantity/' + id).then((result) => {
-        if (result.data.success) {
-          let quantityBox = document.getElementById('quantityBox' + id)
-          quantityBox.textContent = Number(quantityBox.textContent) + 1
-          document.getElementById('quantity' + id).textContent = quantityBox.textContent
-          let price = document.getElementById('singlePrice' + id)
-          console.log(price.textContent)
-          document.getElementById('price' + id).textContent = Number(quantityBox.textContent) * Number(price.textContent)
-          document.getElementById('totalAmount').textContent = document.getElementById('price' + id).textContent
-          let totalMRP = document.getElementById('mrp' + id)
-          document.getElementById('totalMRP').textContent = Number(quantityBox.textContent) * Number(mrp.textContent)
-        }
-
-      })
-    }
-
+    axios.get('/addquantity/' + id).then((result) => {
+      console.log(result)
+      if (result.data.success) {
+        let quantityBox = document.getElementById('quantityBox' + id)
+        quantityBox.textContent = Number(quantityBox.textContent) + 1
+        document.getElementById('quantity' + id).textContent = quantityBox.textContent
+        let price = document.getElementById('singlePrice' + id)
+        console.log(price.textContent)
+        document.getElementById('price' + id).textContent = Number(quantityBox.textContent) * Number(price.textContent)
+        document.getElementById('totalAmount').textContent = document.getElementById('price' + id).textContent
+      }
+      else {
+         document.getElementById('message'+id).textContent="Out of Stock"
+      }
+    })
+  }
+    
     function decrement(id) {
-      axios.get('/minusquantity/' + id).then((result) => {
-        if (result.data.success) {
-          let quantityBox = document.getElementById('quantityBox' + id)
-          quantityBox.textContent = Number(quantityBox.textContent) - 1
-          document.getElementById('quantity' + id).textContent = quantityBox.textContent
-          let price = document.getElementById('singlePrice' + id)
-          document.getElementById('price' + id).textContent = Number(quantityBox.textContent) * Number(price.textContent)
-          document.getElementById('totalAmount').textContent = document.getElementById('price' + id).textContent
-          let totalMRP = document.getElementById('mrp' + id)
-          document.getElementById('totalMRP').textContent = Number(quantityBox.textContent) * Number(mrp.textContent)
-        }
-      })
-    }
-
-
-    function checkQuantity() {
-      axios.post("/checkQuantity").then(result => {
-        if (result?.data?.error) {
-          document.getElementById('cartAlert').style.display = "flex"
-          response.data.outOfQuantity.forEach(item => {
-            if (item.balanceQuantity <= 0) {
-              document.getElementById(item.id).innerHTML = "Out Of Stock"
-            } else {
-              document.getElementById(item.id).innerHTML = "Only " + item.balanceQuantity + " stocks left"
-            }
-          })
-        } else {
-          window.location.href = "/checkout"
-        }
-      })
+      let quantityBox = document.getElementById('quantityBox' + id)
+      if (Number(quantityBox.textContent) >= 2) {
+        axios.get('/minusquantity/' + id).then((result) => {
+          if (result.data.success) {
+            quantityBox.textContent = Number(quantityBox.textContent) - 1
+            document.getElementById('quantity' + id).textContent = quantityBox.textContent
+            let price = document.getElementById('singlePrice' + id)
+            document.getElementById('price' + id).textContent = Number(quantityBox.textContent) * Number(price.textContent)
+            document.getElementById('totalAmount').textContent = document.getElementById('price' + id).textContent
+   
+          }
+        })
+      }
     }
   </script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
-  integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
 
   <script>new WOW().init();</script>
   <script>$(".bars").click(() => {
@@ -279,6 +256,26 @@
       $(".bars").toggleClass("toggle")
 
     })</script>
+
+
 </body>
 
 </html>
+
+{{!-- 
+function changeQuantity(prodId){
+
+axios.get('/increment/'+prodId).then((resp)=>{
+console.log(resp)
+if(resp.data.qty==resp.data.stockValue){
+document.getElementById("quantityBox"+prodId).value=resp.data.qty
+document.getElementById('stat').innerText="out of stock"
+}else{
+let quantity= document.getElementById("quantityBox"+prodId)
+quantity.value=Number(quantity.value)+1;
+let price=document.getElementById('price'+prodId).textContent
+document.getElementById('totalPrice'+prodId).textContent=Number(quantity.value)*Number(price)
+let Allamount=document.getElementById('allamount').textContent
+document.getElementById('allamount').textContent=Number(Allamount)+Number(price)
+ 
+} --}}

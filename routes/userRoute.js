@@ -1,19 +1,18 @@
 const express = require('express');
-const { getUserOrderView, getUserOrders } = require('../controller/orderControl');
+const { getUserAddToCart, getUserRemoveCart, decrementQuantity, incrementQuantity, getUserCartDetail, } = require('../controller/cartControl');
+const { getUserRemoveCoupon } = require('../controller/couponCountrol');
+const { getUserOrderView, getUserOrders, getUserOrderCancel, getUserOrderReturn, postUserCheckout, getUserCheckout, getUserPayment, postUserApplyCoupon } = require('../controller/orderControl');
 const { getUserHome, getUserLogin, getUserSignup, postUserLogin, postUserSignup,
      getUserOtp, postUserOtp, getUserProductDetails, getUserProfile,
-     getUserLogout, getUserAddToCart, getUserCartDetail, resendOTP,
-     getUserCheckout, getUserAddAddress, postUserAddAddress, getUserEditAddress,
-     postUserEditAddress, getUserRemoveCart, decrementQuantity, incrementQuantity,
-     getUserDeleteAddress, getUserAddToWishlist, getUserWishlistToCart, getUserWishlist,
-     postUserApplyCoupon, postUserCheckout, postUserCheckoutAddAddress, getUserPayment,
-     getUserRemoveCoupon, getMenCategory, getWomenCategory, sortLowToHigh,
-     getUserRemoveFromWishlist, checkQuantity, getUserAllProducts, sortHighToLow, categoryFilterPdt, postUserSearch, cancelOrder } = require('../controller/userControl');
+     getUserLogout, resendOTP, getUserAddAddress, postUserAddAddress, getUserEditAddress,
+     postUserEditAddress, getUserDeleteAddress, getUserAddToWishlist, getUserWishlistToCart, getUserWishlist,
+     postUserCheckoutAddAddress, getWomenCategory, sortLowToHigh,
+     getUserRemoveFromWishlist, getUserAllProducts, sortHighToLow, categoryFilterPdt, postUserSearch, getMenCategory, MenLowToHighCategory, MenHighTolowCategory, menHighTolowCategory, WomenLowToHighCategory, womenHighTolowCategory, womenLowToHighCategory, menLowToHighCategory, } = require('../controller/userControl');
 const verifyNotLogin = require('../middlewares/verifyNotLogin');
 const verifyUser = require('../middlewares/verifyUser');
 const router = express.Router();
 
-  
+
 
 
 
@@ -35,11 +34,11 @@ router.use(verifyUser)
 router.get('/cart', getUserCartDetail)
 router.get('/allProducts', getUserAllProducts)
 router.get('/addtocart/:id', getUserAddToCart)
-router.get('/removeCart/:id/:quantity', getUserRemoveCart)
+router.get('/removeCart/:id/', getUserRemoveCart)
 router.get('/profile', getUserProfile)
 router.get('/addquantity/:id', incrementQuantity)
 router.get('/minusquantity/:id', decrementQuantity)
-router.post('/checkQuantity', checkQuantity)
+// router.post('/checkQuantity', checkQuantity)
 router.get('/checkout', getUserCheckout)
 router.get('/addAddress', getUserAddAddress)
 router.get('/deleteAddress/:id', getUserDeleteAddress)
@@ -58,12 +57,18 @@ router.post('/placeOrder', postUserCheckout)
 router.get('/verifyPayment', getUserPayment)
 router.get('/removeCoupon', getUserRemoveCoupon)
 router.get('/men', getMenCategory)
+router.get('/menLowToHigh',  menLowToHighCategory)
+router.get('/menHighToLow', menHighTolowCategory)
+router.get('/womenLowToHigh',   womenLowToHighCategory)
+router.get('/womenHighToLow', womenHighTolowCategory)
 router.get('/women', getWomenCategory)
 router.get('/lowToHigh', sortLowToHigh)
 router.get('/highToLow', sortHighToLow)
 router.get('/catFilter/:catgy', categoryFilterPdt)
 router.post('/search', postUserSearch)
-// router.post('/cancel/:id', cancelOrder)
+router.get('/cancelPdt/:id', getUserOrderCancel)
+router.get('/returnPdt/:id', getUserOrderReturn)
+
 
 
 

@@ -6,6 +6,100 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+        }
+
+        @media screen and (max-width: 768px) {
+            .logout {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+
+            input[type="checkbox"]:not(:checked)+.logout {
+                display: none;
+            }
+
+            .navbar-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .logo {
+                margin-top: 1rem;
+            }
+
+            .menu-items {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 0;
+                background-color: #fff;
+                z-index: 1;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .menu-items li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu-items li a {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .hamburger-lines {
+                display: block;
+                position: relative;
+                width: 2rem;
+                height: 1rem;
+                cursor: pointer;
+            }
+
+            .line {
+                display: block;
+                position: absolute;
+                height: 2px;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-out;
+            }
+
+            .line1 {
+                transform: translateY(-0.5rem);
+            }
+
+            .line2 {
+                transform: translateY(0);
+            }
+
+            .line3 {
+                transform: translateY(0.5rem);
+            }
+
+            input[type="checkbox"] {
+                display: none;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -31,86 +125,67 @@
         </div>
     </nav>
 
-  <section style="margin-top: 80px; background-color: rgb(255, 255, 255);margin-left: 6rem;margin-right: 6rem;">
-    <div class="container">
-      <div class="row">
+  <section class="my-section" style="padding-top: 150px;">
+  <div class="container">
+    <div class="row">
 
-        <div class="d-flex ">
-          
-            {{!-- <form class=" form-inline my-2 my-lg-0">
-              
-              <input class="form-control mr-sm-2" type="text" style="width: 200px;" placeholder="Search catogary">
-              <a href="" style="text-decoration: none;width: 10rem;margin-left: 1rem;"><button
-          class="btn btn-outline-primary">Search</button></a>
-              
-            </form> --}}
-          
-          <div class="ms-auto" id="addCategory">
-            <a href="/admin/addcategory" style="text-decoration: none;"><button
-                  class="btn btn-outline-primary mt-3">Add</button></a>
+      <div class="col-md-6">
+        {{!-- <form class="form-inline my-2 my-lg-0">
+          <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search category" aria-label="Search">
+            <button class="btn btn-outline-primary" type="button">Search</button>
           </div>
-
-
-        </div>
-
-
+        </form> --}}
       </div>
 
-      <table class="table" style="margin-top: 20px;">
-        <thead>
-          <tr>
-            <th scope="col">No</th>
+      <div class="col-md-6 text-end">
+        <a href="/admin/addcategory" class="btn btn-outline-primary mt-3">Add</a>
+      </div>
 
-            <th scope="col">Category</th>
-            
-
-            <th scope="col">Edit category</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each categories}}
-
-          <tr>
-
-            <td>{{inc @index}}</td>
-
-            <td>{{this.category}}</td>
-            
-
-            <td>
-              <li style="list-style: none;"><a href="/admin/editcategory/{{this._id}}" style="text-decoration: none;">
-                  <button class="btn btn-outline-primary">Edit</button></a></li>
-
-            </td>
-            <td>{{#if this.block}}
-              <p>Blocked</p>
-              {{else}}
-              <p>Active</p>
-              {{/if}}
-            </td>
-            <td>
-              {{#if this.block}}
-              <button
-                onclick="if( confirm(' Are you sure to unblock category?')){window.location.href='/admin/unblockcat/{{this._id}}' }"
-                class="btn btn-success btn-block mb-4">Unblock</button>
-              {{else}}
-              <button
-                onclick="if( confirm(' Are you sure to block category?')){window.location.href='/admin/blockcat/{{this._id}}' }"
-                class="btn btn-danger btn-block mb-4">Block</button>
-              {{/if}}
-
-            </td>
-          </tr>
-
-          {{/each}}
-
-        </tbody>
-      </table>
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover mt-4">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Category</th>
+                <th scope="col">Edit category</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each categories}}
+              <tr>
+                <td>{{inc @index}}</td>
+                <td>{{this.category}}</td>
+                <td>
+                  <a href="/admin/editcategory/{{this._id}}" class="btn btn-outline-primary">Edit</a>
+                </td>
+                <td>
+                  {{#if this.block}}
+                  <p>Blocked</p>
+                  {{else}}
+                  <p>Active</p>
+                  {{/if}}
+                </td>
+                <td>
+                  {{#if this.block}}
+                  <button onclick="if(confirm('Are you sure to unblock category?')){window.location.href='/admin/unblockcat/{{this._id}}'}" class="btn btn-success btn-block">Unblock</button>
+                  {{else}}
+                  <button onclick="if(confirm('Are you sure to block category?')){window.location.href='/admin/blockcat/{{this._id}}'}" class="btn btn-danger btn-block">Block</button>
+                  {{/if}}
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
     </div>
-  </section>
+  </div>
+</section>
 </body>
 
 </html>

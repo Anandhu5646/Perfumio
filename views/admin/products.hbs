@@ -7,10 +7,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/admin/product.css" />
+  <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+        }
+
+        @media screen and (max-width: 768px) {
+            .logout {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+
+            input[type="checkbox"]:not(:checked)+.logout {
+                display: none;
+            }
+
+            .navbar-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .logo {
+                margin-top: 1rem;
+            }
+
+            .menu-items {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 0;
+                background-color: #fff;
+                z-index: 1;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .menu-items li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu-items li a {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .hamburger-lines {
+                display: block;
+                position: relative;
+                width: 2rem;
+                height: 1rem;
+                cursor: pointer;
+            }
+
+            .line {
+                display: block;
+                position: absolute;
+                height: 2px;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-out;
+            }
+
+            .line1 {
+                transform: translateY(-0.5rem);
+            }
+
+            .line2 {
+                transform: translateY(0);
+            }
+
+            .line3 {
+                transform: translateY(0.5rem);
+            }
+
+            input[type="checkbox"] {
+                display: none;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container-scroller">
+  <div class="container-scroller" style="padding-top: 150px;">
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <nav class="navbar">

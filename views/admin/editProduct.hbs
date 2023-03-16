@@ -58,19 +58,19 @@
                 </div>
 
                 <div class="mb-5">
-                  <div><img src="/pic/{{products.image.filename}}" id="imgView" style="width: 50px;height: 70px;"></div>
+                  <div><img src="/pic/{{products.image.filename}}" id="imageView" style="width: 50px;height: 70px;"></div>
                   <label for="formFile" class="form-label">Main image</label>
                   <input class="form-control" type="file" name="image" onchange="viewImage(event)" id="formFile" >
                 </div>
 
                 <div class="mb-5">
-                  <div>
+                  <div >
                   {{#each products.subimage}}
-                    <img src="/pic/{{this.filename}}" style="width: 50px;height: 70px;" id="imgView">
+                    <img src="/pic/{{this.filename}}" style="width: 50px;height: 70px;" id="{{this.filename}}">
                   {{/each}}
                     </div>
                   <label for="formFile" class="form-label">Sub-image</label>
-                  <input class="form-control" type="file" name="subimage" id="formFile" onchange="viewImage(event)" multiple>
+                  <input class="form-control" type="file" name="subimage" id="formFile" onchange="viewSideImages(event)" multiple>
                 </div>
 
 
@@ -94,4 +94,23 @@
   function viewImage(event){
     document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
   }
+</script>
+<script>
+  function viewImage(event) {
+      console.log("event", event);
+      const imgElement = document.getElementById("imageView");
+      if (event.target.files && event.target.files[0]) {
+        imgElement.src = URL.createObjectURL(event.target.files[0]);
+      }
+    }
+
+    function viewSideImages(event) {
+      console.log("event", event);
+      const sideImageElements = document.getElementsByClassName("sideImageView");
+      for (let i = 0; i < event.target.files.length; i++) {
+        if (event.target.files[i]) {
+          sideImageElements[i].src = URL.createObjectURL(event.target.files[i]);
+       }
+      }
+    }
 </script>
