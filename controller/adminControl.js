@@ -4,8 +4,7 @@ const userModel = require('../models/userModel')
 const adminModel = require('../models/adminModel')
 const sharp = require('sharp')
 const fs = require('fs')
-const { promisify } = require('util')
-const couponModel = require('../models/couponModel')
+
 const orderModel = require('../models/orderModel')
 const moment = require('moment');
 
@@ -283,12 +282,23 @@ let adminControl = {
             deliveredOrders = orders.filter(order => order.orderStatus === "Delivered")
             salesCount = await orderModel.countDocuments({ orderDate: { $gte: start, $lte: end }, orderStatus: "Delivered" })
             salesSum = deliveredOrders.reduce((acc, order) => acc + order.totalPrice, 0)
+            deliveredOrders = deliveredOrders.map(order => {
+                return {
+                    ...order,
+                    orderDate: moment(order.orderDate).format('DD/MM/YYYY')
+                }
+            })
             
 
         } else {
 
             deliveredOrders = await orderModel.find({ orderStatus: "Delivered" }).lean()
-
+            deliveredOrders = deliveredOrders.map(order => {
+                return {
+                    ...order,
+                    orderDate: moment(order.orderDate).format('DD/MM/YYYY')
+                }
+            })
             salesCount = await orderModel.countDocuments({ orderStatus: "Delivered" })
             result = await orderModel.aggregate([{ $match: { orderStatus: "Delivered" } },
             {

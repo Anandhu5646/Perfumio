@@ -6,17 +6,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+   <link rel="stylesheet" href="/user/userHome.css" />
+    <link rel="stylesheet" type="text/css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <link rel="stylesheet" href="/user/profle.css">
-  <link rel="stylesheet" href="/user/productDetails.css">
-  <link rel="stylesheet" href="/user/cart.css">
+  
+  
   <link rel="stylesheet" href="/user/userHome.css" />
 
-
+<style>@media only screen and (max-width: 768px) {
+  div {
+    margin-left: 0;
+  }
+  
+  button {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 1rem;
+  }
+}</style>
 
   <title>Document</title>
 </head>
@@ -24,93 +33,64 @@
 <body>
   <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
-  <header>
-    <nav>
-      <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-        <a href="/">
-          <h1>Perfumio</h1>
-        </a>
-      </div>
-      <form action="/search" method="post">
-        <div class="search__bar__header mt-4">
-          <input type="text" placeholder="Search" name="name"
-            style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-          <button
-            style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
-            type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png" alt=""></button>
-        </div>
-      </form>
-      <div class="cart__header__desktop " style="color: white;">
-        <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
-        <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
-            style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
-        {{!-- <span>50</span> --}}
-
-    </nav>
-
-    <div class="main__navigations pt-2">
-      <div class="main__navigations__div">
-        <ul class="main__navigations__div__ul">
-          <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a href="/">Home</a>
-          </li>
-          <li class="main__navigations__div__li on__mobile_d_none">
-            <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
-            <div class="div__categories__items">
-              <p><a href="">Men</a></p>
-              <p><a href="">Women</a></p>
-
+   <header>
+        <nav>
+            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+               <a href="/"><h1>Perfumio</h1></a> 
             </div>
-          </li>
-          {{!-- <li class="main__navigations__div__li save__from__left"><a href="" class="anchor__remains__same"
-              style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
-              parimal mahindrakar.</a></li> --}}
-          <li class="main__navigations__div__li">
-            {{#unless Login }}
-            <a href="/login" class="anchor__remains__same" style="padding-bottom: 0;font-weight: bold;">Login <i
-                class="fas fa-sign-out-alt"></i> </a>
-
-            {{else}}
-
-            <div class="dropdown-center">
-              <button class="btn btn-black dropdown-toggle"
-                style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                {{Login}}
-              </button>
-              <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
-                <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
-
-              </ul>
+             <form action="/search" method="post">
+                <div class="search__bar__header mt-4">
+                    <input type="text" placeholder="Search" name="name"
+                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                    <button
+                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;margin-top: 0px;height: 27px;background-color: aliceblue;width: 2rem;"
+                        type="submit">
+                        <img style="width: 1rem;height: 1rem;margin-top: 0px;" src="/images/search-30.png" alt="">
+                    </button>
+                </div>
+            </form>
+            <div class="cart__header__desktop " style="color: white;">
+                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
             </div>
 
-
-            {{/unless}}
-          </li>
-          <div class="bars save__from__right">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-          </div>
-        </ul>
-
-      </div>
-    </div>
-
-    <div class="mobile__nav__fade__and__show">
-      <div class="mobile__nav__fade__and__show__text">
-        <li><a href="">Home</a></li>
-        <li>
-          <a href="">Categories</a>
-          <div>
-            <p><a href="">Category 1</a></p>
-
-          </div>
-        </li>
-      </div>
-    </div>
-    <div class="mobile__nav__fade__and__show__circle">sdsds</div>
-  </header>
+            <div class="main__navigations pt-2">
+                <div class="main__navigations__div">
+                    <ul class="main__navigations__div__ul">
+                        <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a
+                                href="">Home</a></li>
+                        <li class="main__navigations__div__li on__mobile_d_none">
+                            <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
+                            <div class="div__categories__items">
+                                <p><a href="/men">Men</a></p>
+                                <p><a href="/women">Women</a></p>
+                            </div>
+                        </li>
+                        <li class="main__navigations__div__li">
+                            {{#unless Login }}
+                            <a href="/login" class="anchor__remains__same"
+                                style="padding-bottom: 0;font-weight: bold;">Login <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                            {{else}}
+                            <div class="dropdown-center login_button">
+                                <button class="btn btn-black dropdown-toggle "
+                                    style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{Login}}
+                                </button>
+                                <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                </ul>
+                            </div>
+                            {{/unless}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
   <div class="p-5 row container-fluid " style="margin-top: 100px;">
     <div class="col-md-6 col-sm-12  mt-1">
@@ -198,7 +178,7 @@
       </table>
       <div class="orderBtns d-flex  row justify-content-between ms-5">
         <div class="row"></div>
-        <a class="btn btn-dark col-sm-5" onclick="checkQuantity()">Check Out</a>
+        <a class="btn btn-dark col-sm-5" href="/checkout">Check Out</a>
         {{!-- <button class="btn btn-outline-danger col-sm-5 cancelbtn">Cancel</button> --}}
       </div>
 
@@ -230,7 +210,9 @@
       let quantityBox = document.getElementById('quantityBox' + id)
       if (Number(quantityBox.textContent) >= 2) {
         axios.get('/minusquantity/' + id).then((result) => {
+          console.log(result.data)
           if (result.data.success) {
+            
             quantityBox.textContent = Number(quantityBox.textContent) - 1
             document.getElementById('quantity' + id).textContent = quantityBox.textContent
             let price = document.getElementById('singlePrice' + id)
@@ -242,40 +224,21 @@
       }
     }
   </script>
+ 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-    crossorigin="anonymous"></script>
-
+{{!-- 
   <script>new WOW().init();</script>
   <script>$(".bars").click(() => {
       $(".mobile__nav__fade__and__show__circle").toggleClass("open");
       $(".mobile__nav__fade__and__show").toggleClass("open");
       $(".bars").toggleClass("toggle")
 
-    })</script>
+    })</script> --}}
 
 
 </body>
 
 </html>
 
-{{!-- 
-function changeQuantity(prodId){
-
-axios.get('/increment/'+prodId).then((resp)=>{
-console.log(resp)
-if(resp.data.qty==resp.data.stockValue){
-document.getElementById("quantityBox"+prodId).value=resp.data.qty
-document.getElementById('stat').innerText="out of stock"
-}else{
-let quantity= document.getElementById("quantityBox"+prodId)
-quantity.value=Number(quantity.value)+1;
-let price=document.getElementById('price'+prodId).textContent
-document.getElementById('totalPrice'+prodId).textContent=Number(quantity.value)*Number(price)
-let Allamount=document.getElementById('allamount').textContent
-document.getElementById('allamount').textContent=Number(Allamount)+Number(price)
- 
-} --}}

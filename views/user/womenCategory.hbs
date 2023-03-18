@@ -12,6 +12,30 @@
    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="/user/userHome.css" />
     <title>Document</title>
+    <style>
+    /* default styles for larger screens */
+    .dropdown-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* media query for smaller screens */
+    @media (max-width: 768px) {
+        .container {
+            padding-top: 100px;
+        }
+
+        .col-10 {
+            margin-bottom: 20px;
+        }
+
+        .dropdown-center {
+            margin-top: 20px;
+            text-align: center;
+        }
+    }
+</style>
 </head>
 
 <body>
@@ -22,7 +46,7 @@
     <header>
         <nav>
             <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-                <h1>Perfumio</h1>
+                <a href="/"><h1>Perfumio</h1></a>
             </div>
             <form action="/search" method="post">
                 <div class="search__bar__header mt-4">
@@ -171,7 +195,7 @@
 
                     {{#each products}}
                     {{#unless this.block}}
-                    <div class="col-lg-3 col-md-6 mb-4" >
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6" >
 
 
 
@@ -222,7 +246,7 @@
                     {{#if womenstat}}
                     {{#each womenproducts}}
                     {{#unless this.block}}
-                    <div class="col-lg-3 col-md-6 mb-4" >
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6" >
 
 
 
@@ -273,7 +297,7 @@
                     {{#if womenstats}}
                     {{#each womenproducts}}
                     {{#unless this.block}}
-                    <div class="col-lg-3 col-md-6 mb-4" >
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6" >
 
 
 

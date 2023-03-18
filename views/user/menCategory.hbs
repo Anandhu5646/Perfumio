@@ -12,6 +12,31 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="/user/userHome.css" />
     <title>Document</title>
+    <style>
+    /* default styles for larger screens */
+    .dropdown-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* media query for smaller screens */
+    @media (max-width: 768px) {
+        .container {
+            padding-top: 100px;
+        }
+
+        .col-10 {
+            margin-bottom: 20px;
+        }
+
+        .dropdown-center {
+            margin-top: 20px;
+            text-align: center;
+        }
+    }
+</style>
+
 </head>
 
 <body>
@@ -21,26 +46,26 @@
 
     <header>
         <nav>
-            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-                <h1><a href="/"> Perfumio</a></h1>
+        <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
+            <h1><a href="/"> Perfumio</a></h1>
+        </div>
+        <form action="/search" method="post">
+            <div class="search__bar__header mt-4">
+                <input type="text" placeholder="Search" name="name"
+                    style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                <button
+                    style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
+                    type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
+                        alt=""></button>
             </div>
-            <form action="/search" method="post">
-                <div class="search__bar__header mt-4">
-                    <input type="text" placeholder="Search" name="name"
-                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-                    <button
-                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
-                        type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
-                            alt=""></button>
-                </div>
-            </form>
-            <div class="cart__header__desktop " style="color: white;">
-                <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
-                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
-                        style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
-                {{!-- <span>50</span> --}}
-
-        </nav>
+        </form>
+        <div class="cart__header__desktop " style="color: white;">
+            <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
+            <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
+                    style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
+        </div>
+       
+    </nav>
 
         <div class="main__navigations pt-2">
             <div class="main__navigations__div">
@@ -56,9 +81,7 @@
 
                         </div>
                     </li>
-                    {{!-- <li class="main__navigations__div__li save__from__left"><a href=""
-                            class="anchor__remains__same" style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
-                            parimal mahindrakar.</a></li> --}}
+                   
                     <li class="main__navigations__div__li">
                         {{#unless Login }}
                         <a href="/login" class="anchor__remains__same"
@@ -91,20 +114,6 @@
 
             </div>
         </div>
-
-        <div class="mobile__nav__fade__and__show">
-            <div class="mobile__nav__fade__and__show__text">
-                <li><a href="">Home</a></li>
-                <li>
-                    <a href="">Categories</a>
-                    <div>
-                        <p><a href="">Category 1</a></p>
-
-                    </div>
-                </li>
-            </div>
-        </div>
-        <div class="mobile__nav__fade__and__show__circle"></div>
     </header>
 
     <div class="container text-center  " style="padding-top: 150px;">
@@ -154,10 +163,9 @@
         </div>
     </div>
 
-    </div>
+   
     <!--Main layout-->
-    <div class="" style="z-index: 100;margin-left: 7rem;margin-top: 2rem;
-     ">
+    <div class="" style="z-index: 100;margin-left: 7rem;margin-top: 2rem;">
         <h3>Men's Collections</h3>
     </div>
     <main>
@@ -174,7 +182,7 @@
 
                     {{#each products}}
                     {{#unless this.block}}
-                    <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6">
 
 
 
@@ -226,7 +234,7 @@
                 {{#if menstat}}
                 {{#each menproducts}}
                 {{#unless this.block}}
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
 
 
 
@@ -275,7 +283,7 @@
                 {{#if menstats}}
                 {{#each menproducts}}
                 {{#unless this.block}}
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
 
 
 

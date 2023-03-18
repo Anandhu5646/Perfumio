@@ -5,28 +5,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=\, initial-scale=1.0">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="/user/userHome.css" />
     <title>Document</title>
+    <style>
+        @media (max-width: 767px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
- <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
+    <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
     <header>
         <nav>
             <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-               <a href="/"><h1>Perfumio</h1></a> 
+                <a href="/">
+                    <h1>Perfumio</h1>
+                </a>
             </div>
             <form action="/search" method="post">
                 <div class="search__bar__header mt-4">
                     <input type="text" placeholder="Search" name="name"
                         style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
-                            
+                    <button
+                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
+                        type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
                             alt=""></button>
                 </div>
             </form>
@@ -34,7 +45,7 @@
                 <a href="/wishlist" style="text-decoration: none;"><img src="/images/icons8-heart-32.png" alt=""></a>
                 <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
                         style="width: 2rem;height: 2rem;margin-left: 3rem;" alt=""></a>
-                {{!-- <span>50</span> --}}
+
 
         </nav>
 
@@ -51,12 +62,9 @@
                             <p><a href="">Women</a></p>
 
                         </div>
-                    </li>
-                    {{!-- <li class="main__navigations__div__li save__from__left"><a href=""
-                            class="anchor__remains__same" style="font-weight: bold;"><i class="fas fa-user"></i> Hello,
-                            parimal mahindrakar.</a></li> --}}
+
                     <li class="main__navigations__div__li">
-                        
+
                         {{#if Login}}
                         <div class="dropdown-center">
                             <button class="btn btn-black dropdown-toggle"
@@ -99,13 +107,9 @@
         <div class="mobile__nav__fade__and__show__circle"></div>
     </header>
 
-
-    <div class="container-fluid mt-5 " style="padding-top: 150px;">
-        <div style="text-align: center;">
-            <h3> Order List</h3>
-        </div>
+    <div class="table-responsive" style="padding-top: 200px;padding-left: 60px;">
         <table class="table table-hover" id="myTable">
-            <thead>
+            <div class="thead">
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Order ID</th>
@@ -116,8 +120,8 @@
                     <th scope="col">Status</th>
                     <th scope="col">Details</th>
                 </tr>
-            </thead>
-            <tbody>
+            </div>
+            <div class="tbody">
                 {{#each orders}}
                 <tr>
                     <td>{{inc @index}}</td>
@@ -127,19 +131,20 @@
                     <td>{{this.quantity}}</td>
                     <td>{{this.totalPrice}}</td>
                     <td>{{this.orderStatus}}</td>
-
-                    <td><a href="/orderView/{{this._id}}" class="btn btn-dark">View</a>
-                    </td>
+                    <td><a href="/orderView/{{this._id}}" class="btn btn-dark">View</a></td>
                 </tr>
                 {{/each}}
-            </tbody>
+            </div>
         </table>
-
     </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 
 </body>
 

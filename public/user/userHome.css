@@ -4,6 +4,11 @@ html,
     .carousel {
       height: 60vh;
     }
+    .cart__header__desktop {
+      display: inline-block;
+      margin-left: 2rem;
+  }
+  
 
     @media (max-width: 740px) {
       html,

@@ -11,17 +11,17 @@ let sentOtp=(email,otp)=>{
           rejectUnauthorized: false
         }, // Usually true if connecting to port 465
         auth: {
-          user: "anandhus186@gmail.com", // Your email address
-          pass: "iembnxtxsjejzlnz", // Password (for gmail, your app password)
+          user: process.env.OTP_EMAIL, // Your email address
+          pass: process.env.APP_PASSWORD, // Password (for gmail, your app password)
         },
       });
   
            var mailOptions={
-            from: "anandhus186@gmail.com",
+            from: process.env.OTP_EMAIL,
             to: email,
-            subject: "Aurascents Email verification",
+            subject: "Perfumio Email verification",
             html: `
-            <h1>Verify Your Email For Aurascents</h1>
+            <h1>Verify Your Email For Perfumio</h1>
               <h3>use this code to verify your email</h3>
               <h2>${otp}</h2>
             `,

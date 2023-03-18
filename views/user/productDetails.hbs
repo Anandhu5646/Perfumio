@@ -5,17 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-   integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-<link rel="stylesheet" href="/user/userHome.css" />
+
+    <link rel="stylesheet" href="/user/userHome.css" />
     <link rel="stylesheet" href="/user/productDetails.css">
 
     <style>
+        #main-image {
+            max-width: 100%;
+            height: auto;
+        }
+
         /* Navbar container */
         .navbar {
             overflow: hidden;
@@ -79,6 +84,17 @@
             text-align: left;
         }
 
+        .wrap-pic-w {
+            display: block;
+        }
+
+        /* Ensure the main image is always visible */
+        .wrap-pic-w img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
         /* Add a grey background color to dropdown links on hover */
         .dropdown-content a:hover {
             background-color: #ddd;
@@ -87,6 +103,45 @@
         /* Show the dropdown menu on hover */
         .dropdown:hover .dropdown-content {
             display: block;
+        }
+        @media (max-width: 767px) {
+  .sub-image {
+    width: 80px;
+    margin-left: -5px;
+    
+        height: auto;
+  }
+}
+        @media only screen and (max-width: 767px) {
+            .zoom-mobile {
+                display: block;
+                margin-top: 20px;
+            }
+
+            .zoom-mobile img {
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+
+            #image-zoom {
+                display: none;
+            }
+        }
+
+        .sub-image {
+            cursor: pointer;
+        }
+
+        /* Adjust layout for smaller screens */
+        @media (max-width: 767px) {
+            .previews {
+                justify-content: center;
+            }
+
+            .col-3 {
+                margin-left: 0;
+            }
         }
     </style>
     <title>Document</title>
@@ -98,14 +153,17 @@
     <header>
         <nav>
             <div class="logo" style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-                <a href="/"><h1>Perfumio</h1></a>
+                <a href="/">
+                    <h1>Perfumio</h1>
+                </a>
             </div>
             <form action="/search" method="post">
                 <div class="search__bar__header mt-4">
                     <input type="text" placeholder="Search" name="name"
                         style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-                    <button style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;" type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
-                            
+                    <button
+                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
+                        type="submit"><img style="width: 1rem;height: 1rem;" src="/images/search-30.png"
                             alt=""></button>
                 </div>
             </form>
@@ -165,81 +223,34 @@
             </div>
         </div>
 
-        <div class="mobile__nav__fade__and__show">
-            <div class="mobile__nav__fade__and__show__text">
-                <li><a href="">Home</a></li>
-                <li>
-                    <a href="">Categories</a>
-                    <div>
-                        <p><a href="">Men</a></p>
-                        <p><a href="">Women</a></p>
-
-                    </div>
-                </li>
-            </div>
-        </div>
-        <div class="mobile__nav__fade__and__show__circle"></div>
-
     </header>
 
     <div class="container my-5" style="padding-top: 150px;">
 
         <div class="row">
             <div class="col-md-5">
-
-
-
-
-
-
                 <div class="wrap-pic-w pos-relative" id="image-zoom" style="z-index: 10;">
                     <img src="/pic/{{products.image.filename}}" alt="IMG-PRODUCT">
                 </div>
                 <div class="row my-3 previews">
-                    <div class="col-md-3">
+                    <div class="col-md-3 ">
                         <img class="w-100 subimage" src="/pic/{{products.image.filename}}" alt="Sale" id="mainimage">
                     </div>
 
-                    <div class="col-md-3" style="margin-left: -8px;">
+                    <div class="col-md-3 " style="margin-left: -8px;">
                         <img class="w-100 sub-image" src="/pic/{{products.subimage.[0].filename}}" alt="Sale"
                             id="subimage" onclick="changeImage('subimage-1')">
                     </div>
-                    <div class="col-md-3" style="margin-left: -8px;">
+                    <div class="col-md-3 " style="margin-left: -8px;">
                         <img class="w-100 sub-image" src="/pic/{{products.subimage.[1].filename}}" alt="Sale"
                             id="subimage-2" onclick="changeImage('sub-image-2')">
                     </div>
-                    <div class="col-md-3" style="margin-left: -9px;">
+                    <div class="col-md-3 " style="margin-left: -9px;">
                         <img class="w-100 sub-image" src="/pic/{{products.subimage.[2].filename}}" alt="Sale"
                             id="subimage-3" onclick="changeImage('sub-image-3')">
                     </div>
                 </div>
-
             </div>
-
-
-
-
-            {{!-- <div class="col-md-5">
-                <div class="xzoom-container">
-                    <img class="xzoom" id="xzoom-default" src="/pic/{{products.image.filename}}"
-                        xoriginal="/pic/{{products.image.filename}}" />
-                    <div class="xzoom-thumbs">
-                        <a href="/pic/{{products.image.filename}}"><img class="xzoom-gallery" width="80"
-                                src="/pic/{{products.image.filename}}" xpreview="/pic/{{products.image.filename}}"
-                                title="The title becomes the description!"></a>
-                        <a href="/pic/{{products.subimage.[0].filename}}"><img class="xzoom-gallery" width="80"
-                                src="/pic/{{products.subimage.[0].filename}}"
-                                title="The title becomes the description!"></a>
-                        <a href="/pic/{{products.subimage.[1].filename}}"><img class="xzoom-gallery" width="80"
-                                src="/pic/{{products.subimage.[1].filename}}"
-                                title="The title becomes the description!"></a>
-                        <a href="/pic/{{products.subimage.[2].filename}}"><img class="xzoom-gallery" width="80"
-                                src="/pic/{{products.subimage.[2].filename}}"
-                                title="The title becomes the description!"></a>
-                    </div>
-                </div>
-            </div> --}}
-            {{!-- <div class="large-7 column"></div> --}}
 
             <div class="col-md-6  ms-5">
                 <div class="main-description px-2">
@@ -271,15 +282,12 @@
                                     to cart</button></a>
                         </div>
 
-                        <div class="block quantity">
-                            <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5"
-                                placeholder="Enter email" name="cart_quantity">
-                        </div>
+
                     </div>
-                    <div class="block">
+                    {{!-- <div class="block">
                         <a href="/checkout"><button class="shadow btn custom-btn"
                                 style="width: 305px;background-color: black;">Buy now</button></a>
-                    </div>
+                    </div> --}}
 
 
 
@@ -305,48 +313,7 @@
 
 
 
-    {{!-- <div class="container similar-products my-4">
-        <hr>
-        <p class="display-5">Similar Products</p>
 
-        <div class="row">
-            <div class="col-md-3">
-                <div class="similar-product">
-                    <img class="w-100" src="https://source.unsplash.com/gsKdPcIyeGg" alt="Preview">
-                    <p class="title">Lovely black dress</p>
-                    <p class="price">$100</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="similar-product">
-                    <img class="w-100" src="https://source.unsplash.com/sg_gRhbYXhc" alt="Preview">
-                    <p class="title">Lovely Dress with patterns</p>
-                    <p class="price">$85</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="similar-product">
-                    <img class="w-100" src="https://source.unsplash.com/gJZQcirK8aw" alt="Preview">
-                    <p class="title">Lovely fashion dress</p>
-                    <p class="price">$200</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="similar-product">
-                    <img class="w-100" src="https://source.unsplash.com/qbB_Z2pXLEU" alt="Preview">
-                    <p class="title">Lovely red dress</p>
-                    <p class="price">$120</p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-
-
-
-    {{!--
-    <script src="js/xZoom/foundation.min.js"></script>
-    <script src="js/xZoom/setup.js"></script> --}}
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
@@ -379,9 +346,9 @@
         new ImageZoom(img, options);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-    crossorigin="anonymous"></script>
-  
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
 </body>
 
 </html>

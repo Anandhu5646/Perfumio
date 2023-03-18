@@ -8,7 +8,74 @@
     color: rgb(28, 10, 10);
     padding: 3px;
   }
-  
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .btn-outline-primary {
+    color: #007bff;
+    background-color: transparent;
+    border: 2px solid #007bff;
+  }
+
+  .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #007bff;
+  }
+
+  .btn-outline-success {
+    color: #28a745;
+    background-color: transparent;
+    border: 2px solid #28a745;
+  }
+
+  .btn-outline-success:hover {
+    color: #fff;
+    background-color: #28a745;
+  }
+
+  .btn-outline-danger {
+    color: #dc3545;
+    background-color: transparent;
+    border: 2px solid #dc3545;
+  }
+
+  .btn-outline-danger:hover {
+    color: #fff;
+    background-color: #dc3545;
+  }
+
+  .dropdown-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 8px;
+  }
+
   .three-dots:after {
     cursor: pointer;
     color: rgb(0, 0, 0);

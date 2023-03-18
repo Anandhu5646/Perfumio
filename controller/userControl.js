@@ -6,7 +6,7 @@ const createId = require('../helper/createId')
 const couponModel = require('../models/couponModel')
 const orderModel = require('../models/orderModel')
 const axios = require('axios')
-const { userInfo } = require('os')
+const swal = require('sweetalert')
 
 
 
@@ -365,7 +365,7 @@ let userControl = {
             res.render('404page')
         }
 
-    }
+    }   
     ,
     postUserCheckoutAddAddress: async (req, res) => {
         try {
@@ -444,6 +444,7 @@ let userControl = {
                 { _id: user_id },
                 { $addToSet: { wishlist: { id: pdt_id } } }
             );
+          
             res.redirect("/");
 
         } catch (err) {
@@ -570,7 +571,7 @@ let userControl = {
     womenLowToHighCategory: async (req, res) => {
         let womenproducts
        
-            womenproducts = await productModel.find({ category:'Men' }).sort({ price: 1 }).lean();
+            womenproducts = await productModel.find({ category:'Women' }).sort({ price: 1 }).lean();
 
         let womenstat = true
         req.session.womenproducts = womenproducts
@@ -582,7 +583,7 @@ let userControl = {
     womenHighTolowCategory: async (req, res) => {
         let womenproducts
        
-        womenproducts = await productModel.find({ category:'Men' }).sort({ price: -1 }).lean();
+        womenproducts = await productModel.find({ category:'Women' }).sort({ price: -1 }).lean();
 
     let womenstats = true
     req.session.womenproducts = womenproducts

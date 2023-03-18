@@ -1,3 +1,99 @@
+
+ <style>
+  
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+        }
+
+        @media screen and (max-width: 768px) {
+            .logout {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+
+            input[type="checkbox"]:not(:checked)+.logout {
+                display: none;
+            }
+
+            .navbar-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .logo {
+                margin-top: 1rem;
+            }
+
+            .menu-items {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 0;
+                background-color: #fff;
+                z-index: 1;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .menu-items li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu-items li a {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .hamburger-lines {
+                display: block;
+                position: relative;
+                width: 2rem;
+                height: 1rem;
+                cursor: pointer;
+            }
+
+            .line {
+                display: block;
+                position: absolute;
+                height: 2px;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-out;
+            }
+
+            .line1 {
+                transform: translateY(-0.5rem);
+            }
+
+            .line2 {
+                transform: translateY(0);
+            }
+
+            .line3 {
+                transform: translateY(0.5rem);
+            }
+
+            input[type="checkbox"] {
+                display: none;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+        }
+    </style>
 <nav class="navbar">
         <div class="navbar-container container">
             <input type="checkbox" name="" id="" />
@@ -15,13 +111,14 @@
                 <li><a href="/admin/order">Orders</a></li>
                 <li><a href="/admin/salesReport">Sales Report</a></li>
                 <li><a href="/admin/logout">Logout</a></li>
+                <li><a href=""></a></li>
             </ul>
             <h1 class="logo">Perfumio</h1>
         </div>
     </nav>
 
 
-<section style="margin-top: 10px; background-color: rgb(255, 255, 255);margin-left: 6rem;margin-right: 6rem; ">
+<section style="margin-top: 10px; background-color: rgb(255, 255, 255);margin-left: 6rem;margin-right: 6rem;padding-top: 100px; ">
   <div class="container">
     {{!-- <div class="row">
       <form class="form-inline my-2 my-lg-0" action="/admin/searchuser/{{this.body}}" method="post">
@@ -84,10 +181,3 @@
 
 
 
-{{!--
-<a href="/admin/block/{{this._id}}" class="btn btn-danger btn-block mb-4"
-  onclick="return confirm ('Are you sure ?')">Block</a>
-<a href="/admin/unblock/{{this._id}}" class="btn btn-success btn-block mb-4"
-  onclick="return confirm('Are you sure ?')">Unblock</a>
-</td> --}}
-{{!-- </td> --}}

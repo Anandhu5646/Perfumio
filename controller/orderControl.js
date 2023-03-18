@@ -194,17 +194,17 @@ let orderControl ={
                 products: product,
                 userId,
                 orderDate: new Date(),
-                quantity: user.cart[i].quantity,
-                totalPrice: user.cart[i].quantity * product.price,
+                quantity: user.cart[i].quantity ?? 1,
+                totalPrice: (user.cart[i].quantity ?? 1) * product.price ,
                 discountedPrice: req.body.discountedPrice ?? 0,
                 payment: req.body.payment,
                 paymentStatus: true
             }));
            
 
-            // for (let i = 0; i < products.length; i++) {
-            //     await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -1 * user.cart[i].quantity } });
-            // }
+            for (let i = 0; i < products.length; i++) {
+                await productModel.updateOne({ _id: products[i]._id }, { $inc: { stock: -1 * user.cart[i].quantity } });
+            }
 
             req.session.orders = orders;
 
@@ -219,8 +219,8 @@ let orderControl ={
                     headers: {
                         accept: "application/json",
                         "x-api-version": "2022-09-01",
-                        "x-client-id": '3321367e689eca6ab917be78c4631233',
-                        "x-client-secret": '1e3f26f5a41de3d03e035ce4976f0d1707df902d',
+                        "x-client-id": process.env.PAYMENT_ID,
+                        "x-client-secret": process.env.SECRET_KEY,
                         "content-type": "application/json",
                     },
                     data: {
@@ -229,8 +229,8 @@ let orderControl ={
                         order_currency: "INR",
                         customer_details: {
                             customer_id: userId,
-                            customer_email: 'anandhus186@gmail.com',
-                            customer_phone: '9072858479',
+                            customer_email: process.env.CUSTOMER_EMAIL,
+                            customer_phone: process.env.CUSTOMER_MOB,
                         },
                         order_meta: {
                             return_url: "http://localhost:7800/verifyPayment?order_id={order_id}",
@@ -271,8 +271,8 @@ let orderControl ={
                 headers: {
                     accept: "application/json",
                     "x-api-version": "2022-09-01",
-                    "x-client-id": '3321367e689eca6ab917be78c4631233',
-                    "x-client-secret": '1e3f26f5a41de3d03e035ce4976f0d1707df902d',
+                    "x-client-id": process.env.PAYMENT_ID,
+                    "x-client-secret": process.env.SECRET_KEY,
                     "content-type": "application/json",
                 },
             }

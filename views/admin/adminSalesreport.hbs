@@ -23,8 +23,113 @@
     <link href="/admin/css/remixicon.css" rel="stylesheet">
     <link href="/admin/css/simple-datatables.css" rel="stylesheet">
     <link href="/admin/css/style.css" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        .card{
+            --bs-card-border-width:0
+        }
+        @media screen and (max-width: 768px) {
+            .logout {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+
+            input[type="checkbox"]:not(:checked)+.logout {
+                display: none;
+            }
+
+            .navbar-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .logo {
+                margin-top: 1rem;
+            }
+
+            .menu-items {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 0;
+                background-color: #fff;
+                z-index: 1;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .menu-items li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .menu-items li a {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .hamburger-lines {
+                display: block;
+                position: relative;
+                width: 2rem;
+                height: 1rem;
+                cursor: pointer;
+            }
+
+            .line {
+                display: block;
+                position: absolute;
+                height: 2px;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-out;
+            }
+
+            .line1 {
+                transform: translateY(-0.5rem);
+            }
+
+            .line2 {
+                transform: translateY(0);
+            }
+
+            .line3 {
+                transform: translateY(0.5rem);
+            }
+
+            input[type="checkbox"] {
+                display: none;
+            }
+
+            input[type="checkbox"]:checked+.menu-items {
+                display: block;
+            }
+
+            @media screen and (max-width: 992px) {
+                .dashboard .card {
+                    width: 100%;
+                    max-width: 300px;
+                    margin: 0 auto;
+                }
+            }
+        }
+    </style>
 
 </head>
 
@@ -33,7 +138,7 @@
     <nav class="navbar">
         <div class="navbar-container container">
             <input type="checkbox" name="" id="" />
-            <div class="hamburger-lines" >
+            <div class="hamburger-lines">
                 <span class="line line1"></span>
                 <span class="line line2"></span>
                 <span class="line line3"></span>
@@ -47,91 +152,84 @@
                 <li><a href="/admin/order">Orders</a></li>
                 <li><a href="/admin/salesReport">Sales Report</a></li>
                 <li><a href="/admin/logout">Logout</a></li>
+                <li><a href=""></a></li>
             </ul>
             <h1 class="logo">Perfumio</h1>
         </div>
     </nav>
-    <main id="main" class="main" style="margin-left: 5rem; padding-top: 5rem;">
+    <main id="main" class="main" style="margin-left: 5rem; padding-top: 130px;">
         <section class="section dashboard">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-xxl-4 col-md-6" >
-                            <div class="card info-card sales-card" style="background-color: #FFFFFF;">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sales <span></span></h5>
-                                    <div class="d-flex align-items-center" >
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cart"></i>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 mb-3" >
+                                <div class="card info-card sales-card" style="background-color: #c0e5f3;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sales <span></span></h5>
+                                        <div class="d-flex align-items-center">
+                                            <div
+                                                class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-cart"></i>
+                                            </div>
+                                            <div class="ps-3">
+                                                <h6>{{salesCount}}</h6>
+                                                {{!-- <span class="text-success small pt-1 fw-bold">12%</span> <span
+                                                    class="text-muted small pt-2 ps-1">increase</span> --}}
+                                            </div>
                                         </div>
-                                        <div class="ps-3">
-                                            <h6>{{salesCount}}</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 mb-3">
+                                <div class="card info-card revenue-card" style="background-color: #c0e5f3;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Revenue</h5>
+                                        <div class="d-flex align-items-center">
+                                            <div
+                                                class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-currency-dollar"></i>
+                                            </div>
+                                            <div class="ps-3">
+                                                <h6><i class="bi bi-currency-rupee"></i>{{salesSum}}</h6>
+                                                {{!-- <span class="text-success small pt-1 fw-bold">8%</span> <span
+                                                    class="text-muted small pt-2 ps-1">increase</span> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 mb-3">
+                                <div class="card info-card customers-card" style="background-color: #c0e5f3;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Customers</h5>
+                                        <div class="d-flex align-items-center">
+                                            <div
+                                                class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-people"></i>
+                                            </div>
+                                            <div class="ps-3">
+                                                <h6>{{userCount}}</h6>
+                                                {{!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                                    class="text-muted small pt-2 ps-1">decrease</span> --}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card revenue-card" style="background-color: #FFFFFF;">
-                                <div class="card-body">
-                                    <h5 class="card-title">Revenue</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-currency-dollar"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6><i class="bi bi-currency-rupee"></i>{{salesSum}}</h6>
-                                            <span class="text-success small pt-1 fw-bold">8%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-4 col-xl-12">
-                            <div class="card info-card customers-card" style="background-color: #FFFFFF;">
-                                {{!-- <div class="filter">
-                                    <a class="icon" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div> --}}
-                                <div class="card-body">
-                                    <h5 class="card-title">Customers</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-people"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>{{userCount}}</h6>
-                                            <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">decrease</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
+            </div>
         </section>
+
         <div class="mt-4">
             <div class="input-group">
                 <form action="/admin/salesReport" method="get">
-                    From: <input class="form-control" type="date" id="start" name="start"> To: <input id="end" class="form-control"
-                        type="date" name="end">
+                    From: <input class="form-control" type="date" id="start" name="start"> To: <input id="end"
+                        class="form-control" type="date" name="end">
 
-                    <button type="submit" class="btn btn-sm btn-warning rounded mt-3" >Filter</button>
+                    <button type="submit" class="btn btn-sm btn-warning rounded mt-4 mb-2">Filter</button>
 
 
                 </form>
@@ -177,7 +275,7 @@
                     </table>
                 </div>
             </div>
-          
+
         </div>
 
 
@@ -192,10 +290,12 @@
 
     <script>
         let orders = []
-        {{#each deliveredOrders }}
+        { { #each deliveredOrders } }
         orders.push(['{{this.address.name}}', '{{this.products.name}}', '{{this.orderDate}}', '{{this.quantity}}', '{{this.total}}'
             , '{{this.orderStatus}}'])
-        {{/each}}
+        {
+            {
+                /each}}
                 let totalRevenue = '{{salesSum}}'
                 let totalOrders = '{{salesCount}}'
                 let Customers = '{{userCount}}'

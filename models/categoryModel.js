@@ -6,9 +6,7 @@ var categorySchema = new mongoose.Schema({
         type: String,
         required: true
 
-    }
-
-    ,
+    },
     block: {
         type: Boolean,
         required: true

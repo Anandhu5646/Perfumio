@@ -98,57 +98,28 @@
           </div>
         </div>
         <div class="mobile__nav__fade__and__show__circle"></div>
-
-
-
     </nav>
   </header>
 
-
-
-
-
-  <div class="container my-5" style="padding-top: 150px;">
-
-    <div class="row">
-      <div class="col-md-5">
-
-        {{!-- <ul class="preview-thumbnail nav nav-tabs">
-          <li class="active"><a data-target="#pic-1" data-toggle="tab"><img onclick="changeImage(this.id)" id="pic-2"
-                src="http://placekitten.com/200/126" /></a></li>
-          <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-          <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-          <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                     
-        </ul> --}}
-
-
-
-
-        <div class="wrap-pic-w pos-relative" style="z-index: 10;">
-          <img style="height: 450px;" src="/pic/{{orders.products.image.filename}}" alt="IMG-PRODUCT">
-        </div>
-
-
+<div class="container my-5" style="padding-top: 150px;">
+  <div class="row">
+    <div class="col-lg-4 col-md-11">
+      <div class="wrap-pic-w pos-relative" style="z-index: 10;">
+        <img style="max-height: 450px; width: 100%;" src="/pic/{{orders.products.image.filename}}" alt="IMG-PRODUCT">
       </div>
-      <div class="col-md-6  ms-5">
-        <div class="main-description px-2">
-          <div class="category text-bold">
-            Category: {{orders.products.category}}
-          </div>
-          <div class="product-title text-bold my-3">
-            {{orders.products.name}}
-          </div>
-
-
-          <div class="price-area my-4">
-            <p class="old-price mb-1"><del>{{orders.products.mrp}}</del> </p>
-            <p class="new-price text-bold mb-1">{{orders.products.price}}</p>
-
-
-          </div>
+    </div>
+    <div class="col-lg-7 col-md-12 ms-lg-5">
+      <div class="main-description px-2">
+        <div class="category text-bold">
+          Category: {{orders.products.category}}
         </div>
-
+        <div class="product-title text-bold my-3">
+          {{orders.products.name}}
+        </div>
+        <div class="price-area my-4">
+          <p class="old-price mb-1"><del>{{orders.products.mrp}}</del></p>
+          <p class="new-price text-bold mb-1">{{orders.products.price}}</p>
+        </div>
         <div class="product-details my-4">
           <p class="details-title text-color mb-1">Product Details</p>
           <p class="description">{{orders.products.description}}</p>
@@ -162,18 +133,16 @@
         {{else}}
         {{#ifEquals orders.orderStatus "Delivered"}}
         {{#if orders}}
-             <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+        <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
           Return
         </button>
         {{/if}}
         {{/ifEquals}}
         {{/if}}
         {{#ifEquals orders.orderStatus "pending"}}
-
         <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
           Cancel
         </button>
-
         {{/ifEquals}}
         {{#if orders.cancel}}
         <p>Order cancelled</p>
@@ -181,16 +150,19 @@
         {{#ifEquals orders.orderStatus "Shipped"}}
         {{#if orders}}
         <a>
-           <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-          Cancel
-        </button>
+          <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal"
+            data-bs-target="#exampleModalCenter">
+            Cancel
+          </button>
         </a>
         {{/if}}
         {{/ifEquals}}
         {{/if}}
-
       </div>
     </div>
+  </div>
+</div>
+
 
   </div>
 
@@ -206,7 +178,7 @@
           <h5 class="modal-title" id="exampleModalCenterTitle">Alert!</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-         {{#ifEquals orders.orderStatus "Delivered"}}
+        {{#ifEquals orders.orderStatus "Delivered"}}
         <div class="modal-body">
           <p>Are you sure want to return product?</p>
         </div>
