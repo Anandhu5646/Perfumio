@@ -20,10 +20,9 @@ let userControl = {
             // pagination
             const page = req.query.page;
             const limit = 4;
-            console.log('page:', page);
-            console.log('limit:', limit);
+           
             const skip = (page - 1) * limit;
-            console.log('skip:', skip);
+            
             const query = productModel.find({}).skip(skip).limit(limit).lean();
             const productCount = await productModel.countDocuments();
 

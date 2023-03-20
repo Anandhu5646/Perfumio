@@ -233,7 +233,7 @@ let orderControl ={
                             customer_phone: process.env.CUSTOMER_MOB,
                         },
                         order_meta: {
-                            return_url: "http://localhost:7800/verifyPayment?order_id={order_id}",
+                            return_url: "https://perfumio.online/verifyPayment?order_id={order_id}",
                         },
                     },
                 };   

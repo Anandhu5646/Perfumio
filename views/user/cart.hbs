@@ -16,6 +16,49 @@
   <link rel="stylesheet" href="/user/userHome.css" />
 
 <style>
+  .sidebar {
+
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index: 900;
+            transition: .3s;
+            left: -1000px;
+        }
+
+        .sidebar-container {
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            height: 100%;
+            gap: 10px;
+            padding: 10px;
+            justify-content: space-between;
+        }
+
+        .side-items {
+            height: 50px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            color: white;
+            background-color: #6a6a6a;
+            padding-left: 10px;
+            border-radius: 10px;
+        }
+
+        .side-sec-1 {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .sidebar-icon{
+            display: flex;
+            justify-content:space-around;
+        }
   @media (max-width: 767px) {
   .p-5.row.container-fluid {
     margin-top: 50px;
@@ -40,11 +83,6 @@
 }
 This will adjust the layout of the first div for mobile devices with a maximum width of 767px. It will center the images and adjust the positioning of the quantity buttons and the "Go Home" button. It will also hide the error message and adjust the width of the "Go Home" button to fill the width of the container.
 
-
-
-
-
-
   @media only screen and (max-width: 768px) {
   div {
     margin-left: 0;
@@ -58,32 +96,95 @@ This will adjust the layout of the first div for mobile devices with a maximum w
 }</style>
 
   <title>Document</title>
+
+
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    
 </head>
 
 <body>
-  <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
 
-   <header>
+
+    <script src="https://kit.fontawesome.com/3b1ca000cb.js"></script>
+
+    <header>
         <nav>
-            <div class="logo " style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;">
-               <a href="/"><h1>Perfumio</h1></a> 
+            <div class="logo d-none d-sm-none d-md-block"
+                style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;padding-left: 100px;">
+                <a href="/"><h1>Perfumio</h1></a>
             </div>
-             <form action="/search" method="post">
-                <div class="search__bar__header mt-4">
-                    <input type="text" placeholder="Search" name="name"
-                        style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
-                    <button
-                        style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;margin-top: 0px;height: 27px;background-color: aliceblue;width: 2rem;"
-                        type="submit">
-                        <img style="width: 1rem;height: 1rem;margin-top: 0px;" src="/images/search-30.png" alt="">
-                    </button>
+            <div class=" d-sm-block d-md-none"
+                style="width: 100%; color: rgb(252, 252, 252);padding-top: 35px;padding-left: 20px;margin-right: 20px;">
+                <a href="/"><h1>Perfumio</h1></a>
+            </div>
+
+
+            <div class="sidebar d-sm-block d-md-none" id="sidebar" >
+                <div class="sidebar-container">
+                    <div class="side-sec-1">
+
+                        <div class="p-1">
+                            <h4 class="text-white"><i class="ri-menu-2-line me-3"
+                                    onclick="closeSidebar()"></i><span><a href="/">Perfumio</a> </span> </h4>
+                        </div>
+                        <a href="/" class="side-items">Home</a>
+                        <a href="/wishlist" class="side-items">Wishlist</a>
+                        <a href="/cart" class="side-items">Cart</a>
+                        {{!-- <a class="side-items">Wishlist</a>
+                        <a class="side-items">Wishlist</a> --}}
+                    </div>
+                    <div class="side-sec-2">
+                        <a href="/logout" class="side-items"><i class="ri-logout-circle-r-line me-2"></i>Logout</a>
+
+                    </div>
                 </div>
-            </form>
-            <div class="cart__header__desktop " style="color: white;">
-                <a href="/wishlist" style="text-decoration: none;padding-top: 25px;"><img src="/images/icons8-heart-32.png" alt=""></a>
-                <a onclick="cart" href="/cart"><img src="/images/icons8-shopping-cart-64.png"
-                        style="width: 2rem;height: 2rem;margin-left: 1rem;margin-top: 25px;" alt=""></a>
+
             </div>
+
+
+
+            <div class="d-none d-sm-none d-md-block">
+                <form action="/search" method="post">
+                    <div class="search__bar__header mt-4">
+                        <input type="text" placeholder="Search" name="name"
+                            style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                        <button
+                            style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
+                            type="submit">
+                            <img style="width: 1rem;height: 1rem;" src="/images/search-30.png" alt="">
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="d-sm-block d-md-none">
+                <form action="/search" method="post">
+                    <div class="search__bar__header mt-4" style="width: 170px;padding-left: 10px;margin-left: 40px;">
+                        <input type="text" placeholder="Search" name="name"
+                            style="border-bottom-left-radius: 20px;border-top-left-radius: 20px;height: 25px;">
+                        <button
+                            style="border-bottom-right-radius: 20px;border-top-right-radius: 20px;height: 27px;background-color: aliceblue;width: 2rem;"
+                            type="submit">
+                            <img style="width: 1rem;height: 1rem;" src="/images/search-30.png" alt="">
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+
+            <div class="cart__header__desktop d-none d-sm-none d-md-block" style="color: white;margin-top: 35px;">
+                <div> <a href="/wishlist" style="text-decoration: none;margin-top: 35px;"><img
+                            src="/images/icons8-heart-32.png" alt=""></a></div>
+                <div style="margin-top: -30px;margin-left: 5rem;"><a onclick="cart" href="/cart"><img
+                            src="/images/icons8-shopping-cart-64.png" style="width: 2rem;height: 2rem;" alt=""></a>
+                </div>
+
+            </div>
+
+
 
             <div class="main__navigations pt-2">
                 <div class="main__navigations__div">
@@ -101,21 +202,28 @@ This will adjust the layout of the first div for mobile devices with a maximum w
                             {{#unless Login }}
                             <a href="/login" class="anchor__remains__same"
                                 style="padding-bottom: 0;font-weight: bold;">Login <i class="fas fa-sign-out-alt"></i>
+
                             </a>
+                            
                             {{else}}
-                            <div class="dropdown-center login_button">
-                                <button class="btn btn-black dropdown-toggle "
-                                    style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{Login}}
-                                </button>
-                                <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
-                                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                </ul>
-                            </div>
+                           
+                                <div class="dropdown-center login_button">
+                                    <button class="btn btn-black dropdown-toggle "
+                                        style="color: aliceblue;margin-top: -5px;font-weight: bold; " type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{Login}}
+                                    </button>
+                                    <ul class="dropdown-menu " style="color: aliceblue;background-color: grey;">
+                                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                    </ul>
+                                </div>
+                                
+                         
+
                             {{/unless}}
                         </li>
+                        <i onclick="openSidebar()" class="fa fa-bars d-md-none" style="padding-right: 30px;padding-top: 10px;color: #6a6a6a;"></i>
                     </ul>
                 </div>
             </div>
@@ -261,6 +369,14 @@ This will adjust the layout of the first div for mobile devices with a maximum w
         <!--/.Copyright-->
 
     </footer>
+    <script>
+        function openSidebar() {
+            document.getElementById('sidebar').style.left = "0px"
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').style.left = "-1000px"
+        }
+    </script>
   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
   <script>
     function increment(id) {

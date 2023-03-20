@@ -39,7 +39,7 @@ hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
 app.use('/admin',adminRouter);
 app.use('/', userRouter);
 
-app.listen(7800, ()=>{
-    console.log('Server is running at http://localhost:7800 ')
+app.listen(3000, ()=>{
+    console.log('Server is running at http://localhost:3000 ')
 })
 
