@@ -110,7 +110,7 @@
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.html -->
-            <nav class="navbar">
+            <nav class="navbar navbar-expand-md">
                 <div class="navbar-container container">
                     <input type="checkbox" name="" id="" />
                     <div class="hamburger-lines">
@@ -126,10 +126,12 @@
                         <li><a href="/admin/coupon">Coupons</a></li>
                         <li><a href="/admin/order">Orders</a></li>
                         <li><a href="/admin/salesReport">Sales Report</a></li>
-                        <li ><a href="/admin/logout">Logout</a></li>
+                        <li><a href="/admin/logout">Logout</a></li>
                         <li><a href=""></a></li>
                     </ul>
-                    <h1 class="logo">Perfumio</h1>
+                    <div class="navbar-container">
+                        <h1 class="navbar-brand logo" style="color: white;margin-right: 70px;">Perfumio</h1>
+                    </div>
                 </div>
             </nav>
             <div class="row" style="padding-top: 150px;">
@@ -347,25 +349,25 @@
                 crossorigin="anonymous"></script>
 
 
-                <script>
-    $(document).ready(function () {
-      $("#pdfTable").DataTable({
-        dom: "Bfrtip",
-        buttons: ["copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"],
-      });
-    });
+            <script>
+                $(document).ready(function () {
+                    $("#pdfTable").DataTable({
+                        dom: "Bfrtip",
+                        buttons: ["copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"],
+                    });
+                });
 
-    $(document).ready(function() {
-    $('#pdfTable').DataTable( {
-        searching: true,
-        paging: true,
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf'
-        ]
-    } );
-} );
-  </script>
+                $(document).ready(function () {
+                    $('#pdfTable').DataTable({
+                        searching: true,
+                        paging: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf'
+                        ]
+                    });
+                });
+            </script>
 </body>
 
 </html>

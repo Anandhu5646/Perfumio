@@ -101,7 +101,7 @@
     </nav>
   </header>
 
-<div class="container my-5" style="padding-top: 150px;">
+<div class="container my-5" style="padding-top: 100px;">
   <div class="row">
     <div class="col-lg-4 col-md-11">
       <div class="wrap-pic-w pos-relative" style="z-index: 10;">
@@ -133,14 +133,14 @@
         {{else}}
         {{#ifEquals orders.orderStatus "Delivered"}}
         {{#if orders}}
-        <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+        <button type="button" class="shadow btn custom-btn" style="margin-bottom: 400px;" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
           Return
         </button>
         {{/if}}
         {{/ifEquals}}
         {{/if}}
         {{#ifEquals orders.orderStatus "pending"}}
-        <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+        <button type="button" class="shadow btn custom-btn" style="margin-bottom: 400px;" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
           Cancel
         </button>
         {{/ifEquals}}
@@ -150,7 +150,7 @@
         {{#ifEquals orders.orderStatus "Shipped"}}
         {{#if orders}}
         <a>
-          <button type="button" class="shadow btn custom-btn" data-bs-toggle="modal"
+          <button type="button" class="shadow btn custom-btn" style="margin-bottom: 400px;" data-bs-toggle="modal"
             data-bs-target="#exampleModalCenter">
             Cancel
           </button>
@@ -198,6 +198,51 @@
       </div>
     </div>
   </div>
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+        <!--Call to action-->
+        <div class="pt-4">
+            <a class="btn btn-outline-white" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
+                target="_blank" role="button">Contact
+                <i class="fas fa-download ml-2"></i>
+            </a>
+            <a class="btn btn-outline-white" href="https://mdbootstrap.com/education/bootstrap/" target="_blank"
+                role="button">Perfumio
+                <i class="fas fa-graduation-cap ml-2"></i>
+            </a>
+        </div>
+        <!--/.Call to action-->
+
+        <hr class="my-4">
+
+        <!-- Social icons -->
+        <div class="pb-4">
+            <a href="#" target="_blank">
+                <i class="fab fa-facebook-f mr-3"></i>
+            </a>
+
+            <a href="#" target="_blank">
+                <i class="fab fa-twitter mr-3"></i>
+            </a>
+
+            <a href="#" target="_blank">
+                <i class="fab fa-youtube mr-3"></i>
+            </a>
+
+            <a href="http://perfumio.online" target="_blank">
+                <i class="fab fa-google-plus-g mr-3"></i>
+            </a>
+        </div>
+        <!-- Social icons -->
+
+        <!--Copyright-->
+        <div class="footer-copyright py-3">
+            © 2023 Copyright:
+            <a href="" target="_blank"> perfumio.online</a>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

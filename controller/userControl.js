@@ -17,13 +17,36 @@ let userControl = {
             const products = await productModel.find({}).sort({ _id: -1 }).lean();
             const user = await userModel.findOne({}).lean();
 
+            // pagination
+            const page = req.query.page;
+            const limit = 4;
+            console.log('page:', page);
+            console.log('limit:', limit);
+            const skip = (page - 1) * limit;
+            console.log('skip:', skip);
+            const query = productModel.find({}).skip(skip).limit(limit).lean();
+            const productCount = await productModel.countDocuments();
+
+            const totalPage = Math.ceil(productCount / limit);
+            let pagination = [];
+
+            for (let i = 1; i <= totalPage; i++) {
+                pagination.push(i)
+            }
+
+            if (req.query.page) {
+                if (skip >= productCount) throw new Error("This Page does not exists");
+            }
+
+            const productsPaginated = await query.lean();
+
             let Login = null;
             if (req.session.user) {
                 Login = req.session.user.name;
             }
 
-            res.render('userHome', { products, Login });
-            req.session.sub = products.sub
+            res.render('userHome', { products:productsPaginated, Login, pagination,  });
+            req.session.sub = products.sub;
         } catch (error) {
             console.error(error);
             res.render('404page')
@@ -202,6 +225,10 @@ let userControl = {
 
     getUserProductDetails: async (req, res) => {
         try {
+            if (!req.session.user) {
+                res.redirect('/login');
+                return;
+            }
             const _id = req.params.id
             let Login = req.session.user.name
             let products = await productModel.findOne({ _id }).lean()
@@ -365,7 +392,7 @@ let userControl = {
             res.render('404page')
         }
 
-    }   
+    }
     ,
     postUserCheckoutAddAddress: async (req, res) => {
         try {
@@ -444,7 +471,7 @@ let userControl = {
                 { _id: user_id },
                 { $addToSet: { wishlist: { id: pdt_id } } }
             );
-          
+
             res.redirect("/");
 
         } catch (err) {
@@ -496,6 +523,7 @@ let userControl = {
         const products = await productModel.find({ category: 'Men' }).sort({ _id: -1 }).lean();
         const user = await userModel.findOne({}).lean();
         const categ = await categoryModel.find({}).lean();
+       
 
         Login = req.session.user.name
         if (req.session.menstat) {
@@ -503,17 +531,17 @@ let userControl = {
                 menproducts: req.session.menproducts,
                 Login,
                 menstat: req.session.menstat,
-                categ
+                categ,
             })
-        }else if(req.session.menstats){
+        } else if (req.session.menstats) {
             res.render('menCategory', {
                 menproducts: req.session.menproducts,
                 Login,
                 menstat: req.session.menstats,
-                categ
+                categ,
             })
         }
-        else{
+        else {
 
             res.render('menCategory', { products, Login })
         }
@@ -521,8 +549,8 @@ let userControl = {
 
     menLowToHighCategory: async (req, res) => {
         let menproducts
-       
-            menproducts = await productModel.find({ category:'Men' }).sort({ price: 1 }).lean();
+
+        menproducts = await productModel.find({ category: 'Men' }).sort({ price: 1 }).lean();
 
         let menstat = true
         req.session.menproducts = menproducts
@@ -533,45 +561,49 @@ let userControl = {
 
     menHighTolowCategory: async (req, res) => {
         let menproducts
-       
-        menproducts = await productModel.find({ category:'Men' }).sort({ price: -1 }).lean();
 
-    let menstats = true
-    req.session.menproducts = menproducts
-    req.session.menstats = menstats
-    res.redirect('/men')
+        menproducts = await productModel.find({ category: 'Men' }).sort({ price: -1 }).lean();
+
+        let menstats = true
+        req.session.menproducts = menproducts
+        req.session.menstats = menstats
+        res.redirect('/men')
     },
 
 
 
     getWomenCategory: async (req, res) => {
+   
         const products = await productModel.find({ category: 'Women' }).sort({ _id: -1 }).lean();
         const categ = await categoryModel.find({}).lean();
+        
         Login = req.session.user.name
         if (req.session.womenstat) {
             res.render('womenCategory', {
                 womenproducts: req.session.womenproducts,
                 Login,
                 womenstat: req.session.womenstat,
-                categ
+                categ,
+             
             })
-        }else if(req.session.womenstats){
+        } else if (req.session.womenstats) {
             res.render('womenCategory', {
                 womenproducts: req.session.womenproducts,
                 Login,
                 womenstat: req.session.womenstats,
-                categ
+                categ,
+              
             })
         }
-        else{
+        else {
 
             res.render('womenCategory', { products, Login })
         }
     },
     womenLowToHighCategory: async (req, res) => {
         let womenproducts
-       
-            womenproducts = await productModel.find({ category:'Women' }).sort({ price: 1 }).lean();
+
+        womenproducts = await productModel.find({ category: 'Women' }).sort({ price: 1 }).lean();
 
         let womenstat = true
         req.session.womenproducts = womenproducts
@@ -582,13 +614,13 @@ let userControl = {
 
     womenHighTolowCategory: async (req, res) => {
         let womenproducts
-       
-        womenproducts = await productModel.find({ category:'Women' }).sort({ price: -1 }).lean();
 
-    let womenstats = true
-    req.session.womenproducts = womenproducts
-    req.session.womenstats = womenstats
-    res.redirect('/women')
+        womenproducts = await productModel.find({ category: 'Women' }).sort({ price: -1 }).lean();
+
+        let womenstats = true
+        req.session.womenproducts = womenproducts
+        req.session.womenstats = womenstats
+        res.redirect('/women')
     },
 
 
@@ -603,7 +635,7 @@ let userControl = {
             const categ = await categoryModel.find({}).lean();
 
             req.session.pageNum = parseInt(req.query.page ?? 1);
-            req.session.perpage = 3;
+            req.session.perpage = 4;
             let allproducts = await productModel.find().countDocuments().then(documentCount => {
                 docCount = documentCount;
                 return productModel
@@ -618,13 +650,15 @@ let userControl = {
             for (i = 1; i <= pageCount; i++) {
                 pagination.push(i);
             }
-    
+
             if (req.session.pstatus) {
                 res.render("allProducts", {
                     categ,
                     brands,
                     pricepro: req.session.pricepro,
                     pstatus: req.session.pstatus,
+                   1: req.session.pageNum ,
+           3: req.session.perpage ,
                     Login,
                     pagination
                 });
@@ -659,7 +693,7 @@ let userControl = {
                 });
 
             } else {
-                res.render("allProducts", { allproducts, categ, brands, Login });
+                res.render("allProducts", { allproducts, categ, brands, Login,pagination });
             }
         } catch (err) {
             console.error(err);
@@ -687,6 +721,7 @@ let userControl = {
             let pstatus = true;
             req.session.pricepro = pricepro;
             req.session.pstatus = pstatus;
+           
             res.redirect("/allProducts");
         } catch (error) {
             console.log(error);

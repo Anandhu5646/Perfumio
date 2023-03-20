@@ -38,7 +38,7 @@ router.get('/removeCart/:id/', getUserRemoveCart)
 router.get('/profile', getUserProfile)
 router.get('/addquantity/:id', incrementQuantity)
 router.get('/minusquantity/:id', decrementQuantity)
-
+    
 router.get('/checkout', getUserCheckout)
 router.get('/addAddress', getUserAddAddress)
 router.get('/deleteAddress/:id', getUserDeleteAddress)
