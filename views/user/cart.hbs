@@ -13,9 +13,13 @@
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <link rel="stylesheet" href="/user/userHome.css" />
 
- 
+
   <title>Document</title>
   <style>
+    body {
+      height: 100;
+    }
+
     .sidebar {
 
       width: 100vw;
@@ -239,97 +243,100 @@
   </header>
 
   <div class="p-5 row container-fluid " style="margin-top: 100px;">
-    <div class="col-md-6 mt-1">
       {{#if message}}
-      <div class="image-fluid" style="margin-left: 290px;"><img src="/images/cart1.png" alt="">
-        <a href="/"><button class="btn btn-dark" style="margin-left: 19rem;width: 50%; margin-top: -10rem;">Go
-            Home</button></a>
-      </div>
-      {{!-- <div style="align-items: center;"></div> --}}
-      {{/if}}
-
-      {{#each products}}
-      <div class=" mt-5 container-fluid row ms-2">
-
-        <div class="col-md-4 cartCard">
-          <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
-          <span id="message{{this._id}}" class="text-danger font-weight-bold"></span>
-        </div>
-        <div class="col-md-8 cart">
-          <h3>{{this.name}}</h3>
-          <h5 style="color: rgba(0, 0, 0, 0.526);">{{this.category}}</h5>
-          <div class="qauntitySection">
-            Quantity:<button style="width: 2rem;color: white; background-color: rgb(5, 5, 5);color: #FFC107;"
-              onclick="decrement('{{this._id}}')">-</button> <b id="quantityBox{{this._id}}">{{this.quantity}}</b>
-            <button style="width: 2rem;color: #FFC107; background-color: rgb(0, 0, 0);margin-right: 5px;"
-              onclick="increment('{{this._id}}')">+</button>
-          </div>
-          <h4 id="singlePrice{{this._id}}">{{this.price}}</h4>
-
-          <a href="/removeCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a>
-
+    <div class="col-md-6 mt-1">
+      <div class="responsive d-none d-sm-none d-md-block" style="margin-left: 290px;"><img src="/images/cart1.png" alt="">
+        <div class="text-center">
+          <button type="button" class="btn btn-dark" style="margin-left: 370px;margin-top: -10rem;">Home</button>
         </div>
       </div>
-      {{/each}}
-      <div class="div">
+    
+    </div>
+
+    {{/if}}
+
+    {{#each products}}
+    <div class=" mt-5 container-fluid row ms-2">
+
+      <div class="col-md-4 cartCard">
+        <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
+        <span id="message{{this._id}}" class="text-danger font-weight-bold"></span>
+      </div>
+      <div class="col-md-8 cart">
+        <h3>{{this.name}}</h3>
+        <h5 style="color: rgba(0, 0, 0, 0.526);">{{this.category}}</h5>
+        <div class="qauntitySection">
+          Quantity:<button style="width: 2rem;color: white; background-color: rgb(5, 5, 5);color: #FFC107;"
+            onclick="decrement('{{this._id}}')">-</button> <b id="quantityBox{{this._id}}">{{this.quantity}}</b>
+          <button style="width: 2rem;color: #FFC107; background-color: rgb(0, 0, 0);margin-right: 5px;"
+            onclick="increment('{{this._id}}')">+</button>
+        </div>
+        <h4 id="singlePrice{{this._id}}">{{this.price}}</h4>
+
+        <a href="/removeCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a>
 
       </div>
     </div>
-    {{#unless message}}
-    <div class="col-md-6 col-sm-4 mt-1 container-fluid">
-      <h3 class="text-center">Cart Total</h3>
-      <table class="table tableCart mt-5">
+    {{/each}}
+    <div class="div">
 
-        <thead>
-          <tr>
+    </div>
+  </div>
+  {{#unless message}}
+  <div class="col-md-6 col-sm-4 mt-1 container-fluid">
+    <h3 class="text-center">Cart Total</h3>
+    <table class="table tableCart mt-5">
 
-            <th scope="col">Item</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          {{#each products}}
-          <tr>
-
-            <td>{{this.name}}</td>
-            <td id="quantity{{this._id}}">{{this.quantity}}</td>
-            <td id="price{{this._id}}">{{this.price}}</td>
-
-          </tr>
-          {{/each}}
-
-
-
-        </tbody>
+      <thead>
         <tr>
-          <td>Discount</td>
-          <td></td>
-          <td>{{discount}}</td>
-        </tr>
-        <td>Delivery Charge</td>
-        <td></td>
-        <td>0.00</td>
-        </tr>
-        </tr>
-        <td>
-          <h4>Total Amount</h4>
-        </td>
-        <td></td>
-        <td id="totalAmount">
-          <h4> {{TotalAmount}}</h4>
-        </td>
-        </tr>
-      </table>
-      <div class="orderBtns d-flex  row justify-content-between ms-5">
-        <div class="row"></div>
-        <a class="btn btn-dark col-sm-5" href="/checkout">Check Out</a>
 
-      </div>
+          <th scope="col">Item</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+        <tr>
+
+          <td>{{this.name}}</td>
+          <td id="quantity{{this._id}}">{{this.quantity}}</td>
+          <td id="price{{this._id}}">{{this.price}}</td>
+
+        </tr>
+        {{/each}}
+
+
+
+      </tbody>
+      <tr>
+        <td>Discount</td>
+        <td></td>
+        <td>{{discount}}</td>
+      </tr>
+      <td>Delivery Charge</td>
+      <td></td>
+      <td>0.00</td>
+      </tr>
+      </tr>
+      <td>
+        <h4>Total Amount</h4>
+      </td>
+      <td></td>
+      <td id="totalAmount">
+        <h4> {{TotalAmount}}</h4>
+      </td>
+      </tr>
+    </table>
+    <div class="orderBtns d-flex  row justify-content-between ms-5">
+      <div class="row"></div>
+      <a class="btn btn-dark col-sm-5" href="/checkout">Check Out</a>
 
     </div>
-    {{/unless}}
+
+  </div>
+  {{/unless}}
 
   </div>
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
@@ -377,7 +384,7 @@
     <!--/.Copyright-->
 
   </footer>
-  
+
   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
   <script>
     function increment(id) {
@@ -416,7 +423,7 @@
       }
     }
   </script>
-<script>
+  <script>
     function openSidebar() {
       document.getElementById('sidebar').style.left = "0px"
     }
@@ -427,13 +434,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-   <script>new WOW().init();</script>
-    <script>$(".bars").click(() => {
-            $(".mobile__nav__fade__and__show__circle").toggleClass("open");
-            $(".mobile__nav__fade__and__show").toggleClass("open");
-            $(".bars").toggleClass("toggle")
+  <script>new WOW().init();</script>
+  <script>$(".bars").click(() => {
+      $(".mobile__nav__fade__and__show__circle").toggleClass("open");
+      $(".mobile__nav__fade__and__show").toggleClass("open");
+      $(".bars").toggleClass("toggle")
 
-        })</script>
+    })</script>
 </body>
 
 </html>
