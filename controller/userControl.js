@@ -354,7 +354,9 @@ let userControl = {
     // user add address //   
     getUserAddAddress: (req, res) => {
         try {
-            res.render('userAddAddress')
+           
+            res.render('userAddAddress',{ useraddress: req.session.useraddress})
+            req.session.useraddress=null
         } catch (error) {
             console.error(error)
             res.render('404page')
@@ -367,7 +369,7 @@ let userControl = {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
 
-            await userModel.updateOne(
+         let useraddress=   await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
                     $addToSet: {
@@ -384,7 +386,7 @@ let userControl = {
                     },
                 }
             );
-
+            req.session.useraddress= useraddress
             res.redirect('/profile');
         } catch (error) {
             console.error(error)
@@ -397,7 +399,7 @@ let userControl = {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
 
-            await userModel.updateOne(
+          let chkaddress=  await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
                     $addToSet: {
@@ -414,7 +416,7 @@ let userControl = {
                     },
                 }
             );
-
+                req.session.chkaddress= chkaddress
             res.redirect('/checkout');
         } catch (error) {
             console.error(error)

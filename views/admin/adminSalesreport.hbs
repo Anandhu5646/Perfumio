@@ -157,14 +157,14 @@
             <h1 class="logo">Perfumio</h1>
         </div>
     </nav>
-    <main id="main" class="main" style="margin-left: 5rem; padding-top: 130px;">
+    <main id="main" class="main" style="margin-left: 2rem; padding-top: 130px;">
         <section class="section dashboard">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="row">
                             <div class="col-md-4 col-lg-4 mb-3" >
-                                <div class="card info-card sales-card" style="background-color: #c0e5f3;">
+                                <div class="card info-card sales-card" style="background-color: #c0e5f3;margin-left: 0px;">
                                     <div class="card-body">
                                         <h5 class="card-title">Sales <span></span></h5>
                                         <div class="d-flex align-items-center">
@@ -172,7 +172,7 @@
                                                 class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                 <i class="bi bi-cart"></i>
                                             </div>
-                                            <div class="ps-3">
+                                            <div class="">
                                                 <h6>{{salesCount}}</h6>
                                                 {{!-- <span class="text-success small pt-1 fw-bold">12%</span> <span
                                                     class="text-muted small pt-2 ps-1">increase</span> --}}
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4 mb-3">
-                                <div class="card info-card revenue-card" style="background-color: #c0e5f3;">
+                                <div class="card info-card revenue-card" style="background-color: #c0e5f3;margin-left: 0px;">
                                     <div class="card-body">
                                         <h5 class="card-title">Revenue</h5>
                                         <div class="d-flex align-items-center">
@@ -200,7 +200,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 col-lg-4 mb-3">
-                                <div class="card info-card customers-card" style="background-color: #c0e5f3;">
+                                <div class="card info-card customers-card" style="background-color: #c0e5f3; margin-left: 0px;">
                                     <div class="card-body">
                                         <h5 class="card-title">Customers</h5>
                                         <div class="d-flex align-items-center">
@@ -241,9 +241,9 @@
                     Excel</button>
             </div>
             <h3 class="text-dark mt-4">Orders</h3>
-            <div class="card mt-3" style="margin-right: 5rem;">
+            <div class="card mt-3" style="margin-right: 2rem;">
                 <div class="card-body pt-2">
-
+                    <div style="overflow: scroll;">
                     <table class="table table-hover table-borderless mt-2 ">
                         <thead>
                             <tr>
@@ -273,6 +273,7 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
 
@@ -290,12 +291,10 @@
 
     <script>
         let orders = []
-        { { #each deliveredOrders } }
+        {{#each deliveredOrders}}
         orders.push(['{{this.address.name}}', '{{this.products.name}}', '{{this.orderDate}}', '{{this.quantity}}', '{{this.total}}'
             , '{{this.orderStatus}}'])
-        {
-            {
-                /each}}
+        {{/each}}
                 let totalRevenue = '{{salesSum}}'
                 let totalOrders = '{{salesCount}}'
                 let Customers = '{{userCount}}'

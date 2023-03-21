@@ -19,7 +19,7 @@
         <div class="col-md-2">
           <div class="header-logo ">
             <a href="/" class="logo" style="text-decoration: none;">
-              <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Aura Scents
+              <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Perfumio
 
               </h1>
 
@@ -32,45 +32,54 @@
       </div>
     </div>
   </div>
-    <form action="/updateAddress" method="post" id="floatingTextarea" class=" product-add container d-flex flex-column">
-        <H3 class="text-center ">Edit Address</H3>
-        <input type="text" value="{{data._id}}" class="form-control" name="_id" style="height:0px;visibility:hidden;" />
-        <label for="" >Name</label>
-        <input type="text" name="name" class="namefield" value="{{data.name}}" placeholder="name" required>
-        <div class="pro-img-qua d-flex justify-content-around">
-            <div class="price">
-                <div class="qua "style="margin-left: -5px;"> <label for="">PhoneNo</label>
-                    <input type="mobile" name="mobile" class="namefield" value="{{data.mobile}}" placeholder="phoneno" required>
-                </div>
-            </div>
-            <div class="email" style="margin-left: 30px;"> <label for="">City</label>
-                <input type="text" name="city" class="namefield" value="{{data.city}}" placeholder="city" required>
-            </div>
-            
+<form action="/updateAddress" method="post" class=" product-add container d-flex flex-column">
+    <H3 class="text-center ">Edit Address</H3>
+    <input type="text" value="{{_id}}" class="form-control" name="_id" style="height:0px;visibility:hidden;" />
+    <div class="form-group col-md-12">
+      <label for="name">Name</label>
+      <input type="text" name="name" class="form-control" value="{{data.name}}" placeholder="Enter your Name" required>
+    </div>
+    <div class="pro-img-qua d-flex justify-content-around">
+      <div class="form-group col-md-6">
+        <label for="mobile">Mobile No</label>
+        <input type="number" name="mobile" class="form-control" value="{{data.mobile}}" placeholder="Enter your mobile" required>
+      </div>
 
-        </div>
-        <div class="pro-img-qua d-flex justify-content-around">
-            <div class="email"> <label for="">LandMark</label>
-                <input type="text" name="landmark" class="namefield" value="{{data.landmark}}" placeholder="landmark" required>
-            </div>
-            <div class="price">
-                <div class="qua"> <label for="">Pincode</label>
-                    <input type="number" name="pincode" class="namefield" value="{{data.pincode}}" placeholder="pincode" required>
-                </div>
-            </div>
-        </div>
-        <div class="" style="margin-left: 70px;"> <label >State</label>
-                <input type="text" name="state" class="namefield" placeholder="state" value="{{data.state}}" required>
-            </div>
-        <label for="">House Address</label>
-       
-         <div class="mb-4">
-                  <textarea class="namefield" placeholder="Address" name="address" style="width: 100%; height: 80px;"
-                    value="{{data.address}}" form="floatingTextarea">{{data.address}}</textarea>
-                </div>
-        
-        <button type="submit" class="btn btn-dark">Save</button>
-    </form>
+      <div class="form-group col-md-6 ms-2">
+        <label for="city">City</label>
+        <input type="text" name="city" class="form-control"  value="{{data.city}}" placeholder="Enter your city" required>
+      </div>
+
+    </div>
+    <div class="pro-img-qua d-flex justify-content-around">
+      <div class="form-group col-md-6">
+        <label for="landmark">Landmark</label>
+        <input type="text" name="landmark" class="form-control"  value="{{data.landmark}}" placeholder="Enter your landmark" required>
+      </div>
+
+      <div class="form-group col-md-6 ms-2">
+        <label for="pincode">Pincode</label>
+        <input type="number" name="pincode" class="form-control"  value="{{data.pincode}}" placeholder="Enter your pincode" required>
+      </div>
+
+    </div>
+    <div class="form-group col-md-6">
+      <label for="state">State</label>
+      <input type="text" name="state" class="form-control"  value="{{data.state}}" placeholder="Enter your state" required>
+    </div>
+   
+    <div class="form-group col-md-12">
+      <label for="address">Address</label>
+      <textarea class="form-control" placeholder="Address" style="height: 90px;" name="address"  value="{{data.address}}" id="floatingTextarea"
+        required>{{data.address}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-dark">Save</button>
+  </form>
+  
+   
+
+
+    
 </body>
 
 </html>

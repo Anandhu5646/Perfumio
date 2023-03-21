@@ -166,9 +166,10 @@ let orderControl ={
                 }
             }
 
-            res.render('userCheckout', { products, totalPrice, address, cart, users, coupons, cashback, totPrice, Login })
+            res.render('userCheckout', { products,chkaddress:req.session.chkaddress, totalPrice, address, cart, users, coupons, cashback, totPrice, Login })
             cashback = null
             req.session.coupon = null
+            req.session.chkaddress= null
         } catch (error) {
             console.error(error)
             res.render('404page')

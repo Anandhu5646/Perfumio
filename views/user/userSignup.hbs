@@ -51,8 +51,8 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" name="password" id="password" class="form-control form-control-lg"
-                      placeholder="Password" onchange="validation('password')"required/>
+                    <input type="password" name="password" minlength="8" maxlength="16" id="password" class="form-control form-control-lg"
+                      placeholder="Password" onchange="validation('password')" required/>
                     <span id="passworderror" class="text-danger font-weight-bold"></span>
                   </div>
 
@@ -87,7 +87,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843
   let email = document.getElementById('email');
   let mobile = document.getElementById('mobile');
   let password = document.getElementById('password');
-  let confirmPassword = document.getElementById('confirmPassword');
+  {{!-- let confirmPassword = document.getElementById('confirmPassword'); --}}
 
 
   let usercheck = /^[A-Za-z\.\-]{3,30}$/;

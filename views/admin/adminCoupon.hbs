@@ -119,10 +119,11 @@
 
 
 
-<div class="container mt-5" style="padding-top: 50px; background-color: rgb(255, 255, 255);margin-left: 6rem;margin-right: 6rem;">
+<div class="container mt-5" style="padding-top: 50px; background-color: rgb(255, 255, 255);margin-left: 2rem;margin-right: 2rem;">
     <div class="mt-5">
         <a href="/admin/addCoupon" class="btn btn-outline-primary mb-3 mt-3">Add New Coupon</a>
     </div>
+    <div style="overflow: scroll;">
     <table class="table table-hover" id="myTable">
         <thead>
             <tr>
@@ -177,6 +178,7 @@
             {{/each}}
         </tbody>
     </table>
+    </div>
     <script>
         // Add event listeners to the three-dots elements
         const dropdownContainers = document.querySelectorAll('.dropdown-container');
