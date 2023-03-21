@@ -201,7 +201,8 @@
       <div class="main__navigations pt-2">
         <div class="main__navigations__div">
           <ul class="main__navigations__div__ul">
-            <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a href="/">Home</a></li>
+            <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a href="/">Home</a>
+            </li>
             <li class="main__navigations__div__li on__mobile_d_none">
               <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
               <div class="div__categories__items">
@@ -247,100 +248,98 @@
       {{#if message}}
       <div class="image-fluid d-flex flex-column justify-content-center align-items-center">
         <img src="/images/cart1.png" alt="">
-        <div class="text-center"  style="margin-top:-130px">
+        <div class="text-center" style="margin-top:-130px">
           <button type="button" class="btn btn-dark"><a href="/"> Home</a></button>
         </div>
       </div>
-    
+
     </div>
 
     {{/if}}
+  </div>
 
+
+  <div class="col-md-6 mt-5 container-fluid row ms-2">
     {{#each products}}
-    <div class=" mt-5 container-fluid row ms-2">
-
-      <div class="col-md-4 cartCard">
-        <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
-        <span id="message{{this._id}}" class="text-danger font-weight-bold"></span>
+    <div class="cartCard col-md-6">
+      <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
+      <span id="message{{this._id}}" class="text-danger font-weight-bold"></span>
+    </div>
+    <div class="cart col-md-6">
+      <h3>{{this.name}}</h3>
+      <h5 style="color: rgba(0, 0, 0, 0.526);">{{this.category}}</h5>
+      <div class="qauntitySection">
+        Quantity:<button style="width: 2rem;color: white; background-color: rgb(5, 5, 5);color: #FFC107;"
+          onclick="decrement('{{this._id}}')">-</button> <b id="quantityBox{{this._id}}">{{this.quantity}}</b>
+        <button style="width: 2rem;color: #FFC107; background-color: rgb(0, 0, 0);margin-right: 5px;"
+          onclick="increment('{{this._id}}')">+</button>
       </div>
-      <div class="col-md-8 cart">
-        <h3>{{this.name}}</h3>
-        <h5 style="color: rgba(0, 0, 0, 0.526);">{{this.category}}</h5>
-        <div class="qauntitySection">
-          Quantity:<button style="width: 2rem;color: white; background-color: rgb(5, 5, 5);color: #FFC107;"
-            onclick="decrement('{{this._id}}')">-</button> <b id="quantityBox{{this._id}}">{{this.quantity}}</b>
-          <button style="width: 2rem;color: #FFC107; background-color: rgb(0, 0, 0);margin-right: 5px;"
-            onclick="increment('{{this._id}}')">+</button>
-        </div>
-        <h4 id="singlePrice{{this._id}}">{{this.price}}</h4>
+      <h4 id="singlePrice{{this._id}}">{{this.price}}</h4>
 
-        <a href="/removeCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a>
+      <a href="/removeCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a>
 
-      </div>
     </div>
     {{/each}}
-    <div class="div">
-
-    </div>
-  </div>
-  {{#unless message}}
-  <div class="col-md-6 col-sm-4 mt-1 container-fluid">
-    <h3 class="text-center">Cart Total</h3>
-    <table class="table tableCart mt-5">
-
-      <thead>
-        <tr>
-
-          <th scope="col">Item</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Price</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        {{#each products}}
-        <tr>
-
-          <td>{{this.name}}</td>
-          <td id="quantity{{this._id}}">{{this.quantity}}</td>
-          <td id="price{{this._id}}">{{this.price}}</td>
-
-        </tr>
-        {{/each}}
-
-
-
-      </tbody>
-      <tr>
-        <td>Discount</td>
-        <td></td>
-        <td>{{discount}}</td>
-      </tr>
-      <td>Delivery Charge</td>
-      <td></td>
-      <td>0.00</td>
-      </tr>
-      </tr>
-      <td>
-        <h4>Total Amount</h4>
-      </td>
-      <td></td>
-      <td id="totalAmount">
-        <h4> {{TotalAmount}}</h4>
-      </td>
-      </tr>
-    </table>
-    <div class="orderBtns d-flex  row justify-content-between ms-5">
-      <div class="row"></div>
-      <a class="btn btn-dark col-sm-5" href="/checkout">Check Out</a>
-
-    </div>
-
-  </div>
-  {{/unless}}
-
   </div>
   
+    {{#unless message}}
+    <div class="col-md-6 col-sm-4 mt-1 container-fluid">
+      <h3 class="text-center">Cart Total</h3>
+      <table class="table tableCart mt-5">
+
+        <thead>
+          <tr>
+
+            <th scope="col">Item</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {{#each products}}
+          <tr>
+
+            <td>{{this.name}}</td>
+            <td id="quantity{{this._id}}">{{this.quantity}}</td>
+            <td id="price{{this._id}}">{{this.price}}</td>
+
+          </tr>
+          {{/each}}
+
+
+
+        </tbody>
+        <tr>
+          <td>Discount</td>
+          <td></td>
+          <td>{{discount}}</td>
+        </tr>
+        <td>Delivery Charge</td>
+        <td></td>
+        <td>0.00</td>
+        </tr>
+        </tr>
+        <td>
+          <h4>Total Amount</h4>
+        </td>
+        <td></td>
+        <td id="totalAmount">
+          <h4> {{TotalAmount}}</h4>
+        </td>
+        </tr>
+      </table>
+      <div class="orderBtns d-flex  row justify-content-between ms-5">
+        <div class="row"></div>
+        <a class="btn btn-dark col-sm-5" href="/checkout">Check Out</a>
+
+      </div>
+
+    </div>
+    {{/unless}}
+  </div>
+  </div>
+
 
   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
   <script>

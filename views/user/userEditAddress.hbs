@@ -1,38 +1,47 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/user/addAddress.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
-
+<style> 
+  section{
+    width: 40%;
+  }
+  @media (max-width: 600px) {
+      section{
+        width: 100%;
+      }
+    }</style>
 <body>
-    <div class="bg-dark navBar" style="height: 120px;">
-    <!-- container -->
-    <div class="container">
-      <!-- row -->
-      <div class="row align-items-center">
-        <!-- LOGO -->
-        <div class="col-md-2">
-          <div class="header-logo ">
-            <a href="/" class="logo" style="text-decoration: none;">
-              <h1 class="font-weight-bold " style="color: #ffff; width:20rem;">Perfumio
-
-              </h1>
-
-            </a>
+   <header style="    height: 80px;">
+    <div class="bg-dark navbar" style="height: 120px;">
+      <!-- container -->
+      <div class="container">
+        <!-- row -->
+        <div class="row align-items-center">
+          <!-- LOGO -->
+          <div class="col-md-2">
+            <div class="header-logo ">
+              <a href="/" class="logo" style="text-decoration: none;">
+                <h1 class="font-weight-bold " style="color: #ffff; max-width:20rem; font-size: 2rem;">Perfumio</h1>
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6 text-center " style="margin-left: 8rem;">
-          {{!-- <h2 class="text-white "> Profile Manager</h2> --}}
         </div>
       </div>
     </div>
-  </div>
-<form action="/updateAddress" method="post" class=" product-add container d-flex flex-column">
+  </header>
+   <section style=" margin-top: 1rem;
+    margin: auto;">
+    <div>
+    <form action="/updateAddress" method="post" class=" product-add container d-flex flex-column">
     <H3 class="text-center ">Edit Address</H3>
     <input type="text" value="{{_id}}" class="form-control" name="_id" style="height:0px;visibility:hidden;" />
     <div class="form-group col-md-12">
@@ -73,13 +82,9 @@
       <textarea class="form-control" placeholder="Address" style="height: 90px;" name="address"  value="{{data.address}}" id="floatingTextarea"
         required>{{data.address}}</textarea>
     </div>
-    <button type="submit" class="btn btn-dark">Save</button>
+    <button type="submit" class="btn btn-dark mt-4">Save</button>
   </form>
-  
-   
-
-
-    
+    </div>
+  </section>
 </body>
-
 </html>

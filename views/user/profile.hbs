@@ -179,7 +179,7 @@
                                 </div>
                             {{/unless}}
                         </li>
-                        <i onclick="openSidebar()" class="fa fa-bars d-md-none" style="padding-right: 30px;padding-top: 10px;color: #6a6a6a;"></i>
+                        <i onclick="openSidebar()" class="fa fa-bars d-md-none" style="padding-right: 30px;padding-top: 10px;color: #989595;"></i>
                     </ul>
                 </div>
             </div>
@@ -252,11 +252,11 @@
                 <b>PIN:{{this.pincode}}</b>
               </div>
               <div class="man-ad-right">
-                <a href="/deleteAddress/{{this.id}}">
+                <span onclick="if(confirm('Are you sure delete')){window.location.href='/deleteAddress/{{this.id}}'}">
                   <i class="ri-delete-bin-5-line"></i>
-                </a>
+                </span>
 
-                <a href='/editAddress/{{this.id}}'><i class="ri-edit-box-line"></i></a>
+                <a  href='/editAddress/{{this.id}}'><i class="ri-edit-box-line"></i></a>
               </div>
             </div>
             {{/each}}
@@ -280,51 +280,7 @@
       </div>
     </div>
   </div>
-<footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
-        <!--Call to action-->
-        <div class="pt-4">
-            <a class="btn btn-outline-white" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
-                target="_blank" role="button">Contact
-                <i class="fas fa-download ml-2"></i>
-            </a>
-            <a class="btn btn-outline-white" href="https://mdbootstrap.com/education/bootstrap/" target="_blank"
-                role="button">Perfumio
-                <i class="fas fa-graduation-cap ml-2"></i>
-            </a>
-        </div>
-        <!--/.Call to action-->
-
-        <hr class="my-4">
-
-        <!-- Social icons -->
-        <div class="pb-4">
-            <a href="#" target="_blank">
-                <i class="fab fa-facebook-f mr-3"></i>
-            </a>
-
-            <a href="#" target="_blank">
-                <i class="fab fa-twitter mr-3"></i>
-            </a>
-
-            <a href="#" target="_blank">
-                <i class="fab fa-youtube mr-3"></i>
-            </a>
-
-            <a href="http://perfumio.online" target="_blank">
-                <i class="fab fa-google-plus-g mr-3"></i>
-            </a>
-        </div>
-        <!-- Social icons -->
-
-        <!--Copyright-->
-        <div class="footer-copyright py-3">
-            © 2023 Copyright:
-            <a href="" target="_blank"> perfumio.online</a>
-        </div>
-        <!--/.Copyright-->
-
-    </footer>
     <script>
         function openSidebar() {
             document.getElementById('sidebar').style.left = "0px"
@@ -333,14 +289,7 @@
             document.getElementById('sidebar').style.left = "-1000px"
         }
     </script>
-  {{!--
-  <script>
-    function deleteAddress(id) {
-      if (confirm("Are you sure delete this address")) {
-        window.location.href = "/delete-address/" + id
-      }
-    }
-  </script> --}}
+ 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>

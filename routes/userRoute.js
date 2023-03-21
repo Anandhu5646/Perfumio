@@ -7,7 +7,7 @@ const { getUserHome, getUserLogin, getUserSignup, postUserLogin, postUserSignup,
      getUserLogout, resendOTP, getUserAddAddress, postUserAddAddress, getUserEditAddress,
      postUserEditAddress, getUserDeleteAddress, getUserAddToWishlist, getUserWishlistToCart, getUserWishlist,
      postUserCheckoutAddAddress, getWomenCategory, sortLowToHigh,
-     getUserRemoveFromWishlist, getUserAllProducts, sortHighToLow, categoryFilterPdt, postUserSearch, getMenCategory, menHighTolowCategory,  womenHighTolowCategory, womenLowToHighCategory, menLowToHighCategory, } = require('../controller/userControl');
+     getUserRemoveFromWishlist, getUserAllProducts, sortHighToLow, categoryFilterPdt, postUserSearch, getMenCategory, menHighTolowCategory,  womenHighTolowCategory, womenLowToHighCategory, menLowToHighCategory, checkoutAddAddress, } = require('../controller/userControl');
 const verifyNotLogin = require('../middlewares/verifyNotLogin');
 const verifyUser = require('../middlewares/verifyUser');
 const router = express.Router();
@@ -41,6 +41,7 @@ router.get('/minusquantity/:id', decrementQuantity)
     
 router.get('/checkout', getUserCheckout)
 router.get('/addAddress', getUserAddAddress)
+router.get('/chkAddAddress', checkoutAddAddress)
 router.get('/deleteAddress/:id', getUserDeleteAddress)
 router.post('/saveAddress', postUserAddAddress)
 router.post('/saveCheckoutAddress', postUserCheckoutAddAddress)
@@ -48,7 +49,7 @@ router.get('/editAddress/:id', getUserEditAddress)
 router.post('/updateAddress', postUserEditAddress)
 router.get('/wishlist', getUserWishlist)
 router.get('/addToWishlist/:id', getUserAddToWishlist)
-router.get('/cartToWishlist/:id', getUserWishlistToCart)
+router.get('/wishlistToCart/:id', getUserWishlistToCart)
 router.get('/removeFromWishlist/:id', getUserRemoveFromWishlist)
 router.post('/applyCoupon', postUserApplyCoupon)
 router.get('/orders', getUserOrders)

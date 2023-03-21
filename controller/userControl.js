@@ -355,8 +355,19 @@ let userControl = {
     getUserAddAddress: (req, res) => {
         try {
            
-            res.render('userAddAddress',{ useraddress: req.session.useraddress})
-            req.session.useraddress=null
+            res.render('userAddAddress')
+           
+        } catch (error) {
+            console.error(error)
+            res.render('404page')
+        }
+
+    },
+    checkoutAddAddress: (req, res) => {
+        try {
+           
+            res.render('checkoutAddAddress')
+           
         } catch (error) {
             console.error(error)
             res.render('404page')
@@ -369,7 +380,7 @@ let userControl = {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
 
-         let useraddress=   await userModel.updateOne(
+           await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
                     $addToSet: {
@@ -386,8 +397,8 @@ let userControl = {
                     },
                 }
             );
-            req.session.useraddress= useraddress
-            res.redirect('/profile');
+           
+            res.redirect("/profile");
         } catch (error) {
             console.error(error)
             res.render('404page')
@@ -399,7 +410,7 @@ let userControl = {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
 
-          let chkaddress=  await userModel.updateOne(
+           await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
                     $addToSet: {
@@ -416,8 +427,8 @@ let userControl = {
                     },
                 }
             );
-                req.session.chkaddress= chkaddress
-            res.redirect('/checkout');
+               
+            res.redirect("/checkout");
         } catch (error) {
             console.error(error)
             res.render('404page')
@@ -473,7 +484,7 @@ let userControl = {
                 { $addToSet: { wishlist: { id: pdt_id } } }
             );
 
-            res.redirect("/");
+            res.redirect("back");
 
         } catch (err) {
             // Handle errors

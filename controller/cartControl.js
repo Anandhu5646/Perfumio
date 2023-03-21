@@ -15,7 +15,7 @@ let cartControl = {
             userModel.updateOne({ _id: user_id }, { $addToSet: { cart: { id: pdt_id, quantity: 1 } } }).then(() => {
                 productModel.updateOne({ _id: pdt_id }, { $inc: { stock: -1 } }).then((result) => {
                 })
-                res.redirect('/')
+                res.redirect("back")
             }).catch((err) => {
                 console.log(err);
                 res.render('404page')
