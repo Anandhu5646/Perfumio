@@ -42,7 +42,7 @@ let cartControl = {
         console.log(err);
         res.json({error: true, err})
     }
-
+  
 },
     // increment product quantity //
     incrementQuantity: async (req, res) => {

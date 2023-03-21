@@ -30,9 +30,18 @@ getAdminProduct: async (req, res) => {
 },
 // save product//
 postAdminSaveProduct: async (req, res) => {
+    let { name, description, category, sub, price, mrp, stock } = req.body
     try {
+
+        const existingPdt = await productModel.findOne({ name:{ $regex: new RegExp(`^${name}$`, "i") } });
+
+        if (existingPdt) {
+
+            existingPdt.block = true;
+            await existingPdt.save();
+            res.render('addproduct', { error: true, message: "Product already exists" });
+        }else{
         let block = false
-        let { name, description, category, sub, price, mrp, stock } = req.body
 
         await sharp(req.files.image[0].path)
             .png()
@@ -54,6 +63,7 @@ postAdminSaveProduct: async (req, res) => {
         await products.save()
         console.log('product saved')
         res.redirect('/admin/product')
+    }
     } catch (err) {
         console.error(err)
         res.render('addproduct', { error: true }, { message: 'something went wrong' })

@@ -149,7 +149,7 @@
                 <div class="main__navigations__div">
                     <ul class="main__navigations__div__ul">
                         <li class="main__navigations__div__li on__mobile_d_none" style="font-weight: bold;"><a
-                                href="">Home</a></li>
+                                href="/">Home</a></li>
                         <li class="main__navigations__div__li on__mobile_d_none">
                             <a class="categ" style="font-weight: bold;">Categories <i class="fas fa-caret-down"></i></a>
                             <div class="div__categories__items">
@@ -252,9 +252,9 @@
                 <b>PIN:{{this.pincode}}</b>
               </div>
               <div class="man-ad-right">
-                <span onclick="if(confirm('Are you sure delete')){window.location.href='/deleteAddress/{{this.id}}'}">
-                  <i class="ri-delete-bin-5-line"></i>
-                </span>
+                <span>
+                <a type="button"   data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                  <i class="ri-delete-bin-5-line"></i></a></span>
 
                 <a  href='/editAddress/{{this.id}}'><i class="ri-edit-box-line"></i></a>
               </div>
@@ -280,7 +280,30 @@
       </div>
     </div>
   </div>
-
+{{#each addressDet.address}}
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Alert!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body">
+          <p>Are you sure to delete address?</p>
+        </div>
+       
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        
+          <button type="button" class="btn btn-primary"><a href="/deleteAddress/{{this.id}}">Yes</a></button>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
     <script>
         function openSidebar() {
             document.getElementById('sidebar').style.left = "0px"

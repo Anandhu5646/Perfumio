@@ -261,7 +261,7 @@
 
   <div class="col-md-6 mt-5 container-fluid row ms-2">
     {{#each products}}
-    <div class="cartCard col-md-6">
+    <div class="cartCard col-md-6 mt-4">
       <img src="/pic/{{this.image.filename}}" class="img-fluid" alt="" srcset="">
       <span id="message{{this._id}}" class="text-danger font-weight-bold"></span>
     </div>
@@ -275,8 +275,10 @@
           onclick="increment('{{this._id}}')">+</button>
       </div>
       <h4 id="singlePrice{{this._id}}">{{this.price}}</h4>
-
-      <a href="/removeCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a>
+      <a type="button" class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+          Remove 
+        </a>
+      {{!-- <a href="/removeCart/{{this._id}}" class="btn btn-warning ">Remove From cart </a> --}}
 
     </div>
     {{/each}}
@@ -339,8 +341,30 @@
     {{/unless}}
   </div>
   </div>
-
-
+{{#each products}}
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Alert!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body">
+          <p>Are you sure to remove product?</p>
+        </div>
+       
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        
+          <button type="button" class="btn btn-primary"><a href="/removeCart/{{this._id}}">Yes</a></button>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
   <script>
     function increment(id) {
