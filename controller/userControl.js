@@ -490,14 +490,15 @@ let userControl = {
             const pdt_id = req.params.id;
             await userModel.updateOne({ _id: user_id },
                 {
-                    $addToSet: { cart: { id: pdt_id } }
+                    $addToSet: { cart: { id: pdt_id , quantity:1 } }
 
                 })
             await userModel.updateOne(
                 { _id: user_id },
                 {
                     $pull: {
-                        wishlist: { id: pdt_id }
+                        wishlist: { id: pdt_id },
+                        
                     }
                 }
             )
