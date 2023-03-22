@@ -21,9 +21,19 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843
                   </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Login</h5>
-                  {{#if message}}
+                  {{#if mailmessage}}
                   <p class="text-danger" style="font-size: 15px;">
-                     {{message}}
+                     {{mailmessage}}
+                  </p>
+                  {{/if}}
+                   {{#if passmessage}}
+                  <p class="text-danger" style="font-size: 15px;">
+                     {{passmessage}}
+                  </p>
+                  {{/if}}
+                   {{#if blockmessage}}
+                  <p class="text-danger" style="font-size: 15px;">
+                     {{blockmessage}}
                   </p>
                   {{/if}}
                   <div class="form-outline mb-4">

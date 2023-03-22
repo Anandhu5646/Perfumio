@@ -20,9 +20,9 @@ let userControl = {
             // pagination
             const page = req.query.page;
             const limit = 4;
-           
+
             const skip = (page - 1) * limit;
-            
+
             const query = productModel.find({}).skip(skip).limit(limit).lean();
             const productCount = await productModel.countDocuments();
 
@@ -44,7 +44,7 @@ let userControl = {
                 Login = req.session.user.name;
             }
 
-            res.render('userHome', { products:productsPaginated, Login, pagination,  });
+            res.render('userHome', { products: productsPaginated, Login, pagination, });
             req.session.sub = products.sub;
         } catch (error) {
             console.error(error);
@@ -55,11 +55,11 @@ let userControl = {
 
     getUserLogin: (req, res) => {
         try {
-
-            req.session.InvalidMail ? message = "Email not exist. Please register" : message = null
-            req.session.InvalidPassword ? message = "Password incorrect" : message = null
-            req.session.Blockeduser ? message = "User blocked" : message = null
-            res.render("userLogin", { message })
+            
+            req.session.InvalidMail ? mailmessage = "Email not exist. Please register" : mailmessage = null
+            req.session.InvalidPassword ? passmessage = "Password incorrect" : passmessage = null
+            req.session.Blockeduser ? blockmessage = "User blocked" : blockmessage = null
+            res.render("userLogin", { mailmessage,passmessage, blockmessage })
 
             req.session.InvalidMail = false
             req.session.InvalidPassword = false
@@ -128,13 +128,13 @@ let userControl = {
             if (userInfo) {
                 if (userInfo.block == false) {
                     if (password == userInfo.password) {
-
                         req.session.user = userInfo
-
                         res.redirect('/')
                     } else {
                         req.session.InvalidPassword = true
                         res.redirect('/login')
+                    
+
                     }
 
                 }
@@ -143,6 +143,7 @@ let userControl = {
 
                 req.session.InvalidMail = true
                 res.redirect('/login')
+               
             }
 
             if (userInfo) {
@@ -354,9 +355,9 @@ let userControl = {
     // user add address //   
     getUserAddAddress: (req, res) => {
         try {
-           
+
             res.render('userAddAddress')
-           
+
         } catch (error) {
             console.error(error)
             res.render('404page')
@@ -365,9 +366,9 @@ let userControl = {
     },
     checkoutAddAddress: (req, res) => {
         try {
-           
+
             res.render('checkoutAddAddress')
-           
+
         } catch (error) {
             console.error(error)
             res.render('404page')
@@ -380,7 +381,7 @@ let userControl = {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
 
-           await userModel.updateOne(
+            await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
                     $addToSet: {
@@ -397,7 +398,7 @@ let userControl = {
                     },
                 }
             );
-           
+
             res.redirect("/profile");
         } catch (error) {
             console.error(error)
@@ -410,7 +411,7 @@ let userControl = {
         try {
             const { name, mobile, pincode, landmark, address, city, state } = req.body;
 
-           await userModel.updateOne(
+            await userModel.updateOne(
                 { _id: req.session.user._id },
                 {
                     $addToSet: {
@@ -427,7 +428,7 @@ let userControl = {
                     },
                 }
             );
-               
+
             res.redirect("/checkout");
         } catch (error) {
             console.error(error)
@@ -501,7 +502,7 @@ let userControl = {
             const pdt_id = req.params.id;
             await userModel.updateOne({ _id: user_id },
                 {
-                    $addToSet: { cart: { id: pdt_id , quantity:1 } }
+                    $addToSet: { cart: { id: pdt_id, quantity: 1 } }
 
                 })
             await userModel.updateOne(
@@ -509,7 +510,7 @@ let userControl = {
                 {
                     $pull: {
                         wishlist: { id: pdt_id },
-                        
+
                     }
                 }
             )
@@ -536,7 +537,7 @@ let userControl = {
         const products = await productModel.find({ category: 'Men' }).sort({ _id: -1 }).lean();
         const user = await userModel.findOne({}).lean();
         const categ = await categoryModel.find({}).lean();
-       
+
 
         Login = req.session.user.name
         if (req.session.menstat) {
@@ -586,10 +587,10 @@ let userControl = {
 
 
     getWomenCategory: async (req, res) => {
-   
+
         const products = await productModel.find({ category: 'Women' }).sort({ _id: -1 }).lean();
         const categ = await categoryModel.find({}).lean();
-        
+
         Login = req.session.user.name
         if (req.session.womenstat) {
             res.render('womenCategory', {
@@ -597,7 +598,7 @@ let userControl = {
                 Login,
                 womenstat: req.session.womenstat,
                 categ,
-             
+
             })
         } else if (req.session.womenstats) {
             res.render('womenCategory', {
@@ -605,7 +606,7 @@ let userControl = {
                 Login,
                 womenstat: req.session.womenstats,
                 categ,
-              
+
             })
         }
         else {
@@ -670,8 +671,8 @@ let userControl = {
                     brands,
                     pricepro: req.session.pricepro,
                     pstatus: req.session.pstatus,
-                   1: req.session.pageNum ,
-           3: req.session.perpage ,
+                    1: req.session.pageNum,
+                    3: req.session.perpage,
                     Login,
                     pagination
                 });
@@ -706,7 +707,7 @@ let userControl = {
                 });
 
             } else {
-                res.render("allProducts", { allproducts, categ, brands, Login,pagination });
+                res.render("allProducts", { allproducts, categ, brands, Login, pagination });
             }
         } catch (err) {
             console.error(err);
@@ -734,7 +735,7 @@ let userControl = {
             let pstatus = true;
             req.session.pricepro = pricepro;
             req.session.pstatus = pstatus;
-           
+
             res.redirect("/allProducts");
         } catch (error) {
             console.log(error);
