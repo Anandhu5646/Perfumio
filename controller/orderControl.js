@@ -234,7 +234,7 @@ let orderControl ={
                             customer_phone: process.env.CUSTOMER_MOB,
                         },
                         order_meta: {
-                            return_url: "https://perfumio.online/verifyPayment?order_id={order_id}",
+                            return_url: "https://perfume.kkfoods.online/verifyPayment?order_id={order_id}",
                         },
                     },
                 };   
