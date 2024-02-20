@@ -48,6 +48,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843
 
                   <div class="pt-1 mb-4">
                     <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                    <button class="btn btn-secondary btn-lg btn-block" type="button" onclick="dummyLogin()">Dummy Login</button>
                   </div>
 
                   {{!-- <a class="small text-muted" href="#!">Forgot password?</a> --}}
@@ -63,80 +64,17 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(166,178,228,0.3982843
       </div>
     </div>
   </div>
-{{!-- </section> --}}
-{{!-- <script type="text/javascript">
-  function validation(changed) {
-   
-  
-  let email = document.getElementById('email');
- 
-  let password = document.getElementById('password');
+  <script type="text/javascript">
+  function dummyLogin() {
+    // Get the email and password input fields
+    var emailField = document.getElementById('form2Example17');
+    var passwordField = document.getElementById('form2Example27');
 
+    // Set dummy values
+    emailField.value = 'anandhus05646@gmail.com';
+    passwordField.value = 'anandhus@123';
 
-
-  let usercheck = /^[A-Za-z\.\-]{3,30}$/;
-  let emailcheck = /^[A-Za-z0-9_\-\.]+@[A-Za-z]{3,}\.[A-Za-z]{2,6}$/;
-  let mobilecheck = /^[6789][0-9]{9}$/;
-  let passwordcheck = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-  if(changed=='username'){
-
-  if (usercheck.test(username.value)) {
-   document.getElementById('usernameerror').innerHTML = " ";
-
-  } else {
-    document.getElementById('usernameerror').innerHTML = "--Username is invalid--";
-    return false;
+    // Trigger form submission
+    document.querySelector('form').submit();
   }
-  }
-
-if(changed=='email'){
-
-  if (emailcheck.test(email.value)) {
-    document.getElementById('emailerror').innerHTML = " ";
-
-  } else {
-    document.getElementById('emailerror').innerHTML = "--Email is invalid--";
-    return false;
-  }
-}
-
-if(changed=='mobile'){
-
-  if (mobilecheck.test(mobile.value)) {
-    document.getElementById('mobileerror').innerHTML = " ";
-
-  } else {
-    document.getElementById('mobileerror').innerHTML = "--Mobile Number is invalid--";
-    return false;
-  }
-}
-
-if(changed=='password'){
-
-  if (passwordcheck.test(password.value)) {
-    document.getElementById('passworderror').innerHTML = " ";
-
-  } else {
-    document.getElementById('passworderror').innerHTML = "--Password should be 8-16 characters long, contain at least one number and one special character--";
-    return false;
-  }
-}
-if(changed=='confirmpassword'){
-
-  if (password.value === confirmPassword.value) {
-    document.getElementById('confirmpassworderror').innerHTML = " ";
-
-  } else {
-    document.getElementById('confirmpassworderror').innerHTML = "--Passwords do not match--";
-    return false;
-  }
-}
-
-  return true;
-}
-
-
-    
-    
-  
-</script> --}}
+</script>
